@@ -1,0 +1,96 @@
+package com.xinzuo.competitive.serviceimpl;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.xinzuo.competitive.dao.ProjectsDao;
+import com.xinzuo.competitive.dao.ProjectsQualificationDao;
+import com.xinzuo.competitive.dao.QualificationDao;
+import com.xinzuo.competitive.excel.ExcelUtil;
+import com.xinzuo.competitive.excel.pojo.InformationDB;
+import com.xinzuo.competitive.exception.CompetitiveException;
+import com.xinzuo.competitive.pojo.Information;
+import com.xinzuo.competitive.dao.InformationDao;
+import com.xinzuo.competitive.pojo.Qualification;
+import com.xinzuo.competitive.service.InformationService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xinzuo.competitive.util.KeyUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import java.util.List;
+
+/**
+ * <p>
+ * 承包商信息库表 服务实现类
+ * </p>
+ *
+ * @author jc
+ * @since 2019-06-22
+ */
+@Slf4j
+@Service
+public class InformationServiceImpl extends ServiceImpl<InformationDao, Information> implements InformationService {
+    @Autowired
+    InformationDao informationDao;
+    @Autowired
+    ProjectsDao projectsDao;
+    @Autowired
+    QualificationDao qualificationDao;
+    @Autowired
+    ProjectsQualificationDao projectsQualificationDao;
+
+    //导入Excel表
+    @Transactional
+    public int readExcel(MultipartFile excel, String projectsId){
+
+
+        log.info(excel.getName());
+
+        List<Object> list = null;
+
+        try {
+            list = ExcelUtil.readExcel(excel, new InformationDB(), 4,3);
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            throw new CompetitiveException("导入失败");
+        }
+        list.forEach(o->{
+            Information information =new Information();
+            BeanUtils.copyProperties(o,information);
+            information.setInformationId(KeyUtil.genUniqueKey());
+            log.info(information.getInformationId()+"ididididi");
+            QueryWrapper<Qualification> qualificationQueryWrapper=new QueryWrapper<>();
+            qualificationQueryWrapper.eq("qualification_name",information.getProposerName())
+                    .eq("projects_id",projectsId);
+            Qualification qualification= qualificationDao.selectOne(qualificationQueryWrapper);
+            if (qualification==null){
+                informationDao.insert(information);
+                Qualification q=new Qualification();
+                q.setQualificationId(KeyUtil.genUniqueKey());
+                q.setQualificationNumber("001");
+                q.setProjectsId(projectsId);
+                q.setQualificationName(information.getProposerName());
+                q.setLegalRepresentative(information.getLegalRepresentative());
+                q.setPhone(information.getPhone());
+                q.setInformationStatus(1);
+                q.setDepositStatus(0);
+                if (information.getProposerName()!=null){
+                    qualificationDao.insert(q);
+                }
+
+            }else {
+                qualification.setQualificationName(information.getProposerName());
+                qualification.setLegalRepresentative(information.getLegalRepresentative());
+                qualification.setPhone(information.getPhone());
+                qualification.setInformationStatus(1);
+                qualificationDao.updateById(qualification);
+            }
+            log.info(information.toString()+"------");
+        });
+
+        System.out.println("readExcel读取后:   " + list);
+        return 1;
+   }
+}
