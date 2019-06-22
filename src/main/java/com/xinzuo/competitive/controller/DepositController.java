@@ -28,7 +28,7 @@ public class DepositController {
     public ResultVO readExcel(MultipartFile excel, @RequestParam String projectsId) {
         depositService.readExcel(excel,projectsId);
 
-        return ResultUtil.ok("导入成功");
+        return ResultUtil.ok("导入成功.");
     }
 
 
