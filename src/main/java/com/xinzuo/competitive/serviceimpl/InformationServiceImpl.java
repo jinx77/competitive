@@ -59,14 +59,19 @@ public class InformationServiceImpl extends ServiceImpl<InformationDao, Informat
         list.forEach(o->{
             Information information =new Information();
             BeanUtils.copyProperties(o,information);
-            information.setInformationId(KeyUtil.genUniqueKey());
+            String informationId=KeyUtil.genUniqueKey();
+            information.setInformationId(informationId);
             log.info(information.getInformationId()+"ididididi");
             QueryWrapper<Qualification> qualificationQueryWrapper=new QueryWrapper<>();
             qualificationQueryWrapper.eq("qualification_name",information.getProposerName())
                     .eq("projects_id",projectsId);
             Qualification qualification= qualificationDao.selectOne(qualificationQueryWrapper);
+
+            //资格记录不存在时插入公司信息表和资格表
             if (qualification==null){
-                informationDao.insert(information);
+                if (information.getProposerName()!=null){
+                    informationDao.insert(information);
+                }
                 Qualification q=new Qualification();
                 q.setQualificationId(KeyUtil.genUniqueKey());
                 q.setQualificationNumber("001");
@@ -76,11 +81,30 @@ public class InformationServiceImpl extends ServiceImpl<InformationDao, Informat
                 q.setPhone(information.getPhone());
                 q.setInformationStatus(1);
                 q.setDepositStatus(0);
+                q.setInformationId(informationId);
                 if (information.getProposerName()!=null){
                     qualificationDao.insert(q);
                 }
-
-            }else {
+            }
+            else {
+                //资格记录存在时更新记录
+                if(qualification.getInformationId()!=null){
+                    //查询公司信息记录
+                   Information information1= informationDao.selectById(qualification.getProjectsId());
+                   String infoId=information1.getInformationId();
+                   //如果存在则更新公司信息记录
+                   if (information1!=null){
+                       BeanUtils.copyProperties(o,information1);
+                       information1.setInformationId(infoId);
+                       informationDao.updateById(information1);
+                   }else {
+                       //如果为空则插入公司信息记录
+                       if (information.getProposerName()!=null){
+                           informationDao.insert(information);
+                           qualification.setInformationId(informationId);
+                       }
+                   }
+                }
                 qualification.setQualificationName(information.getProposerName());
                 qualification.setLegalRepresentative(information.getLegalRepresentative());
                 qualification.setPhone(information.getPhone());

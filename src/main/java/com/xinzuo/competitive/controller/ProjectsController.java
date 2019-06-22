@@ -69,6 +69,11 @@ public class ProjectsController {
         projectsList.forEach(projects -> {
             ProjectsVO projectsVO=new ProjectsVO();
             BeanUtils.copyProperties(projects,projectsVO);
+
+            //统计数量
+            projectsVO.setBiddingQuantity(0);
+            projectsVO.setImaginaryQuantity(0);
+            projectsVO.setActualQuantity(0);
             projectsVOList.add(projectsVO);
         });
         PageVO p=pageVO.getPageVO(iPage);

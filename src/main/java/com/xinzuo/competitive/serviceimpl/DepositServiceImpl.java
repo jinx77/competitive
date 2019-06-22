@@ -44,7 +44,7 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
     @Transactional
     public int readExcel(MultipartFile excel, String projectsId){
 
-
+        int i=0;
         log.info(excel.getName());
 
         List<Object> list = null;
@@ -56,37 +56,57 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
             e.printStackTrace();
             throw new CompetitiveException("导入失败");
         }
-        list.forEach(o->{
+        for (Object o:list){
             Deposit deposit =new Deposit();
+            String depositId=KeyUtil.genUniqueKey();
             BeanUtils.copyProperties(o,deposit);
-            deposit.setDepositId(KeyUtil.genUniqueKey());
-
+            deposit.setDepositId(depositId);
             QueryWrapper<Qualification> qualificationQueryWrapper=new QueryWrapper<>();
             qualificationQueryWrapper.eq("qualification_name",deposit.getDepositName())
                     .eq("projects_id",projectsId);
             Qualification qualification= qualificationDao.selectOne(qualificationQueryWrapper);
+            //资格记录不存在时插入保证金表和资格表
             if (qualification==null){
-                depositDao.insert(deposit);
+                if (deposit.getDepositName()!=null){
+                    depositDao.insert(deposit);
+                }
                 Qualification q=new Qualification();
                 q.setQualificationId(KeyUtil.genUniqueKey());
                 log.info("-----");
                 q.setQualificationNumber("001");
                 q.setProjectsId(projectsId);
+                q.setDepositId(depositId);
                 q.setQualificationName(deposit.getDepositName());
                 q.setDepositStatus(1);
-                q.setDepositStatus(0);
+               // q.setDepositStatus(0);
                 if (deposit.getDepositName()!=null){
-                    qualificationDao.insert(q);
+                  i=  qualificationDao.insert(q);
                 }
 
             }else {
-                qualification.setQualificationName(deposit.getDepositName());
-                qualificationDao.updateById(qualification);
-            }
-        });
+                //资格记录存在时更新记录
+                if (qualification.getDepositId()!=null){
 
+                    Deposit deposit1= depositDao.selectById(qualification.getDepositId());
+                    String dId=deposit1.getDepositId();
+                    if (deposit1!=null){
+                        BeanUtils.copyProperties(o,deposit1);
+                        deposit1.setDepositId(dId);
+                        depositDao.updateById(deposit1);
+                    }else {
+                        //如果为空则插入公司信息记录
+                        if (deposit.getDepositName()!=null){
+                            depositDao.insert(deposit);
+                            qualification.setDepositId(depositId);
+                        }
+                    }
+                }
+                qualification.setQualificationName(deposit.getDepositName());
+               i= qualificationDao.updateById(qualification);
+            }
+        }
         System.out.println("readExcel读取后:   " + list);
-        return 1;
+        return i;
 
 
 

@@ -37,6 +37,14 @@ package com.xinzuo.competitive.pojo;
             * 竞选项目ID
             */
     private String projectsId;
+            /**
+            * 信息库ID
+            */
+    private String informationId;
+            /**
+            * 保证金ID
+            */
+    private String depositId;
 
             /**
             * 参选公司名称
