@@ -1,13 +1,11 @@
 package com.xinzuo.competitive.serviceimpl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.xinzuo.competitive.dao.ProjectsDao;
-import com.xinzuo.competitive.dao.ProjectsQualificationDao;
-import com.xinzuo.competitive.dao.QualificationDao;
+import com.xinzuo.competitive.dao.*;
 import com.xinzuo.competitive.excel.ExcelUtil;
 import com.xinzuo.competitive.excel.pojo.InformationDB;
 import com.xinzuo.competitive.exception.CompetitiveException;
+import com.xinzuo.competitive.pojo.Deposit;
 import com.xinzuo.competitive.pojo.Information;
-import com.xinzuo.competitive.dao.InformationDao;
 import com.xinzuo.competitive.pojo.Qualification;
 import com.xinzuo.competitive.service.InformationService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -39,6 +37,8 @@ public class InformationServiceImpl extends ServiceImpl<InformationDao, Informat
     QualificationDao qualificationDao;
     @Autowired
     ProjectsQualificationDao projectsQualificationDao;
+    @Autowired
+    DepositDao depositDao;
 
     //导入Excel表
     @Transactional
@@ -81,6 +81,7 @@ public class InformationServiceImpl extends ServiceImpl<InformationDao, Informat
                 q.setPhone(information.getPhone());
                 q.setInformationStatus(1);
                 q.setDepositStatus(0);
+                q.setQualificationStatus(0);
                 q.setInformationId(informationId);
                 if (information.getProposerName()!=null){
                     qualificationDao.insert(q);
@@ -104,6 +105,11 @@ public class InformationServiceImpl extends ServiceImpl<InformationDao, Informat
                            qualification.setInformationId(informationId);
                        }
                    }
+                    //判断保证金表表
+                    Deposit deposit= depositDao.selectById(qualification.getDepositId());
+                    if (deposit!=null){
+                        qualification.setQualificationStatus(1);
+                    }
                 }
                 qualification.setQualificationName(information.getProposerName());
                 qualification.setLegalRepresentative(information.getLegalRepresentative());

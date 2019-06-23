@@ -6,6 +6,7 @@ import com.xinzuo.competitive.excel.ExcelUtil;
 import com.xinzuo.competitive.excel.pojo.DepositDB;
 import com.xinzuo.competitive.exception.CompetitiveException;
 import com.xinzuo.competitive.pojo.Deposit;
+import com.xinzuo.competitive.pojo.Information;
 import com.xinzuo.competitive.pojo.Qualification;
 import com.xinzuo.competitive.service.DepositService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -78,6 +79,7 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
                 q.setDepositId(depositId);
                 q.setQualificationName(deposit.getDepositName());
                 q.setDepositStatus(1);
+                q.setQualificationStatus(0);
                // q.setDepositStatus(0);
                 if (deposit.getDepositName()!=null){
                   i=  qualificationDao.insert(q);
@@ -100,6 +102,11 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
                             qualification.setDepositId(depositId);
                         }
                     }
+                    //判断资格表
+                   Information information= informationDao.selectById(qualification.getQualificationId());
+                    if (information!=null){
+                        qualification.setQualificationStatus(1);
+                    }
                 }
                 qualification.setQualificationName(deposit.getDepositName());
                i= qualificationDao.updateById(qualification);
@@ -107,8 +114,5 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
         }
         System.out.println("readExcel读取后:   " + list);
         return i;
-
-
-
     }
 }

@@ -5,9 +5,23 @@
 
     <select id="selectQualificationList" parameterType="com.xinzuo.competitive.form.PageForm" resultType="com.xinzuo.competitive.pojo.Qualification">
 
-    select
+        select *from qualification
+        where qualification_id=#{qualificationId}
+        <if test="condition!=null and condition!=''">
 
 
+        </if>
+        <if test="selectType==1">
 
+        </if>
+        <if test="selectType==2">
+
+        </if>
+        <if test="selectType==3">
+
+        </if>
+        <if test="selectType==4">
+
+        </if>
     </select>
 </mapper>

@@ -18,6 +18,10 @@ public class PageForm {
      */
     private Integer size=10;
     /**
+     * 每页记录数
+     */
+    private String qualificationId;
+    /**
      * 查询条件
      */
     private String condition;
