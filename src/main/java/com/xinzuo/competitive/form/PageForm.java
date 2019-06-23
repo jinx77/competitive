@@ -21,4 +21,8 @@ public class PageForm {
      * 查询条件
      */
     private String condition;
+    /**
+     * 查询条件 1全部，2未缴纳保证金，3未上传资料库，4可以参与的公司
+     */
+    private Integer selectType;
 }
