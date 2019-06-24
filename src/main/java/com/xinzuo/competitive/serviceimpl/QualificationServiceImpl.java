@@ -67,8 +67,6 @@ public class QualificationServiceImpl extends ServiceImpl<QualificationDao, Qual
             throw  new ClassCastException("系统错误,该项目不存在");
        }
         projects.setWinTime(new Date());
-
-
         return null;
     }
 }
