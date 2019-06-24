@@ -1,6 +1,7 @@
 package com.xinzuo.competitive.vo;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.github.pagehelper.PageInfo;
 import lombok.Data;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,7 @@ public class PageVO<T> {
     //总记录数
     private Long total;
     //返回数据列表
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private T dataList;
     //获取返回数据
      public PageVO getPageVO(IPage iPage){

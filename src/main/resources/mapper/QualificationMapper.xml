@@ -2,26 +2,43 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xinzuo.competitive.dao.QualificationDao">
 
-
-    <select id="selectQualificationList" parameterType="com.xinzuo.competitive.form.PageForm" resultType="com.xinzuo.competitive.pojo.Qualification">
+    <select id="selectQualificationList" parameterType="com.xinzuo.competitive.form.PageForm" resultType="com.xinzuo.competitive.vo.QualificationVO">
 
         select *from qualification
-        where qualification_id=#{qualificationId}
+        where projects_id=#{projectsId}
         <if test="condition!=null and condition!=''">
-
-
+            and qualification_name LIKE CONCAT('%','${condition}','%' )
         </if>
         <if test="selectType==1">
 
         </if>
         <if test="selectType==2">
-
+            and deposit_status=0
         </if>
+
         <if test="selectType==3">
-
+        and information_status=0
         </if>
-        <if test="selectType==4">
 
+        <if test="selectType==4">
+           and qualification_status=1
+        </if>
+
+        <if test="selectType==5">
+            and win_status=1
+        </if>
+
+        <if test="condition!=null and condition!=''">
+            ORDER BY(
+            CASE
+            WHEN qualification_name LIKE #{condition,jdbcType=VARCHAR} THEN 1
+            WHEN qualification_name LIKE CONCAT('${condition}','%') THEN 2
+            WHEN qualification_name LIKE CONCAT('%','${condition}','%' ) THEN 4
+            ELSE 3
+            END)
+        </if>
+        <if test="condition==null or condition==''">
+            order by create_time desc
         </if>
     </select>
 </mapper>

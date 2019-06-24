@@ -1,12 +1,12 @@
-package com.xinzuo.competitive.pojo;
+package com.xinzuo.competitive.vo;
 
-    import java.io.Serializable;
-    import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
-    import com.baomidou.mybatisplus.annotation.TableId;
-    import lombok.Data;
-    import lombok.EqualsAndHashCode;
-    import lombok.experimental.Accessors;
+import java.io.Serializable;
+import java.util.Date;
 
 /**
 * <p>
@@ -19,7 +19,7 @@ package com.xinzuo.competitive.pojo;
     @Data
         @EqualsAndHashCode(callSuper = false)
     @Accessors(chain = true)
-    public class Qualification implements Serializable {
+    public class QualificationVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -33,19 +33,6 @@ package com.xinzuo.competitive.pojo;
             * 竞选编号
             */
     private String qualificationNumber;
-
-            /**
-            * 竞选项目ID
-            */
-    private String projectsId;
-            /**
-            * 信息库ID
-            */
-    private String informationId;
-            /**
-            * 保证金ID
-            */
-    private String depositId;
 
             /**
             * 参选公司名称
@@ -77,13 +64,4 @@ package com.xinzuo.competitive.pojo;
             */
     private Integer qualificationStatus;
 
-            /**
-            * 是否中标  1中标
-            */
-    private Integer winStatus;
-
-            /**
-            * 创建时间
-            */
-    private Date createTime;
 }

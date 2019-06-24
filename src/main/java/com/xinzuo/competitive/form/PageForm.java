@@ -18,9 +18,9 @@ public class PageForm {
      */
     private Integer size=10;
     /**
-     * 每页记录数
+     * 项目ID
      */
-    private String qualificationId;
+    private String projectsId;
     /**
      * 查询条件
      */

@@ -11,6 +11,7 @@ import com.xinzuo.competitive.pojo.Qualification;
 import com.xinzuo.competitive.service.DepositService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xinzuo.competitive.util.KeyUtil;
+import com.xinzuo.competitive.util.RandomDigit;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,12 +75,27 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
                 Qualification q=new Qualification();
                 q.setQualificationId(KeyUtil.genUniqueKey());
                 log.info("-----");
-                q.setQualificationNumber("001");
+
+                String code= RandomDigit.getfiveVerificationCode3();
+                QueryWrapper<Qualification> queryWrapper=new QueryWrapper<>();
+                queryWrapper.eq("qualification_number",code).eq("projects_id",projectsId);
+                int c=1;
+                while (c==0){
+                    List<Qualification> qualificationList= qualificationDao.selectList(queryWrapper);
+                    c=qualificationList.size();
+                    if (c>0) {
+                        code = RandomDigit.getfiveVerificationCode3();
+                        System.out.println();
+                    }
+                }
+
+                q.setQualificationNumber(code);
                 q.setProjectsId(projectsId);
                 q.setDepositId(depositId);
                 q.setQualificationName(deposit.getDepositName());
                 q.setDepositStatus(1);
                 q.setQualificationStatus(0);
+                q.setInformationStatus(0);
                // q.setDepositStatus(0);
                 if (deposit.getDepositName()!=null){
                   i=  qualificationDao.insert(q);
@@ -115,4 +131,5 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
         System.out.println("readExcel读取后:   " + list);
         return i;
     }
+
 }

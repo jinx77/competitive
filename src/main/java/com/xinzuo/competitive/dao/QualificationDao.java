@@ -1,7 +1,9 @@
 package com.xinzuo.competitive.dao;
 
+import com.xinzuo.competitive.form.PageForm;
 import com.xinzuo.competitive.pojo.Qualification;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -16,6 +18,19 @@ import java.util.List;
 public interface QualificationDao extends BaseMapper<Qualification> {
 
 
-    List<Qualification> selectQualificationList();
+    List<Qualification> selectQualificationList(PageForm pageForm);
+
+    //统计总参与公司数量
+    @Select("select count(*) from qualification where projects_id=#{projectsId}")
+    int selectQualificationa(String projectsId);
+
+    //统计实际参与公司数量
+    @Select("select count(*) from qualification where projects_id=#{projectsId} and qualification_status=1")
+    int selectQualificationb(String projectsId);
+    //统计已抽中公司数量
+    @Select("select count(*) from qualification where projects_id=#{projectsId} and qualification_status=1")
+    int selectQualificationWin(String projectsId);
+    @Select(" SELECT * FROM qualification WHERE projects_id=#{projectsId} qualification_status=1 AND win_status=0 ORDER BY RAND() LIMIT 1")
+    Qualification win(String projectsId);
 
 }

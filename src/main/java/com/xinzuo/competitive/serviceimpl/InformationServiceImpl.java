@@ -10,6 +10,7 @@ import com.xinzuo.competitive.pojo.Qualification;
 import com.xinzuo.competitive.service.InformationService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xinzuo.competitive.util.KeyUtil;
+import com.xinzuo.competitive.util.RandomDigit;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,7 @@ public class InformationServiceImpl extends ServiceImpl<InformationDao, Informat
             BeanUtils.copyProperties(o,information);
             String informationId=KeyUtil.genUniqueKey();
             information.setInformationId(informationId);
+
             log.info(information.getInformationId()+"ididididi");
             QueryWrapper<Qualification> qualificationQueryWrapper=new QueryWrapper<>();
             qualificationQueryWrapper.eq("qualification_name",information.getProposerName())
@@ -74,7 +76,23 @@ public class InformationServiceImpl extends ServiceImpl<InformationDao, Informat
                 }
                 Qualification q=new Qualification();
                 q.setQualificationId(KeyUtil.genUniqueKey());
-                q.setQualificationNumber("001");
+
+
+
+                String code= RandomDigit.getfiveVerificationCode3();
+                QueryWrapper<Qualification> queryWrapper=new QueryWrapper<>();
+                queryWrapper.eq("qualification_number",code).eq("projects_id",projectsId);
+                int c=1;
+                while (c==0){
+                    List<Qualification> qualificationList= qualificationDao.selectList(queryWrapper);
+                    c=qualificationList.size();
+                    if (c>0) {
+                        code = RandomDigit.getfiveVerificationCode3();
+                    }
+                }
+
+
+                q.setQualificationNumber(code);
                 q.setProjectsId(projectsId);
                 q.setQualificationName(information.getProposerName());
                 q.setLegalRepresentative(information.getLegalRepresentative());
@@ -123,4 +141,6 @@ public class InformationServiceImpl extends ServiceImpl<InformationDao, Informat
         System.out.println("readExcel读取后:   " + list);
         return 1;
    }
+
+
 }

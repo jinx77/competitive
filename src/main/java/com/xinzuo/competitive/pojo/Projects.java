@@ -53,6 +53,11 @@ package com.xinzuo.competitive.pojo;
     private BigDecimal outsourcingPrice;
 
             /**
+            * 抽取时间
+            */
+    private Date winTime;
+
+            /**
             * 创建时间
             */
     private Date createTime;

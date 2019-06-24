@@ -4,14 +4,17 @@ package com.xinzuo.competitive.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xinzuo.competitive.dao.InformationDao;
 import com.xinzuo.competitive.form.PageForm;
 import com.xinzuo.competitive.pojo.Projects;
+import com.xinzuo.competitive.pojo.Qualification;
+import com.xinzuo.competitive.service.DepositService;
+import com.xinzuo.competitive.service.InformationService;
 import com.xinzuo.competitive.service.ProjectsService;
+import com.xinzuo.competitive.service.QualificationService;
 import com.xinzuo.competitive.util.KeyUtil;
 import com.xinzuo.competitive.util.ResultUtil;
-import com.xinzuo.competitive.vo.PageVO;
-import com.xinzuo.competitive.vo.ProjectsVO;
-import com.xinzuo.competitive.vo.ResultVO;
+import com.xinzuo.competitive.vo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +44,12 @@ public class ProjectsController {
     ProjectsService projectsService;
     @Autowired
     PageVO pageVO;
+    @Autowired
+    DepositService depositService;
+    @Autowired
+    InformationService informationService;
+    @Autowired
+    QualificationService qualificationService;
     //新建项目
     @PostMapping("/addProjects")
     public ResultVO addProjects(@RequestBody Projects projects){
@@ -69,11 +78,9 @@ public class ProjectsController {
         projectsList.forEach(projects -> {
             ProjectsVO projectsVO=new ProjectsVO();
             BeanUtils.copyProperties(projects,projectsVO);
-
             //统计数量
-            projectsVO.setBiddingQuantity(0);
-            projectsVO.setImaginaryQuantity(0);
-            projectsVO.setActualQuantity(0);
+            projectsVO.setImaginaryQuantity(qualificationService.selectQualificationa(projects.getProjectsId()));
+            projectsVO.setActualQuantity(qualificationService.selectQualificationb(projects.getProjectsId()));
             projectsVOList.add(projectsVO);
         });
         PageVO p=pageVO.getPageVO(iPage);
@@ -108,5 +115,27 @@ public class ProjectsController {
         else {
             return ResultUtil.no("id错误,操作失败");
         }
+    }
+
+    //打印结果
+    @PostMapping("/print")
+    public ResultVO print(@RequestBody Projects projects) {
+       Projects p= projectsService.getById(projects.getProjectsId());
+        if(p==null){
+            return ResultUtil.no("项目ID错误,没有找到该项目");
+        }
+        PrintVO printVO=new PrintVO();
+        BeanUtils.copyProperties(p,printVO);
+        QueryWrapper<Qualification> qualificationQueryWrapper=new QueryWrapper<>();
+        qualificationQueryWrapper.eq("Projects_id",projects.getProjectsId()).eq("win_status",1);
+        List<Qualification> qualificationList=qualificationService.list(qualificationQueryWrapper);
+        List<WinVO> winVOList=new ArrayList<>();
+        qualificationList.forEach(qualification -> {
+            WinVO winVO=new WinVO();
+            BeanUtils.copyProperties(qualification,winVO);
+            winVOList.add(winVO);
+        });
+        printVO.setWinVOList(winVOList);
+        return ResultUtil.ok("打印数据返回成功",printVO);
     }
 }
