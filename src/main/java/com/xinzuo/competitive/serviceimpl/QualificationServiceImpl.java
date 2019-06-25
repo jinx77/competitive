@@ -3,6 +3,7 @@ package com.xinzuo.competitive.serviceimpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xinzuo.competitive.dao.ProjectsDao;
+import com.xinzuo.competitive.exception.CompetitiveException;
 import com.xinzuo.competitive.form.PageForm;
 import com.xinzuo.competitive.pojo.Projects;
 import com.xinzuo.competitive.pojo.Qualification;
@@ -12,6 +13,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xinzuo.competitive.vo.ResultDataVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -51,11 +53,11 @@ public class QualificationServiceImpl extends ServiceImpl<QualificationDao, Qual
     }
     //摇号
     @Override
+    @Transactional
     public Qualification win(String projectsId) {
-
         Qualification qualification= qualificationDao.win(projectsId);
         if (qualification==null){
-            throw  new ClassCastException("");
+            throw  new CompetitiveException("有资格竞标的公司已抽完");
         }
         qualification.setWinStatus(1);
         Qualification q=new Qualification();
@@ -66,7 +68,12 @@ public class QualificationServiceImpl extends ServiceImpl<QualificationDao, Qual
        if (projects==null){
             throw  new ClassCastException("系统错误,该项目不存在");
        }
+       if (projects.getWinQuantity()>=projects.getBiddingQuantity()){
+           throw  new CompetitiveException("已抽完,不可以在抽");
+       }
+       projects.setWinQuantity(projects.getWinQuantity()+1);
         projects.setWinTime(new Date());
-        return null;
+        projectsDao.updateById(projects);
+        return qualification;
     }
 }

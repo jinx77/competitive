@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @author jc
  * @since 2019-06-21
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/deposit")
 public class DepositController {

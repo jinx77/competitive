@@ -48,6 +48,12 @@ package com.xinzuo.competitive.pojo;
     private Integer biddingQuantity;
 
             /**
+            * 已抽选(家)
+            */
+
+    private Integer winQuantity;
+
+            /**
             * 发包价格
             */
     private BigDecimal outsourcingPrice;

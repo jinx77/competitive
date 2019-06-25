@@ -94,8 +94,9 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
                 q.setDepositId(depositId);
                 q.setQualificationName(deposit.getDepositName());
                 q.setDepositStatus(1);
-                q.setQualificationStatus(0);
+               // q.setQualificationStatus(0);
                 q.setInformationStatus(0);
+                q.setWinStatus(0);
                // q.setDepositStatus(0);
                 if (deposit.getDepositName()!=null){
                   i=  qualificationDao.insert(q);
@@ -106,10 +107,11 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
                 if (qualification.getDepositId()!=null){
 
                     Deposit deposit1= depositDao.selectById(qualification.getDepositId());
-                    String dId=deposit1.getDepositId();
+                   // String dId=deposit1.getDepositId();
                     if (deposit1!=null){
-                        BeanUtils.copyProperties(o,deposit1);
-                        deposit1.setDepositId(dId);
+                       // BeanUtils.copyProperties(o,deposit1);
+                        deposit.setDepositId(deposit1.getDepositId());
+                        //deposit1.setDepositId(dId);
                         depositDao.updateById(deposit1);
                     }else {
                         //如果为空则插入公司信息记录
@@ -123,9 +125,18 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
                     if (information!=null){
                         qualification.setQualificationStatus(1);
                     }
+
+                    if (qualification.getInformationStatus()==1){
+                        qualification.setQualificationStatus(1);
+                    }
+
                 }
                 qualification.setQualificationName(deposit.getDepositName());
+                qualification.setDepositId(depositId);
+
                i= qualificationDao.updateById(qualification);
+
+               System.out.println(qualification.getQualificationStatus()+"--------------------000000000");
             }
         }
         System.out.println("readExcel读取后:   " + list);

@@ -30,7 +30,8 @@ public interface QualificationDao extends BaseMapper<Qualification> {
     //统计已抽中公司数量
     @Select("select count(*) from qualification where projects_id=#{projectsId} and qualification_status=1")
     int selectQualificationWin(String projectsId);
-    @Select(" SELECT * FROM qualification WHERE projects_id=#{projectsId} qualification_status=1 AND win_status=0 ORDER BY RAND() LIMIT 1")
+    //抽奖
+    @Select(" SELECT * FROM qualification WHERE projects_id=#{projectsId} and qualification_status=1 AND win_status=0 ORDER BY RAND() LIMIT 1")
     Qualification win(String projectsId);
 
 }

@@ -1,6 +1,7 @@
 package com.xinzuo.competitive.controller;
 
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author jc
  * @since 2019-06-22
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/projects-qualification")
 public class ProjectsQualificationController {

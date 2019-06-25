@@ -51,7 +51,7 @@ public class InformationServiceImpl extends ServiceImpl<InformationDao, Informat
         List<Object> list = null;
 
         try {
-            list = ExcelUtil.readExcel(excel, new InformationDB(), 4,3);
+            list = ExcelUtil.readExcel(excel, new InformationDB(), 1,3);
         } catch (Exception e) {
 
             e.printStackTrace();
@@ -100,6 +100,7 @@ public class InformationServiceImpl extends ServiceImpl<InformationDao, Informat
                 q.setInformationStatus(1);
                 q.setDepositStatus(0);
                 q.setQualificationStatus(0);
+                q.setWinStatus(0);
                 q.setInformationId(informationId);
                 if (information.getProposerName()!=null){
                     qualificationDao.insert(q);
@@ -110,11 +111,12 @@ public class InformationServiceImpl extends ServiceImpl<InformationDao, Informat
                 if(qualification.getInformationId()!=null){
                     //查询公司信息记录
                    Information information1= informationDao.selectById(qualification.getProjectsId());
-                   String infoId=information1.getInformationId();
+                  // String infoId=information1.getInformationId();
                    //如果存在则更新公司信息记录
                    if (information1!=null){
-                       BeanUtils.copyProperties(o,information1);
-                       information1.setInformationId(infoId);
+                      // BeanUtils.copyProperties(o,information1);
+                      // information1.setInformationId(infoId);
+                       information.setInformationId(information1.getInformationId());
                        informationDao.updateById(information1);
                    }else {
                        //如果为空则插入公司信息记录
@@ -128,11 +130,17 @@ public class InformationServiceImpl extends ServiceImpl<InformationDao, Informat
                     if (deposit!=null){
                         qualification.setQualificationStatus(1);
                     }
+
+                    if (qualification.getDepositStatus()==1){
+                        qualification.setQualificationStatus(1);
+                    }
+
                 }
                 qualification.setQualificationName(information.getProposerName());
                 qualification.setLegalRepresentative(information.getLegalRepresentative());
                 qualification.setPhone(information.getPhone());
                 qualification.setInformationStatus(1);
+                qualification.setInformationId(informationId);
                 qualificationDao.updateById(qualification);
             }
             log.info(information.toString()+"------");

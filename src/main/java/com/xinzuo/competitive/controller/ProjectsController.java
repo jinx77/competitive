@@ -18,11 +18,7 @@ import com.xinzuo.competitive.vo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,6 +32,7 @@ import java.util.List;
  * @author jc
  * @since 2019-06-21
  */
+@CrossOrigin
 @Slf4j
 @RestController
 @RequestMapping("/projects")
@@ -55,6 +52,7 @@ public class ProjectsController {
     public ResultVO addProjects(@RequestBody Projects projects){
         projects.setProjectsId(KeyUtil.genUniqueKey());
         projects.setCreateTime(new Date());
+        projects.setWinQuantity(0);
        Boolean b= projectsService.save(projects);
        if (b){
              return ResultUtil.ok("新建项目成功");
@@ -64,11 +62,32 @@ public class ProjectsController {
     }
     //显示所有项目列表
     @PostMapping("selectProjectsList")
-    public ResultVO selectProjectsList(PageForm pageForm) {
+    public ResultVO selectProjectsList(@RequestBody PageForm pageForm) {
         QueryWrapper<Projects> queryWrapper = new QueryWrapper<>();
         if (pageForm.getCondition()!=null&&pageForm.getCondition()!=""){
             log.info("-----"+pageForm.getCondition());
             queryWrapper.like("projects_name",pageForm.getCondition());
+        }
+
+        if (pageForm.getProjectsId()!=null&&pageForm.getProjectsId()!=""){
+            log.info("-----"+pageForm.getCondition());
+            queryWrapper.eq("projects_id",pageForm.getProjectsId());
+        }
+
+            log.info(pageForm.getSelectType()+"----------");
+        if (pageForm.getSelectType()!=null) {
+                //查询已竞标公司
+                if (pageForm.getSelectType() == 1) {
+                    queryWrapper.gt("win_quantity", 0);
+                }    //查询可以竞标项目
+                if (pageForm.getSelectType() == 2) {
+                    queryWrapper.exists("select *from projects where win_quantity<bidding_quantity");
+                }
+                //查询未竞标项目
+                if (pageForm.getSelectType() == 3) {
+                    queryWrapper.eq("win_quantity", 0);
+                }
+
         }
         queryWrapper.orderByDesc("create_time");
         IPage<Projects> iPage = projectsService.page(new Page<Projects>(pageForm.getCurrent(), pageForm.getSize()), queryWrapper);

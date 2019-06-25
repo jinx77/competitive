@@ -30,6 +30,7 @@ import java.util.List;
  * @author jc
  * @since 2019-06-22
  */
+@CrossOrigin
 @Slf4j
 @RestController
 @RequestMapping("/information")
