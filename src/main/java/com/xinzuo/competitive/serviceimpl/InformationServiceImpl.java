@@ -106,9 +106,9 @@ public class InformationServiceImpl extends ServiceImpl<InformationDao, Informat
                     qualificationDao.insert(q);
                 }
             }
-            else {
+
                 //资格记录存在时更新记录
-                if(qualification.getInformationId()!=null){
+                if(qualification!=null){
                     //查询公司信息记录
                    Information information1= informationDao.selectById(qualification.getProjectsId());
                   // String infoId=information1.getInformationId();
@@ -123,6 +123,7 @@ public class InformationServiceImpl extends ServiceImpl<InformationDao, Informat
                        if (information.getProposerName()!=null){
                            informationDao.insert(information);
                            qualification.setInformationId(informationId);
+                           qualification.setInformationStatus(1);
                        }
                    }
                     //判断保证金表表
@@ -134,15 +135,15 @@ public class InformationServiceImpl extends ServiceImpl<InformationDao, Informat
                     if (qualification.getDepositStatus()==1){
                         qualification.setQualificationStatus(1);
                     }
-
+                    qualification.setQualificationName(information.getProposerName());
+                    qualification.setLegalRepresentative(information.getLegalRepresentative());
+                    qualification.setPhone(information.getPhone());
+                    qualification.setInformationStatus(1);
+                    qualification.setInformationId(informationId);
+                    qualificationDao.updateById(qualification);
                 }
-                qualification.setQualificationName(information.getProposerName());
-                qualification.setLegalRepresentative(information.getLegalRepresentative());
-                qualification.setPhone(information.getPhone());
-                qualification.setInformationStatus(1);
-                qualification.setInformationId(informationId);
-                qualificationDao.updateById(qualification);
-            }
+
+
             log.info(information.toString()+"------");
         });
 

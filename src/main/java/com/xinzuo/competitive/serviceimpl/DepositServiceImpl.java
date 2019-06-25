@@ -73,6 +73,7 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
                     depositDao.insert(deposit);
                 }
                 Qualification q=new Qualification();
+
                 q.setQualificationId(KeyUtil.genUniqueKey());
                 log.info("-----");
 
@@ -94,7 +95,7 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
                 q.setDepositId(depositId);
                 q.setQualificationName(deposit.getDepositName());
                 q.setDepositStatus(1);
-               // q.setQualificationStatus(0);
+                q.setQualificationStatus(0);
                 q.setInformationStatus(0);
                 q.setWinStatus(0);
                // q.setDepositStatus(0);
@@ -102,9 +103,10 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
                   i=  qualificationDao.insert(q);
                 }
 
-            }else {
+            }
+
                 //资格记录存在时更新记录
-                if (qualification.getDepositId()!=null){
+                if (qualification!=null){
 
                     Deposit deposit1= depositDao.selectById(qualification.getDepositId());
                    // String dId=deposit1.getDepositId();
@@ -112,12 +114,13 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
                        // BeanUtils.copyProperties(o,deposit1);
                         deposit.setDepositId(deposit1.getDepositId());
                         //deposit1.setDepositId(dId);
-                        depositDao.updateById(deposit1);
+                        depositDao.updateById(deposit);
                     }else {
                         //如果为空则插入公司信息记录
                         if (deposit.getDepositName()!=null){
                             depositDao.insert(deposit);
                             qualification.setDepositId(depositId);
+                            qualification.setDepositStatus(1);
                         }
                     }
                     //判断资格表
@@ -129,16 +132,18 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
                     if (qualification.getInformationStatus()==1){
                         qualification.setQualificationStatus(1);
                     }
+                    qualification.setDepositStatus(1);
+                    qualification.setQualificationName(deposit.getDepositName());
+                    qualification.setDepositId(depositId);
 
+                    i= qualificationDao.updateById(qualification);
+                    System.out.println(i+"----------iiiiiiiiiiiiiiiiiiiiiiii");
                 }
-                qualification.setQualificationName(deposit.getDepositName());
-                qualification.setDepositId(depositId);
 
-               i= qualificationDao.updateById(qualification);
 
-               System.out.println(qualification.getQualificationStatus()+"--------------------000000000");
+//               System.out.println(qualification.getQualificationStatus()+"--------------------000000000");
             }
-        }
+
         System.out.println("readExcel读取后:   " + list);
         return i;
     }
