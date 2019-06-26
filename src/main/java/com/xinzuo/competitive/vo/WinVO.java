@@ -19,4 +19,9 @@ public class WinVO {
      * 联系电话
      */
     private String phone;
+
+    /**
+     * 竞选编号
+     */
+    private String qualificationNumber;
 }

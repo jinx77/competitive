@@ -1,6 +1,7 @@
 package com.xinzuo.competitive.vo;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Null;
 import java.math.BigDecimal;
@@ -25,7 +26,8 @@ public class PrintVO {
     /**
      * 抽取时间
      */
-    private Date winTime;
+    //@DateTimeFormat(pattern = "yyyy-MM-dd")
+    private String winTime;
 
     /**
      * 发包价格

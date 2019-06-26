@@ -16,6 +16,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
@@ -60,9 +61,11 @@ public class InformationServiceImpl extends ServiceImpl<InformationDao, Informat
         list.forEach(o->{
             Information information =new Information();
             BeanUtils.copyProperties(o,information);
+            if (!StringUtils.isEmpty(information.getProposerName())&&!KeyUtil.isNumeric(information.getPhone())){
+                throw new CompetitiveException("导入错误,请导入有数据正确格式的保证金表");
+            }
             String informationId=KeyUtil.genUniqueKey();
             information.setInformationId(informationId);
-
             log.info(information.getInformationId()+"ididididi");
             QueryWrapper<Qualification> qualificationQueryWrapper=new QueryWrapper<>();
             qualificationQueryWrapper.eq("qualification_name",information.getProposerName())
@@ -76,9 +79,6 @@ public class InformationServiceImpl extends ServiceImpl<InformationDao, Informat
                 }
                 Qualification q=new Qualification();
                 q.setQualificationId(KeyUtil.genUniqueKey());
-
-
-
                 String code= RandomDigit.getfiveVerificationCode3();
                 QueryWrapper<Qualification> queryWrapper=new QueryWrapper<>();
                 queryWrapper.eq("qualification_number",code).eq("projects_id",projectsId);

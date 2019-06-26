@@ -13,10 +13,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xinzuo.competitive.util.KeyUtil;
 import com.xinzuo.competitive.util.RandomDigit;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.util.StringUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StreamUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
@@ -62,6 +65,10 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
             Deposit deposit =new Deposit();
             String depositId=KeyUtil.genUniqueKey();
             BeanUtils.copyProperties(o,deposit);
+
+            if (deposit.getDepositMoney()==null&& StringUtils.isEmpty(deposit.getDepositName())){
+                throw new CompetitiveException("导入错误,请导入有数据的保证金表");
+            }
             deposit.setDepositId(depositId);
             QueryWrapper<Qualification> qualificationQueryWrapper=new QueryWrapper<>();
             qualificationQueryWrapper.eq("qualification_name",deposit.getDepositName())
