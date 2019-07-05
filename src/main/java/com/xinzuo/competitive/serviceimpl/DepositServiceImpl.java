@@ -7,6 +7,7 @@ import com.xinzuo.competitive.excel.pojo.DepositDB;
 import com.xinzuo.competitive.exception.CompetitiveException;
 import com.xinzuo.competitive.pojo.Deposit;
 import com.xinzuo.competitive.pojo.Information;
+import com.xinzuo.competitive.pojo.Projects;
 import com.xinzuo.competitive.pojo.Qualification;
 import com.xinzuo.competitive.service.DepositService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -21,6 +22,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StreamUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -134,6 +139,20 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
                    Information information= informationDao.selectById(qualification.getQualificationId());
                     if (information!=null){
                         qualification.setQualificationStatus(1);
+                        //有竞标资格的时候给一个竞选编号
+                        QueryWrapper<Qualification> queryWrapper=new QueryWrapper<>();
+                        queryWrapper.eq("projects_id",projectsId);
+                        List<Qualification> qualificationList=qualificationDao.selectList(queryWrapper);
+                        List<Integer> codes=new ArrayList<>();
+                        qualificationList.forEach(q -> {
+                            if (q.getQualificationNumber()!=null){
+                                codes.add(Integer.valueOf(q.getQualificationName()));
+                            }
+                        });
+
+                       // Arrays.sort(codes);
+
+
                     }
 
                     if (qualification.getInformationStatus()==1){
