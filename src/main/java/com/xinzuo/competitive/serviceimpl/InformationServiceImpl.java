@@ -9,6 +9,7 @@ import com.xinzuo.competitive.pojo.Information;
 import com.xinzuo.competitive.pojo.Qualification;
 import com.xinzuo.competitive.service.InformationService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xinzuo.competitive.util.CodeUtil;
 import com.xinzuo.competitive.util.KeyUtil;
 import com.xinzuo.competitive.util.RandomDigit;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +42,8 @@ public class InformationServiceImpl extends ServiceImpl<InformationDao, Informat
     ProjectsQualificationDao projectsQualificationDao;
     @Autowired
     DepositDao depositDao;
+    @Autowired
+    CodeUtil codeUtil;
 
     //导入Excel表
     @Transactional
@@ -79,7 +82,7 @@ public class InformationServiceImpl extends ServiceImpl<InformationDao, Informat
                 }
                 Qualification q=new Qualification();
                 q.setQualificationId(KeyUtil.genUniqueKey());
-                String code= RandomDigit.getfiveVerificationCode3();
+               /* String code= RandomDigit.getfiveVerificationCode3();
                 QueryWrapper<Qualification> queryWrapper=new QueryWrapper<>();
                 queryWrapper.eq("qualification_number",code).eq("projects_id",projectsId);
                 int c=1;
@@ -89,10 +92,8 @@ public class InformationServiceImpl extends ServiceImpl<InformationDao, Informat
                     if (c>0) {
                         code = RandomDigit.getfiveVerificationCode3();
                     }
-                }
-
-
-                q.setQualificationNumber(code);
+                }*/
+               // q.setQualificationNumber(code);
                 q.setProjectsId(projectsId);
                 q.setQualificationName(information.getProposerName());
                 q.setLegalRepresentative(information.getLegalRepresentative());
@@ -130,6 +131,8 @@ public class InformationServiceImpl extends ServiceImpl<InformationDao, Informat
                     Deposit deposit= depositDao.selectById(qualification.getDepositId());
                     if (deposit!=null){
                         qualification.setQualificationStatus(1);
+                        //插入抽选编号
+                        qualification.setQualificationNumber(codeUtil.getCode(projectsId));
                     }
 
                     if (qualification.getDepositStatus()==1){
@@ -142,8 +145,6 @@ public class InformationServiceImpl extends ServiceImpl<InformationDao, Informat
                     qualification.setInformationId(informationId);
                     qualificationDao.updateById(qualification);
                 }
-
-
             log.info(information.toString()+"------");
         });
 

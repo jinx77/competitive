@@ -2,9 +2,13 @@ package com.xinzuo.competitive.serviceimpl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.xinzuo.competitive.dao.DepositDao;
+import com.xinzuo.competitive.dao.InformationDao;
 import com.xinzuo.competitive.dao.ProjectsDao;
 import com.xinzuo.competitive.exception.CompetitiveException;
 import com.xinzuo.competitive.form.PageForm;
+import com.xinzuo.competitive.pojo.Deposit;
+import com.xinzuo.competitive.pojo.Information;
 import com.xinzuo.competitive.pojo.Projects;
 import com.xinzuo.competitive.pojo.Qualification;
 import com.xinzuo.competitive.dao.QualificationDao;
@@ -34,6 +38,10 @@ public class QualificationServiceImpl extends ServiceImpl<QualificationDao, Qual
     QualificationDao qualificationDao;
     @Autowired
     ProjectsDao projectsDao;
+    @Autowired
+    DepositDao depositDao;
+    @Autowired
+    InformationDao informationDao;
     @Override
     public ResultDataVO selectQualificationList(PageForm pageForm) {
         PageHelper.startPage(pageForm.getCurrent(), pageForm.getSize());
@@ -75,5 +83,18 @@ public class QualificationServiceImpl extends ServiceImpl<QualificationDao, Qual
         projects.setWinTime(new Date());
         projectsDao.updateById(projects);
         return qualification;
+    }
+
+    @Override
+    public int deleteQualification(String qualificationId) {
+       Qualification qualification= qualificationDao.selectById(qualificationId);
+
+       if (qualification==null){
+           throw new CompetitiveException("删除企业发生错误,找不到该企业");
+       }
+       informationDao.deleteById(qualification.getInformationId());
+       depositDao.deleteById(qualification.getDepositId());
+       int i=  qualificationDao.deleteById(qualificationId);
+        return i;
     }
 }

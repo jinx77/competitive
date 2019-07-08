@@ -11,6 +11,7 @@ import com.xinzuo.competitive.pojo.Projects;
 import com.xinzuo.competitive.pojo.Qualification;
 import com.xinzuo.competitive.service.DepositService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xinzuo.competitive.util.CodeUtil;
 import com.xinzuo.competitive.util.KeyUtil;
 import com.xinzuo.competitive.util.RandomDigit;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -49,6 +51,8 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
     ProjectsQualificationDao projectsQualificationDao;
     @Autowired
     DepositDao depositDao;
+    @Autowired
+    CodeUtil codeUtil;
 
     //导入Excel表
     @Transactional
@@ -89,7 +93,7 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
                 q.setQualificationId(KeyUtil.genUniqueKey());
                 log.info("-----");
 
-                String code= RandomDigit.getfiveVerificationCode3();
+               /* String code= RandomDigit.getfiveVerificationCode3();
                 QueryWrapper<Qualification> queryWrapper=new QueryWrapper<>();
                 queryWrapper.eq("qualification_number",code).eq("projects_id",projectsId);
                 int c=1;
@@ -100,9 +104,9 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
                         code = RandomDigit.getfiveVerificationCode3();
                         System.out.println();
                     }
-                }
+                }*/
 
-                q.setQualificationNumber(code);
+                //q.setQualificationNumber(code);
                 q.setProjectsId(projectsId);
                 q.setDepositId(depositId);
                 q.setQualificationName(deposit.getDepositName());
@@ -136,27 +140,17 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
                         }
                     }
                     //判断资格表
-                   Information information= informationDao.selectById(qualification.getQualificationId());
+                   Information information= informationDao.selectById(qualification.getInformationId());
                     if (information!=null){
                         qualification.setQualificationStatus(1);
-                        //有竞标资格的时候给一个竞选编号
-                        QueryWrapper<Qualification> queryWrapper=new QueryWrapper<>();
-                        queryWrapper.eq("projects_id",projectsId);
-                        List<Qualification> qualificationList=qualificationDao.selectList(queryWrapper);
-                        List<Integer> codes=new ArrayList<>();
-                        qualificationList.forEach(q -> {
-                            if (q.getQualificationNumber()!=null){
-                                codes.add(Integer.valueOf(q.getQualificationName()));
-                            }
-                        });
-
-                       // Arrays.sort(codes);
-
+                        //插入抽选编号
+                        qualification.setQualificationNumber(codeUtil.getCode(projectsId));
 
                     }
 
                     if (qualification.getInformationStatus()==1){
                         qualification.setQualificationStatus(1);
+
                     }
                     qualification.setDepositStatus(1);
                     qualification.setQualificationName(deposit.getDepositName());

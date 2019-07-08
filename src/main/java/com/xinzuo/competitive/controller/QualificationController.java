@@ -31,7 +31,15 @@ public class QualificationController {
     public ResultVO selectQualificationList(@RequestBody PageForm pageForm){
         return ResultUtil.ok("显示列表成功",qualificationService.selectQualificationList(pageForm));
     }
-
+    //删除参与公司
+    @PostMapping("/deleteQualification")
+    public ResultVO deleteQualification(@RequestBody Qualification qualification){
+      int i= qualificationService.deleteQualification(qualification.getQualificationId());
+      if (i>0){
+          return ResultUtil.ok("删除成功");
+      }
+        return ResultUtil.no("系统繁忙,请稍后再试");
+    }
     //抽奖
     @PostMapping("/win")
     public ResultVO win(@RequestBody PageForm pageForm){

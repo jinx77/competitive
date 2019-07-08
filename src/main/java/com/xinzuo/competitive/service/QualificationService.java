@@ -26,4 +26,6 @@ public interface QualificationService extends IService<Qualification> {
     int selectQualificationb(String projectsId);
 
     Qualification win(String projectsId);
+
+    int deleteQualification(String qualificationId);
 }
