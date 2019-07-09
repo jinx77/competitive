@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.github.pagehelper.PageInfo;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -36,5 +37,17 @@ public class PageVO<T> {
          return pageVO;
 
      }
+
+    //获取返回数据
+    public PageVO getPageVO0(PageInfo pageInfo){
+
+        PageVO pageVO=new PageVO();
+        pageVO.setCurrent(pageInfo.getPageNum());
+        pageVO.setSize(pageInfo.getSize());
+        pageVO.setTotal(pageInfo.getTotal());
+        pageVO.setDataList(pageInfo.getList());
+        return pageVO;
+
+    }
 
 }

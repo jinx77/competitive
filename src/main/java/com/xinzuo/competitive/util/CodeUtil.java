@@ -1,8 +1,11 @@
 package com.xinzuo.competitive.util;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.xinzuo.competitive.dao.CompanyClassifyDao;
 import com.xinzuo.competitive.dao.QualificationDao;
+import com.xinzuo.competitive.pojo.CompanyClassify;
 import com.xinzuo.competitive.pojo.Qualification;
+import com.xinzuo.competitive.service.CompanyClassifyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +16,8 @@ import java.util.List;
 public class CodeUtil {
     @Autowired
     QualificationDao qualificationDao;
+    @Autowired
+    CompanyClassifyService companyClassifyService;
     public  String getCode(String projectsId){
 
         //有竞标资格的时候给一个竞选编号
@@ -64,6 +69,12 @@ public class CodeUtil {
 
     }
 
+    public  int getSort() {
+
+        List<CompanyClassify> companyClassifyList = companyClassifyService.list();
+        int i= companyClassifyList.size();
 
 
+        return i;
+    }
 }

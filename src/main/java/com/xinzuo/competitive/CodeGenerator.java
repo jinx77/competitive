@@ -38,11 +38,11 @@ public class CodeGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://localhost:3306/competitive?useUnicode=true&useSSL=false&characterEncoding=utf8");
+        dsc.setUrl("jdbc:mysql://49.4.4.105:3306/competitive?useUnicode=true&useSSL=false&characterEncoding=utf8");
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.jdbc.Driver");
         //dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-        dsc.setUsername("root");
+        dsc.setUsername("jc");
         dsc.setPassword("root");
         //dsc.setPassword("1234");
 
@@ -116,7 +116,7 @@ public class CodeGenerator {
         //strategy.setSuperControllerClass("com.baomidou.ant.common.BaseController");
         //strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
         //需要包含的表名，允许正则表达式（与exclude二选一配置）
-        strategy.setInclude("projects_qualification");
+        strategy.setInclude("company_classify");
         strategy.setSuperEntityColumns("id");
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setTablePrefix(pc.getModuleName() + "_");

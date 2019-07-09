@@ -1,16 +1,13 @@
 spring:
   datasource:
+#    driver-class-name: com.mysql.jdbc.Driver
+#    username: root
+#    password: root
+#    url: jdbc:mysql://localhost:3306/competitive?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false&allowMultiQueries=true
     driver-class-name: com.mysql.jdbc.Driver
-    username: root
+    username: jc
     password: root
-    url: jdbc:mysql://localhost:3306/competitive?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false&allowMultiQueries=true
-#    username: xinzuo2019
-#    password: 2019!@#xinZUO
-#    url: jdbc:mysql://49.4.4.105:3306/lvyou?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false&allowMultiQueries=true
-
-  redis:
-    host: 192.168.44.141
-    port: 6379
+    url: jdbc:mysql://49.4.4.105:3306/competitive?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false&allowMultiQueries=true
 
 logging:
   level:
