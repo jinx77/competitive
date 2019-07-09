@@ -5,9 +5,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xinzuo.competitive.form.PageForm;
+import com.xinzuo.competitive.pojo.Company;
 import com.xinzuo.competitive.pojo.CompanyClassify;
-import com.xinzuo.competitive.pojo.Projects;
-import com.xinzuo.competitive.service.CompanyClassifyService;
+import com.xinzuo.competitive.service.CompanyService;
+import com.xinzuo.competitive.util.KeyUtil;
 import com.xinzuo.competitive.util.ResultUtil;
 import com.xinzuo.competitive.vo.PageVO;
 import com.xinzuo.competitive.vo.ResultVO;
@@ -19,40 +20,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import java.awt.image.Kernel;
+import java.util.Date;
 import java.util.List;
 
 /**
  * <p>
- * 公司分类表 前端控制器
+ * 企业信息表 前端控制器
  * </p>
  *
  * @author jc
  * @since 2019-07-09
  */
 @RestController
-@RequestMapping("/company-classify")
-public class CompanyClassifyController {
+@RequestMapping("/company")
+public class CompanyController {
     @Autowired
-    CompanyClassifyService companyClassifyService;
+    CompanyService companyService;
     @Autowired
     PageVO pageVO;
     //添加类型
-    @PostMapping("/addClassify")
-    public ResultVO addClassify(@RequestBody CompanyClassify companyClassify) {
-       int code= companyClassifyService.list().size()+1;
-       companyClassify.setClassifySort(code);
-           Boolean b= companyClassifyService.save(companyClassify);
-           if (b){
+    @PostMapping("/addCompany")
+    public ResultVO addCompany(@RequestBody Company company) {
+       company.setCompanyId(KeyUtil.genUniqueKey());
+       company.setCreateTime(new Date());
+        Boolean b= companyService.save(company);
+        if (b){
             return  ResultUtil.ok("添加成功");
-           }else {
+        }else {
             return  ResultUtil.ok("系统出错,添加失败");
-           }
+        }
     }
     //修改
-    @PostMapping("/updateClassify")
-    public ResultVO updateClassify(@RequestBody CompanyClassify companyClassify) {
+    @PostMapping("/updateCompany")
+    public ResultVO updateCompany(@RequestBody Company company) {
 
-        Boolean b= companyClassifyService.updateById(companyClassify);
+        Boolean b= companyService.updateById(company);
         if (b){
             return  ResultUtil.ok("修改成功");
         }else {
@@ -60,10 +63,10 @@ public class CompanyClassifyController {
         }
     }
     //删除
-    @PostMapping("/deleteClassify")
+    @PostMapping("/deleteCompany")
     public ResultVO deleteClassify(@RequestBody CompanyClassify companyClassify) {
-        int  i= companyClassifyService.deleteClassify(companyClassify.getClassifyId());
-        if (i>0){
+        Boolean  b= companyService.removeById(companyClassify.getClassifyId());
+        if (b){
             return  ResultUtil.ok("删除成功");
         }else {
             return  ResultUtil.ok("系统出错,操作失败");
@@ -71,21 +74,21 @@ public class CompanyClassifyController {
     }
 
     //查询
-    @PostMapping("/selectClassifyList")
-    public ResultVO selectClassifyList(@RequestBody PageForm pageForm) {
-        QueryWrapper<CompanyClassify> queryWrapper=new QueryWrapper<>();
-        queryWrapper.orderByAsc("classify_sort");
+    @PostMapping("/selectCompanyList")
+    public ResultVO selectCompanyList(@RequestBody PageForm pageForm) {
+        QueryWrapper<Company> queryWrapper=new QueryWrapper<>();
+        queryWrapper.orderByDesc("create_time");
         if (!StringUtils.isEmpty(pageForm.getCondition())){
-            queryWrapper.like("classify_name",pageForm.getCondition());
+            queryWrapper.like("proposer_name",pageForm.getCondition());
         }
-        if (!StringUtils.isEmpty(pageForm.getCompanyClassifyId())){
-            queryWrapper.eq("company_classify_id",pageForm.getCompanyClassifyId());
+        if (!StringUtils.isEmpty(pageForm.getCondition())){
+            queryWrapper.like("proposer_name",pageForm.getCondition());
         }
         PageHelper.startPage(pageForm.getCurrent(), pageForm.getSize());
-        List<CompanyClassify> companyClassifyList= companyClassifyService.list(queryWrapper);
-        PageInfo<CompanyClassify> pageInfo = new PageInfo<>(companyClassifyList);
+        List<Company> companyClassifyList= companyService.list(queryWrapper);
+        PageInfo<Company> pageInfo = new PageInfo<>(companyClassifyList);
         PageVO p= pageVO.getPageVO0(pageInfo);
-       return ResultUtil.ok("查询成功",p);
-
+        return ResultUtil.ok("查询成功",p);
     }
+
 }

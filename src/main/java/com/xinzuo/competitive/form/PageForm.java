@@ -22,6 +22,10 @@ public class PageForm {
      */
     private String projectsId;
     /**
+     * 企业分类ID
+     */
+    private String companyClassifyId;
+    /**
      * 查询条件
      */
     private String condition;
