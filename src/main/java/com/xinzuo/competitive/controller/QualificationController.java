@@ -2,14 +2,18 @@ package com.xinzuo.competitive.controller;
 
 
 import com.xinzuo.competitive.form.PageForm;
+import com.xinzuo.competitive.form.PullForm;
 import com.xinzuo.competitive.pojo.Qualification;
 import com.xinzuo.competitive.service.QualificationService;
 import com.xinzuo.competitive.util.ResultUtil;
+import com.xinzuo.competitive.vo.PageVO;
 import com.xinzuo.competitive.vo.ResultVO;
 import com.xinzuo.competitive.vo.WinVO;
 import com.xinzuo.competitive.vo.WinVO0;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -40,6 +44,21 @@ public class QualificationController {
       }
         return ResultUtil.no("系统繁忙,请稍后再试");
     }
+
+    //拉取公司类型企业
+    @PostMapping("/pullQualification")
+    public ResultVO pullQualification(@RequestBody PullForm pullForm){
+       int i= qualificationService.pullQualification(pullForm);
+
+       if (i>0){
+
+          return ResultUtil.ok("拉取成功");
+       }else {
+
+           return ResultUtil.ok("系统错误");
+       }
+    }
+
     //抽奖
     @PostMapping("/win")
     public ResultVO win(@RequestBody PageForm pageForm){

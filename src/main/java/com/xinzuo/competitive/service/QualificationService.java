@@ -1,6 +1,7 @@
 package com.xinzuo.competitive.service;
 
 import com.xinzuo.competitive.form.PageForm;
+import com.xinzuo.competitive.form.PullForm;
 import com.xinzuo.competitive.pojo.Qualification;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xinzuo.competitive.vo.ResultDataVO;
@@ -24,8 +25,10 @@ public interface QualificationService extends IService<Qualification> {
 
     //统计实际参与公司数量
     int selectQualificationb(String projectsId);
-
+    //抽奖
     Qualification win(String projectsId);
-
+    //删除
     int deleteQualification(String qualificationId);
+    //拉入公司
+    int pullQualification(PullForm pullForm);
 }

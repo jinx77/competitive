@@ -24,8 +24,6 @@ public class CodeUtil {
         QueryWrapper<Qualification> queryWrapper=new QueryWrapper<>();
         queryWrapper.eq("projects_id",projectsId);
         List<Qualification> qualificationList=qualificationDao.selectList(queryWrapper);
-        //如果有资格则编个号
-        System.out.println(qualificationList.size()+"-=-=-----------=============");
         List<Integer> codes=new ArrayList<>();
         qualificationList.forEach(q -> {
             if (q.getQualificationNumber()!=null){
@@ -37,14 +35,12 @@ public class CodeUtil {
             return "001";
         }
 
-        System.out.println("................................"+codes.size());
         for (int c=0, ic=1;c<codes.size();c++,ic++){
             if (codes.get(c)!=ic){
                 QueryWrapper<Qualification> qw=new QueryWrapper<>();
                 queryWrapper.eq("qualification_number",ic).eq("projects_id",projectsId);
                 List<Qualification> qualifications= qualificationDao.selectList(qw);
                 if (qualifications.size()==0){
-                System.out.println(ic+"icicicicicicicicic");
                     String s=String.valueOf(ic);
                     if (s.length()==1){
                         s="00"+s;
@@ -73,8 +69,32 @@ public class CodeUtil {
 
         List<CompanyClassify> companyClassifyList = companyClassifyService.list();
         int i= companyClassifyList.size();
+        String s="woshinima";
 
 
         return i;
+    }
+
+    public static void main(String[] args) {
+
+       System.out.println(isChineseChar("(大家...")+"0000000");
+
+    }
+
+
+    public static String isChineseChar(String s) {
+        //return String.valueOf(c).matches("[\u4e00-\u9fa5]");
+
+        StringBuffer sb=new StringBuffer(s);
+        for (int i=0;i<sb.length();i++){
+          //String jc=  String.valueOf(sb.append(i));
+            System.out.println("---------"+s.indexOf(i));
+            /*if (*//*jc.matches("[\u4e00-\u9fa5]")==true||*//*jc.equals("(")||jc.equals(")")){
+                System.out.println("---------");
+                sb.append(jc);
+            }*/
+        }
+        s=sb.toString();
+        return s;
     }
 }

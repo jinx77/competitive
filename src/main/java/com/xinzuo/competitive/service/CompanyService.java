@@ -2,6 +2,7 @@ package com.xinzuo.competitive.service;
 
 import com.xinzuo.competitive.pojo.Company;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * <p>
@@ -12,5 +13,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2019-07-09
  */
 public interface CompanyService extends IService<Company> {
+
+    int readExcel(MultipartFile excel, int companyClassifyId);
 
 }
