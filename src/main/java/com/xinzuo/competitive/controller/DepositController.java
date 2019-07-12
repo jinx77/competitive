@@ -1,7 +1,6 @@
 package com.xinzuo.competitive.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xinzuo.competitive.service.DepositService;
 import com.xinzuo.competitive.util.ResultUtil;
 import com.xinzuo.competitive.vo.ResultVO;

@@ -1,6 +1,8 @@
 package com.xinzuo.competitive.pojo;
 
     import java.io.Serializable;
+
+    import com.baomidou.mybatisplus.annotation.TableId;
     import lombok.Data;
     import lombok.EqualsAndHashCode;
     import lombok.experimental.Accessors;
@@ -23,6 +25,7 @@ package com.xinzuo.competitive.pojo;
             /**
             * 用户主键ID
             */
+            @TableId
     private String userId;
 
             /**
@@ -34,6 +37,18 @@ package com.xinzuo.competitive.pojo;
             * 密码
             */
     private String userPassword;
+            /**
+            * 初始密码
+            */
+    private String initialPassword;
+            /**
+            * logo图标title
+            */
+    private String logoIcon;
+            /**
+            *标题
+            */
+    private String titleName;
 
 
 }

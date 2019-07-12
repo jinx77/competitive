@@ -37,14 +37,15 @@ public class ShiroConfig {
         // 配置不会被拦截的链接 顺序判断
         filterChainDefinitionMap.put("/user/login/**", "anon");
         filterChainDefinitionMap.put("/user/register", "anon");
+        filterChainDefinitionMap.put("/user/selectLogo", "anon");
         filterChainDefinitionMap.put("/**.js", "anon");
         filterChainDefinitionMap.put("/druid/**", "anon");
         filterChainDefinitionMap.put("/swagger/**/**", "anon");
         filterChainDefinitionMap.put("/webjars/**", "anon");
         filterChainDefinitionMap.put("/v2/**", "anon");
         filterChainDefinitionMap.put("/**/swagger/**", "anon");
+        filterChainDefinitionMap.put("/user/image", "anon");
         //暂时放行
-        //filterChainDefinitionMap.put("/admin/**", "anon");
         filterChainDefinitionMap.put("/oss/**", "anon");
         filterChainDefinitionMap.put("/jc/**", "anon");
         // 添加自己的过滤器并且取名为jwt
@@ -52,7 +53,7 @@ public class ShiroConfig {
         filterMap.put("jwt", new JwtFilter());
         shiroFilterFactoryBean.setFilters(filterMap);
         //<!-- 过滤链定义，从上向下顺序执行，一般将/**放在最为下边
-       // filterChainDefinitionMap.put("/**", "jwt");
+        filterChainDefinitionMap.put("/**", "jwt");
 
 
         //未授权界面;

@@ -1,9 +1,9 @@
-package com.xinzuo.competitive.vo;
+package com.xinzuo.competitive.form;
 
 import lombok.Data;
 
 @Data
-public class UserVO {
+public class UserForm {
 
     /**
      * 用户主键ID
@@ -11,20 +11,23 @@ public class UserVO {
     private String userId;
 
     /**
-     * 用户名
-     */
-    private String userName;
-
-    /**
-     * 密码
+     * 新密码
      */
     private String userPassword;
+
     /**
-     * logo图标title
+     * 原始密码
+     */
+    private String initialPassword;
+
+    /**
+     * 登录logo图标
      */
     private String logoIcon;
+
     /**
-     *标题
+     * 系统标题
      */
     private String titleName;
+
 }

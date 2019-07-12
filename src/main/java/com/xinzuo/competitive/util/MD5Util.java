@@ -17,6 +17,6 @@ public class MD5Util {
     }
 
     public static void main(String[] args) {
-       System.out.println(getMD5Sign("jc","123"));
+       System.out.println(getMD5Sign("jc","123456"));
     }
 }

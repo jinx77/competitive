@@ -73,8 +73,11 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
         for (Object o:list){
             Deposit deposit =new Deposit();
             String depositId=KeyUtil.genUniqueKey();
-            BeanUtils.copyProperties(o,deposit);
 
+            if (deposit.getDepositName()!=null&&deposit.getDepositName()!=""){
+                deposit.setDepositName(codeUtil.stringFilter(deposit.getDepositName()));
+            }
+            //deposit.setDepositName(codeUtil.stringFilter(deposit.getDepositName()));
             if (deposit.getDepositMoney()==null&& StringUtils.isEmpty(deposit.getDepositName())){
                 throw new CompetitiveException("导入错误,请导入有数据的保证金表");
             }

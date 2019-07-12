@@ -1,17 +1,17 @@
 package com.xinzuo.competitive.util;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.xinzuo.competitive.dao.CompanyClassifyDao;
 import com.xinzuo.competitive.dao.QualificationDao;
-import com.xinzuo.competitive.pojo.CompanyClassify;
 import com.xinzuo.competitive.pojo.Qualification;
 import com.xinzuo.competitive.service.CompanyClassifyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Component
 public class CodeUtil {
     @Autowired
@@ -60,41 +60,27 @@ public class CodeUtil {
             }
 
         }
-
         return null;
+    }
+  /*  public static void main(String[] args) {
 
+       System.out.println(stringFilter("(大 家...")+"0000000");
+
+    }*/
+
+    /**
+     * 过滤特殊字符
+     * @param str
+     * @return
+     *
+     * \u00A0 特殊的空格
+     */
+    public  String stringFilter (String str){
+        //String regEx="[\\u00A0\\s\"`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
+        String regEx="[\\u00A0\\s\"`~!@#$%^&*+=|{}':;',\\[\\].<>/?~！@#￥%……&*——+|{}【】‘；：”“’。，、？]";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        return m.replaceAll("").trim();
     }
 
-    public  int getSort() {
-
-        List<CompanyClassify> companyClassifyList = companyClassifyService.list();
-        int i= companyClassifyList.size();
-        String s="woshinima";
-
-
-        return i;
-    }
-
-    public static void main(String[] args) {
-
-       System.out.println(isChineseChar("(大家...")+"0000000");
-
-    }
-
-
-    public static String isChineseChar(String s) {
-        //return String.valueOf(c).matches("[\u4e00-\u9fa5]");
-
-        StringBuffer sb=new StringBuffer(s);
-        for (int i=0;i<sb.length();i++){
-          //String jc=  String.valueOf(sb.append(i));
-            System.out.println("---------"+s.indexOf(i));
-            /*if (*//*jc.matches("[\u4e00-\u9fa5]")==true||*//*jc.equals("(")||jc.equals(")")){
-                System.out.println("---------");
-                sb.append(jc);
-            }*/
-        }
-        s=sb.toString();
-        return s;
-    }
 }

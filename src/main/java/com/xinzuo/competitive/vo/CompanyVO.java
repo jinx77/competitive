@@ -1,12 +1,12 @@
-package com.xinzuo.competitive.pojo;
+package com.xinzuo.competitive.vo;
 
-    import java.io.Serializable;
-    import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
-    import com.baomidou.mybatisplus.annotation.TableId;
-    import lombok.Data;
-    import lombok.EqualsAndHashCode;
-    import lombok.experimental.Accessors;
+import java.io.Serializable;
+import java.util.Date;
 
 /**
 * <p>
@@ -19,7 +19,7 @@ package com.xinzuo.competitive.pojo;
     @Data
         @EqualsAndHashCode(callSuper = false)
     @Accessors(chain = true)
-    public class Company implements Serializable {
+    public class CompanyVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -33,6 +33,11 @@ package com.xinzuo.competitive.pojo;
             * 分类主键ID
             */
     private Integer companyClassifyId;
+            /**
+            * 分类名称
+            */
+    private String companyClassifyName;
+
             /**
             * 公司名称
             */

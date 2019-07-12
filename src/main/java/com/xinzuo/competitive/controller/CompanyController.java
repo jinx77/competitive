@@ -7,11 +7,14 @@ import com.github.pagehelper.PageInfo;
 import com.xinzuo.competitive.form.PageForm;
 import com.xinzuo.competitive.pojo.Company;
 import com.xinzuo.competitive.pojo.CompanyClassify;
+import com.xinzuo.competitive.service.CompanyClassifyService;
 import com.xinzuo.competitive.service.CompanyService;
 import com.xinzuo.competitive.util.KeyUtil;
 import com.xinzuo.competitive.util.ResultUtil;
+import com.xinzuo.competitive.vo.CompanyVO;
 import com.xinzuo.competitive.vo.PageVO;
 import com.xinzuo.competitive.vo.ResultVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.awt.image.Kernel;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * <p>
@@ -30,11 +34,14 @@ import java.util.List;
  * @author jc
  * @since 2019-07-09
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/company")
 public class CompanyController {
     @Autowired
     CompanyService companyService;
+    @Autowired
+    CompanyClassifyService companyClassifyService;
     @Autowired
     PageVO pageVO;
     //手动添加企业
@@ -42,11 +49,17 @@ public class CompanyController {
     public ResultVO addCompany(@RequestBody Company company) {
        company.setCompanyId(KeyUtil.genUniqueKey());
        company.setCreateTime(new Date());
+        QueryWrapper<Company> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("proposer_name",company.getProposerName());
+        if ( companyService.getOne(queryWrapper)!=null){
+            return  ResultUtil.no("该公司已存在");
+        }
+
         Boolean b= companyService.save(company);
         if (b){
             return  ResultUtil.ok("添加成功");
         }else {
-            return  ResultUtil.ok("系统出错,添加失败");
+            return  ResultUtil.no("系统出错,添加失败");
         }
     }
 
@@ -59,7 +72,14 @@ public class CompanyController {
     //修改
     @PostMapping("/updateCompany")
     public ResultVO updateCompany(@RequestBody Company company) {
-
+        QueryWrapper<Company> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("proposer_name",company.getProposerName());
+        Company c= companyService.getOne(queryWrapper);
+        if ( companyService.getOne(queryWrapper)!=null){
+            if (!company.getCompanyId().equals(c.getCompanyId())){
+                return  ResultUtil.no("该公司已存在");
+            }
+        }
         Boolean b= companyService.updateById(company);
         if (b){
             return  ResultUtil.ok("修改成功");
@@ -93,6 +113,19 @@ public class CompanyController {
         List<Company> companyClassifyList= companyService.list(queryWrapper);
         PageInfo<Company> pageInfo = new PageInfo<>(companyClassifyList);
         PageVO p= pageVO.getPageVO0(pageInfo);
+        List<CompanyVO> companyVOList=new CopyOnWriteArrayList<>();
+        pageInfo.getList().forEach(company -> {
+           CompanyClassify companyClassify= companyClassifyService.getById(company.getCompanyClassifyId());
+            CompanyVO companyVO=new CompanyVO();
+            BeanUtils.copyProperties(company,companyVO);
+            if (companyClassify!=null){
+
+                companyVO.setCompanyClassifyName(companyClassify.getClassifyName());
+            }
+
+            companyVOList.add(companyVO);
+        });
+        p.setDataList(companyVOList);
         return ResultUtil.ok("查询成功",p);
     }
 

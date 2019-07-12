@@ -1,7 +1,6 @@
 package com.xinzuo.competitive.shiro;
 
 
-import com.alibaba.fastjson.JSON;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xinzuo.competitive.jwt.JwtToken;
@@ -9,8 +8,6 @@ import com.xinzuo.competitive.pojo.User;
 import com.xinzuo.competitive.service.UserService;
 import com.xinzuo.competitive.util.JsonUtil;
 import com.xinzuo.competitive.util.JwtUtil;
-import com.xinzuo.competitive.util.ResultUtil;
-import com.xinzuo.competitive.vo.ResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -22,15 +19,6 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
-
 /**
  * @author jc
  * @create 2018-07-12 15:23
@@ -77,28 +65,11 @@ public class MyRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken auth) throws AuthenticationException {
-        /*//获取请求的相关属性
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = attributes.getRequest();
-        HttpServletResponse response = attributes.getResponse();
-        //写出之前解决乱码
-        //解决 ??? 编码形式乱码
-        response.setCharacterEncoding("UTF-8");
-        //响应json格式
-        response.setContentType("text/json");
-*/
         String token = (String) auth.getCredentials();
         try {
-            //注意修改了编码之后再获取流对象
-           // PrintWriter printWriter = response.getWriter();
-            // 解密获得username，用于和数据库进行对比
             String username = JwtUtil.getUsername(token);
             log.info("jwt验证用户名非空" + username);
             if (username == null) {
-                //拦截住了返回json格式的响应
-            /*    ResultVO resultVO = ResultUtil.noVerify("用户名为空导致验证失败!");
-                printWriter.write(JSON.toJSONString(resultVO));
-                printWriter.close();*/
             throw new AuthenticationException("验证失败");
             }
             QueryWrapper<User> queryWrapper=new QueryWrapper<>();
@@ -106,17 +77,13 @@ public class MyRealm extends AuthorizingRealm {
             User userBean = userService.getOne(queryWrapper);
             log.info("查询数据库进一步验证用户" + JsonUtil.toJson(userBean));
             if (userBean == null) {
-                //拦截住了返回json格式的响应
-              /*  ResultVO resultVO = ResultUtil.noVerify("用户不存在导致验证失败!");
-                printWriter.write(JSON.toJSONString(resultVO));*/
                 throw new AuthenticationException("验证失败");
             }
             log.info("查询数据库进一步验证用户名和密码" + JsonUtil.toJson(userBean));
             if (!JwtUtil.verify(token, username, userBean.getUserPassword())) {
-                //拦截住了返回json格式的响应
-             /*   ResultVO resultVO = ResultUtil.noVerify("用户名称或者密码输入错误导致验证失败!");
-                printWriter.write(JSON.toJSONString(resultVO));*/
-                throw new AuthenticationException("验证失败");
+                if (!JwtUtil.verify(token, username, userBean.getInitialPassword())) {
+                    throw new AuthenticationException("验证失败");
+                }
             }
             log.info("验证成功");
             return new SimpleAuthenticationInfo(token, token, "my_realm");

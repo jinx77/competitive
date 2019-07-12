@@ -115,6 +115,9 @@ public class QualificationServiceImpl extends ServiceImpl<QualificationDao, Qual
           queryWrapper.eq("company_classify_id",integer);
             List<Company> companyList= companyService.list(queryWrapper);
             companyList.forEach(company -> {
+                if (company.getProposerName()!=null&&company.getProposerName()!=""){
+                    company.setProposerName(codeUtil.stringFilter(company.getProposerName()));
+                }
                 String informationId= KeyUtil.genUniqueKey();
                 //资格表
                 Qualification q=new Qualification();
@@ -122,11 +125,8 @@ public class QualificationServiceImpl extends ServiceImpl<QualificationDao, Qual
                 q.setPhone(company.getPhone());
                 q.setInformationId(informationId);
                 q.setLegalRepresentative(company.getLegalRepresentative());
-
-               // q.setCreateTime(new Date());
                 //入库表
                 Information information=new Information();
-
                 information.setProposerName(company.getProposerName());
                 information.setLegalRepresentative(company.getLegalRepresentative());
                 information.setPhone(company.getPhone());

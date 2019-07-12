@@ -1,20 +1,9 @@
 package com.xinzuo.competitive.controller;
 
-
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.xinzuo.competitive.excel.ExcelUtil;
-import com.xinzuo.competitive.excel.pojo.InformationDB;
-import com.xinzuo.competitive.pojo.Information;
-import com.xinzuo.competitive.pojo.Qualification;
 import com.xinzuo.competitive.service.InformationService;
-import com.xinzuo.competitive.service.ProjectsQualificationService;
-import com.xinzuo.competitive.service.ProjectsService;
-import com.xinzuo.competitive.service.QualificationService;
-import com.xinzuo.competitive.util.KeyUtil;
 import com.xinzuo.competitive.util.ResultUtil;
 import com.xinzuo.competitive.vo.ResultVO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

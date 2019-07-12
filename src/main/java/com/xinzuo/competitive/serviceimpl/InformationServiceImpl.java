@@ -64,6 +64,10 @@ public class InformationServiceImpl extends ServiceImpl<InformationDao, Informat
         list.forEach(o->{
             Information information =new Information();
             BeanUtils.copyProperties(o,information);
+            if (information.getProposerName()!=null&&information.getProposerName()!=""){
+                information.setProposerName(codeUtil.stringFilter(information.getProposerName()));
+            }
+
             if (!StringUtils.isEmpty(information.getProposerName())&&!KeyUtil.isNumeric(information.getPhone())){
                 throw new CompetitiveException("导入错误,请导入有数据正确格式的保证金表");
             }

@@ -1,5 +1,6 @@
 package com.xinzuo.competitive.service;
 
+import com.xinzuo.competitive.form.UserForm;
 import com.xinzuo.competitive.pojo.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -12,5 +13,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2019-06-21
  */
 public interface UserService extends IService<User> {
+
     User userRegister(User user);
+
+    int userChange(UserForm userForm);
 }
