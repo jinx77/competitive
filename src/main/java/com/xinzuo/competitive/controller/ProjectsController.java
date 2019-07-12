@@ -53,12 +53,13 @@ public class ProjectsController {
     //新建项目
     @PostMapping("/addProjects")
     public ResultVO addProjects(@RequestBody Projects projects){
-        projects.setProjectsId(KeyUtil.genUniqueKey());
+        String projectsId=KeyUtil.genUniqueKey();
+        projects.setProjectsId(projectsId);
         projects.setCreateTime(new Date());
         projects.setWinQuantity(0);
        Boolean b= projectsService.save(projects);
        if (b){
-             return ResultUtil.ok("新建项目成功");
+             return ResultUtil.ok("新建项目成功",projectsId);
        }else {
            return ResultUtil.no("操作失败");
        }

@@ -62,8 +62,10 @@ public class MyBase64Utils {
                 jc = "png";
             }
             String imgpath = upload+s+  uuidKey + imgetype;
+            System.out.println(imgpath+"7777777777777");
             String imgUrl="/user/image?image="+ uuidKey + imgetype;
             log.info("imgpath------"+imgpath);
+            log.info("imgpath111------"+imgUrl);
             //获取项目图片访问路径
            // String imageName = s + uuidKey + imgetype;
             try {
@@ -83,6 +85,9 @@ public class MyBase64Utils {
                 fileOutputStream.flush();
                 fileOutputStream.close();
             } catch (Exception e) {
+
+
+                log.info(e.getMessage()+"***********************");
                 return null;
             }
           /*  String imageUrl = s + "images" + imageName;

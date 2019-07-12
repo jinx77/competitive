@@ -13,6 +13,7 @@ import com.xinzuo.competitive.util.MyBase64Utils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -78,17 +79,19 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
 
         }
         BeanUtils.copyProperties(userForm,user);
-        if (userForm.getUserPassword()!=null&&userForm.getUserPassword()!=""){
+        if (!userForm.getUserPassword().equals("")){
             String  userPassword=MD5Util.getMD5Sign(user.getUserName(), userForm.getUserPassword());
             System.out.println(userPassword+"-------------------------");
             user.setUserPassword(userPassword);
         }
-        if (userForm.getLogoIcon()!=null&&userForm.getLogoIcon()!=""){
-
+        if ((!userForm.getLogoIcon().equals(""))&&userForm.getLogoIcon()!=null){
           String url=  myBase64Utils.UploadImage(userForm.getLogoIcon());
+            System.out.println(user.getLogoIcon()+"----------------------");
           user.setLogoIcon(url);
-          user.setInitialPassword(null);
         }
+        user.setInitialPassword(null);
+        user.getUserPassword();
+        System.out.println(user.getUserPassword()+"====================");
         int i= userDao.updateById(user);
         return i;
 

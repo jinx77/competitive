@@ -57,7 +57,7 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
     //导入Excel表
     @Transactional
     public int readExcel(MultipartFile excel, String projectsId){
-
+        System.out.println("7777777777777777777777777777777777777777777");
         int i=0;
         log.info(excel.getName());
 
@@ -73,7 +73,7 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
         for (Object o:list){
             Deposit deposit =new Deposit();
             String depositId=KeyUtil.genUniqueKey();
-
+            BeanUtils.copyProperties(o,deposit);
             if (deposit.getDepositName()!=null&&deposit.getDepositName()!=""){
                 deposit.setDepositName(codeUtil.stringFilter(deposit.getDepositName()));
             }

@@ -35,12 +35,12 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyDao, Company> impleme
     CompanyDao companyDao;
     @Override
     public int readExcel(MultipartFile excel, int companyClassifyId) {
-        log.info(excel.getName());
+        log.info(excel.getName()+"-------======================");
 
         List<Object> list = null;
 
         try {
-            list = ExcelUtil.readExcel(excel, new CompanyDB(), 1,3);
+            list = ExcelUtil.readExcel(excel, new CompanyDB(), 1,4);
         } catch (Exception e) {
 
             e.printStackTrace();

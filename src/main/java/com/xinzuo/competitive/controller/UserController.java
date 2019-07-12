@@ -102,9 +102,16 @@ public class UserController {
          upload = new File(path.getAbsolutePath(),"static/images/");
             if(!upload.exists()) upload.mkdirs();
         } catch (Exception e) {
+
             e.getMessage();
+
         }
         String imgpath =upload.getPath() +"/"+ image;
+        File file=new File(imgpath);
+        if (!file.exists()){
+
+            return null;
+        }
         FileInputStream fileInputStream=new FileInputStream(new File(imgpath));
         byte[] b=new byte[fileInputStream.available()];
         fileInputStream.read(b,0,fileInputStream.available());
