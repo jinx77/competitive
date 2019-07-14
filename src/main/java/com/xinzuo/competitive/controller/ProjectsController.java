@@ -143,8 +143,8 @@ public class ProjectsController {
         if (projects.getProjectsId()==null||projects.getProjectsId()==""){
             return ResultUtil.no("projectsId--不能为空--");
         }
-        Boolean b= projectsService.removeById(projects.getProjectsId());
-        if (b){
+        int i= projectsService.deleteProjects(projects.getProjectsId());
+        if (i>0){
             return ResultUtil.ok("删除成功");
         }
         else {

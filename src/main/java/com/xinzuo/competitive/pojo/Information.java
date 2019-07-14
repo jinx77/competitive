@@ -43,6 +43,10 @@ package com.xinzuo.competitive.pojo;
             * 联系电话
             */
     private String phone;
+            /**
+            * 竞选项目ID
+            */
+    private String projectsId;
 
 
 }

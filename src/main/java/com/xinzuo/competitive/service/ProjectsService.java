@@ -15,4 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public interface ProjectsService extends IService<Projects> {
 
+   int deleteProjects(String projectsId);
+
 }

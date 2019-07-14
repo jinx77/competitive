@@ -7,6 +7,7 @@ import com.xinzuo.competitive.service.CompanyClassifyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -19,7 +20,7 @@ public class CodeUtil {
     @Autowired
     CompanyClassifyService companyClassifyService;
     public  String getCode(String projectsId){
-
+        String s=null;
         //有竞标资格的时候给一个竞选编号
         QueryWrapper<Qualification> queryWrapper=new QueryWrapper<>();
         queryWrapper.eq("projects_id",projectsId);
@@ -31,36 +32,33 @@ public class CodeUtil {
             }
         });
         Collections.sort(codes);
+        codes.forEach(System.out::println);
         if (codes.size()<1){
             return "001";
         }
 
         for (int c=0, ic=1;c<codes.size();c++,ic++){
-            if (codes.get(c)!=ic){
-                QueryWrapper<Qualification> qw=new QueryWrapper<>();
-                queryWrapper.eq("qualification_number",ic).eq("projects_id",projectsId);
-                List<Qualification> qualifications= qualificationDao.selectList(qw);
-                if (qualifications.size()==0){
-                    String s=String.valueOf(ic);
-                    if (s.length()==1){
-                        s="00"+s;
-                    }else if (s.length()==2){
-                        s="0"+s;
-                    }
-                   return s;
+            if (!codes.get(c).equals(ic)){
+                s=String.valueOf(ic);
+                if (s.length()==1){
+                    s="00"+s;
+                    break;
+                }else if (s.length()==2){
+                    s="0"+s;
+                    break;
                 }
+
             }else {
-                String s=String.valueOf(codes.size()+1);
+                 s=String.valueOf(codes.size()+1);
                 if (s.length()==1){
                     s="00"+s;
                 }else if (s.length()==2){
                     s="0"+s;
                 }
-                return s;
             }
 
         }
-        return null;
+        return s;
     }
   /*  public static void main(String[] args) {
 

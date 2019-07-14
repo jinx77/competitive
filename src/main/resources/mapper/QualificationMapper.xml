@@ -37,8 +37,11 @@
             ELSE 3
             END)
         </if>
-        <if test="condition==null or condition==''">
+        <!--<if test="condition==null or condition==''">
             order by create_time desc
-        </if>
+        </if>-->
+        <if test="condition==null or condition==''">
+           order by qualification_number asc
+       </if>
     </select>
 </mapper>

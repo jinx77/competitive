@@ -40,17 +40,26 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyDao, Company> impleme
         List<Object> list = null;
 
         try {
-            list = ExcelUtil.readExcel(excel, new CompanyDB(), 1,4);
+            list = ExcelUtil.readExcel(excel, new CompanyDB(), 1,2);
         } catch (Exception e) {
 
             e.printStackTrace();
             throw new CompetitiveException("导入失败");
         }
+        Company jc=new Company();
+        BeanUtils.copyProperties(list.get(0),jc);
+
+        if (!(jc.getProposerName().equals("公司名称")&&jc.getLegalRepresentative().equals("法定代表人")&&jc.getPhone().equals("联系电话"))){
+
+            throw new CompetitiveException("导入失败。。。请导入合法的公司资料表");
+        }
+
         list.forEach(o -> {
             Company company=new Company();
             BeanUtils.copyProperties(o,company);
             if (!StringUtils.isEmpty(company.getProposerName())&&!KeyUtil.isNumeric(company.getPhone())){
-                throw new CompetitiveException("导入错误,请导入有数据正确格式的企业信息表");
+               // throw new CompetitiveException("导入错误,请导入有数据正确格式的企业信息表");
+                return;
             }
             if (company.getProposerName()!=null){
                 QueryWrapper<Company> queryWrapper=new QueryWrapper<>();

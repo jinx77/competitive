@@ -24,7 +24,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.awt.image.Kernel;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -94,7 +96,7 @@ public class QualificationServiceImpl extends ServiceImpl<QualificationDao, Qual
         projectsDao.updateById(projects);
         return qualification;
     }
-
+    //删除
     @Override
     public int deleteQualification(String qualificationId) {
        Qualification qualification= qualificationDao.selectById(qualificationId);
@@ -102,14 +104,101 @@ public class QualificationServiceImpl extends ServiceImpl<QualificationDao, Qual
        if (qualification==null){
            throw new CompetitiveException("删除企业发生错误,找不到该企业");
        }
-       informationDao.deleteById(qualification.getInformationId());
-       depositDao.deleteById(qualification.getDepositId());
+        // informationDao.deleteById(qualification.getInformationId());
+        // depositDao.deleteById(qualification.getDepositId());
        int i=  qualificationDao.deleteById(qualificationId);
         return i;
     }
+
     //拉入企业
     @Override
     public int pullQualification(PullForm pullForm) {
+        //查出该项目所有的资格表
+        QueryWrapper<Qualification> qualificationQueryWrapper=new QueryWrapper<>();
+        qualificationQueryWrapper.eq("projects_id",pullForm.getProjectsId());
+        List<Qualification> qualificationList= qualificationDao.selectList(qualificationQueryWrapper);
+        Map<String,Qualification> map=new HashMap<>();
+        qualificationList.forEach(qualification ->
+            map.put(qualification.getQualificationName(),qualification)
+        );
+        pullForm.getList().forEach(integer -> {
+            QueryWrapper<Company> queryWrapper=new QueryWrapper<>();
+            queryWrapper.eq("company_classify_id",integer);
+            List<Company> companyList= companyService.list(queryWrapper);
+            companyList.forEach(company -> {
+                if (company.getProposerName() != null && company.getProposerName() != "") {
+                    company.setProposerName(codeUtil.stringFilter(company.getProposerName()));
+                }
+
+                //资格表
+                Qualification q=new Qualification();
+                q.setQualificationName(company.getProposerName());
+                q.setPhone(company.getPhone());
+                q.setInformationStatus(1);
+                q.setLegalRepresentative(company.getLegalRepresentative());
+                Qualification qualification=  map.get(company.getProposerName());
+                if (qualification==null){
+                    log.info("-----------不存在");
+                    //如果资格表记录不存在
+                    q.setQualificationId(KeyUtil.genUniqueKey());
+                    q.setProjectsId(pullForm.getProjectsId());
+                    q.setDepositStatus(0);
+                    q.setQualificationStatus(0);
+                    q.setWinStatus(0);
+                    q.setCreateTime(new Date());
+                    qualificationDao.insert(q);
+                    map.put(q.getQualificationName(),q);
+                }else {
+                    //如果资格表记录存在
+                    //判断保证金表表
+                   if( qualification.getDepositStatus()==1){
+                       //插入抽选编号
+                       if (qualification.getQualificationNumber()==null) {
+                           q.setQualificationNumber(codeUtil.getCode(pullForm.getProjectsId()));
+                       }else {
+                           //判断有没有变化
+                           if (qualification.getQualificationName().equals(company.getProposerName())
+                                   &&qualification.getPhone().equals(company.getPhone())
+                                   &&qualification.getLegalRepresentative().equals(company.getLegalRepresentative())){
+                               System.out.println("======资格信息表没有变化----------------");
+                               return;
+                           }
+                       }
+                   }
+                    q.setQualificationId(qualification.getQualificationId());
+                    qualificationDao.updateById(q);
+                }
+            });
+        });
+        map.clear();
+        return 1;
+    }
+   /* //拉入企业
+    @Override
+    public int pullQualification(PullForm pullForm) {
+        log.info(pullForm.getProjectsId()+"-----------------");
+
+        //查出该项目所有的公司信息表
+        QueryWrapper<Information> informationQueryWrapper=new QueryWrapper<>();
+        informationQueryWrapper.eq("projects_id",pullForm.getProjectsId());
+        List<Information> informationList= informationDao.selectList(informationQueryWrapper);
+        log.info("---");
+        Map<String,Information> imap=new HashMap<>();
+        informationList.forEach(information -> {
+            imap.put(information.getProposerName(),information);
+        });
+
+        //查出该项目所有的资格表
+        QueryWrapper<Qualification> qualificationQueryWrapper=new QueryWrapper<>();
+        qualificationQueryWrapper.eq("projects_id",pullForm.getProjectsId());
+        List<Qualification> qualificationList= qualificationDao.selectList(qualificationQueryWrapper);
+        Map<String,Qualification> map=new HashMap<>();
+        qualificationList.forEach(qualification -> {
+            map.put(qualification.getQualificationName(),qualification);
+        });
+
+
+
        pullForm.getList().forEach(integer -> {
             QueryWrapper<Company> queryWrapper=new QueryWrapper<>();
           queryWrapper.eq("company_classify_id",integer);
@@ -130,12 +219,9 @@ public class QualificationServiceImpl extends ServiceImpl<QualificationDao, Qual
                 information.setProposerName(company.getProposerName());
                 information.setLegalRepresentative(company.getLegalRepresentative());
                 information.setPhone(company.getPhone());
+                information.setProjectsId(pullForm.getProjectsId());
 
-
-                QueryWrapper<Qualification> qualificationQueryWrapper=new QueryWrapper<>();
-                qualificationQueryWrapper.eq("qualification_name",company.getProposerName()).eq("projects_id",pullForm.getProjectsId());
-              Qualification qualification=  qualificationDao.selectOne(qualificationQueryWrapper);
-
+              Qualification qualification=  map.get(company.getProposerName());
               if (qualification==null){
                   //如果资格表记录不存在
                   q.setQualificationId(KeyUtil.genUniqueKey());
@@ -150,27 +236,36 @@ public class QualificationServiceImpl extends ServiceImpl<QualificationDao, Qual
                   int i= informationDao.insert(information);
               }else {
                   //如果资格表记录存在
-                  //如果入库资料有
-                      QueryWrapper<Information> informationQueryWrapper=new QueryWrapper<>();
-                      informationQueryWrapper.eq("information_id",qualification.getInformationId());
-                      Information information1=  informationDao.selectOne(informationQueryWrapper);
+                  //如果入库资料没有
+                      Information information1=  imap.get(company.getProposerName());
                       if (information1==null){
                           information.setInformationId(informationId);
                           informationDao.insert(information);
+                          imap.put(information.getProposerName(),information);
                           q.setInformationId(informationId);
                       }else {
-                          //如果入库资料没有
+                          //如果入库资料有
                           information.setInformationId(information1.getInformationId());
-                          informationDao.updateById(information);
+
+                          if (!(information1.getProposerName().equals(information.getProposerName())
+                                  &&information1.getPhone().equals(information.getPhone())
+                                  &&information1.getLegalRepresentative().equals(information.getLegalRepresentative()))){
+                              information.setInformationId(information1.getInformationId());
+                              informationDao.updateById(information);
+                              System.out.println("======+++++222222222222+++++----------------");
+                          }
+
                       }
 
                   //判断保证金表表
-                  Deposit deposit= depositDao.selectById(qualification.getDepositId());
-                  if (deposit!=null){
-                      log.info(deposit.getDepositName()+"777777777777777777777777");
+                 // Deposit deposit= depositDao.selectById(qualification.getDepositId());
+                 // if (deposit!=null){
+                  if (qualification.getDepositStatus()==1){
                       q.setQualificationStatus(1);
                       //插入抽选编号
-                      q.setQualificationNumber(codeUtil.getCode(pullForm.getProjectsId()));
+                      if (qualification.getQualificationNumber()==null) {
+                          q.setQualificationNumber(codeUtil.getCode(pullForm.getProjectsId()));
+                      }
                   }
                   q.setQualificationId(qualification.getQualificationId());
                   qualificationDao.updateById(q);
@@ -178,5 +273,5 @@ public class QualificationServiceImpl extends ServiceImpl<QualificationDao, Qual
             });
         });
         return 1;
-    }
+    }*/
 }

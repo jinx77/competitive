@@ -78,21 +78,18 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
             throw new CompetitiveException("初始密码错误");
 
         }
-        BeanUtils.copyProperties(userForm,user);
-        if (!userForm.getUserPassword().equals("")){
+        User u=new User();
+        u.setUserId(user.getUserId());
+        if (!userForm.getUserPassword().equals("")&&userForm.getLogoIcon()!=null){
             String  userPassword=MD5Util.getMD5Sign(user.getUserName(), userForm.getUserPassword());
-            System.out.println(userPassword+"-------------------------");
-            user.setUserPassword(userPassword);
+            u.setUserPassword(userPassword);
         }
         if ((!userForm.getLogoIcon().equals(""))&&userForm.getLogoIcon()!=null){
           String url=  myBase64Utils.UploadImage(userForm.getLogoIcon());
-            System.out.println(user.getLogoIcon()+"----------------------");
-          user.setLogoIcon(url);
+          u.setLogoIcon(url);
         }
-        user.setInitialPassword(null);
-        user.getUserPassword();
-        System.out.println(user.getUserPassword()+"====================");
-        int i= userDao.updateById(user);
+        u.setTitleName(userForm.getTitleName());
+        int i= userDao.updateById(u);
         return i;
 
     }

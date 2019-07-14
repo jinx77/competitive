@@ -58,6 +58,10 @@ package com.xinzuo.competitive.pojo;
             * 保证金额度
             */
     private BigDecimal depositMoney;
+            /**
+            * 竞选项目ID
+            */
+    private String projectsId;
 
 
 }
