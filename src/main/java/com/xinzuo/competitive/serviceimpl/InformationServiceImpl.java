@@ -67,9 +67,9 @@ public class InformationServiceImpl extends ServiceImpl<InformationDao, Informat
         Information jc =new Information();
         BeanUtils.copyProperties(list.get(0),jc);
 
-        if (!(jc.getProposerName().equals("申请人名称")&&jc.getLegalRepresentative().equals("法定代表人")&&jc.getPhone().equals("联系电话"))){
+       /* if (!(jc.getProposerName().equals("申请人名称")&&jc.getLegalRepresentative().equals("法定代表人")&&jc.getPhone().equals("联系电话"))){
             throw new CompetitiveException("导入失败。。。请导入合法的公司资料表");
-        }
+        }*/
         //查出该项目所有的资格表
         QueryWrapper<Qualification> qualificationQueryWrapper=new QueryWrapper<>();
         qualificationQueryWrapper.eq("projects_id",projectsId);
