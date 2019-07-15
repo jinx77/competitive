@@ -113,6 +113,11 @@ public class QualificationServiceImpl extends ServiceImpl<QualificationDao, Qual
     //拉入企业
     @Override
     public int pullQualification(PullForm pullForm) {
+        if (pullForm.getProjectsId().equals("")||pullForm.getProjectsId()==null){
+
+            throw new CompetitiveException("拉入错误,缺少加入项目ID");
+
+        }
         //查出该项目所有的资格表
         QueryWrapper<Qualification> qualificationQueryWrapper=new QueryWrapper<>();
         qualificationQueryWrapper.eq("projects_id",pullForm.getProjectsId());
@@ -157,13 +162,27 @@ public class QualificationServiceImpl extends ServiceImpl<QualificationDao, Qual
                            q.setQualificationNumber(codeUtil.getCode(pullForm.getProjectsId()));
                        }else {
                            //判断有没有变化
+                           if (qualification.getPhone()!=null&&qualification.getLegalRepresentative()!=null) {
+                               if (qualification.getQualificationName().equals(company.getProposerName())
+                                       && qualification.getPhone().equals(company.getPhone())
+                                       && qualification.getLegalRepresentative().equals(company.getLegalRepresentative())) {
+                                   System.out.println("======资格信息表没有变化------------------");
+                                   return;
+                               }
+                           }
+                       }
+                   }
+                   else {
+                       if (qualification.getPhone()!=null&&qualification.getLegalRepresentative()!=null) {
                            if (qualification.getQualificationName().equals(company.getProposerName())
-                                   &&qualification.getPhone().equals(company.getPhone())
-                                   &&qualification.getLegalRepresentative().equals(company.getLegalRepresentative())){
-                               System.out.println("======资格信息表没有变化----------------");
+                                   && qualification.getPhone().equals(company.getPhone())
+                                   && qualification.getLegalRepresentative().equals(company.getLegalRepresentative())) {
+                               System.out.println("=======资格信息表没有变化-----------------");
                                return;
                            }
                        }
+
+
                    }
                     q.setQualificationId(qualification.getQualificationId());
                     qualificationDao.updateById(q);

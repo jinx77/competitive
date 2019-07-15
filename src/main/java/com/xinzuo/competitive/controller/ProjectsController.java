@@ -68,6 +68,7 @@ public class ProjectsController {
     @PostMapping("selectProjectsList")
     public ResultVO selectProjectsList(@RequestBody PageForm pageForm) {
         QueryWrapper<Projects> queryWrapper = new QueryWrapper<>();
+
         if (pageForm.getCondition()!=null&&pageForm.getCondition()!=""){
             log.info("-----"+pageForm.getCondition());
             queryWrapper.like("projects_name",pageForm.getCondition());
@@ -85,7 +86,8 @@ public class ProjectsController {
                     queryWrapper.gt("win_quantity", 0);
                 }    //查询可以竞标项目
                 if (pageForm.getSelectType() == 2) {
-                    queryWrapper.exists("select *from projects where win_quantity<bidding_quantity");
+
+                    //queryWrapper.exists("select *from projects where win_quantity!=bidding_quantity");
                 }
                 //查询未竞标项目
                 if (pageForm.getSelectType() == 3) {

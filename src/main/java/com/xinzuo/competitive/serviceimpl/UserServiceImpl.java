@@ -36,24 +36,28 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
     @Override
     public User userRegister(User user) {
         //密码处理后再比对(解密后比对也行)
-        Map<String, Object> map = new HashMap<>();
-        map.put("user_name", user.getUserName());
+       /* Map<String, Object> map = new HashMap<>();
+        map.put("user_name", user.getUserName());*/
         String pwd = MD5Util.getMD5Sign(user.getUserName(), user.getUserPassword());
-        map.put("user_password", pwd);
+       /* map.put("user_password", pwd);*/
+
+        QueryWrapper<User> userQueryWrapper =new QueryWrapper<>();
+        userQueryWrapper.eq("user_name",user.getUserName());
+        userQueryWrapper.eq("user_password",pwd);
+
         //判断账号和密码
-        List<User> users = userDao.selectByMap(map);
+        User user0 = userDao.selectOne(userQueryWrapper);
         //如果密码错误
-        if (users.size() < 1) {
+        if (user0==null) {
             QueryWrapper<User> queryWrapper=new QueryWrapper<>();
             queryWrapper.eq("user_name",user.getUserName());
             queryWrapper.eq("initial_password",pwd);
-            users = userDao.selectList(queryWrapper);
-            if (users==null){
-                throw new CompetitiveException("用户名或者密码错误!");
-            }
-
+            user0 = userDao.selectOne(queryWrapper);
         }
-        User u = users.get(0);
+        if (user0==null){
+            throw new CompetitiveException("用户名或者密码错误!");
+        }
+        User u = user0;
         //使用加密后的密码生成token
         String token = JwtUtil.sign(user.getUserName(), pwd);
         //密码不回显
