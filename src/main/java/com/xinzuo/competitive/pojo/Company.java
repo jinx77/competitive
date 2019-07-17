@@ -48,6 +48,10 @@ package com.xinzuo.competitive.pojo;
             */
     private String phone;
             /**
+            * 编号
+            */
+    private Integer companyNumber;
+            /**
             * 创建时间
             */
     private Date createTime;

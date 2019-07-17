@@ -7,7 +7,7 @@
     <title>文件上传</title>
 </head>
 <body>
-<form method="post" enctype="multipart/form-data" action="/company/readExcel">
+<form method="post" enctype="multipart/form-data" action="/projects/readExcel">
     <p>文件：<input type="text" name="companyClassifyId"/></p>
     <p>文件：<input type="file" name="excel"/></p>
     <p><input type="submit" value="上传" /></p>

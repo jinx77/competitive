@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -63,6 +64,21 @@ public class ProjectsController {
        }else {
            return ResultUtil.no("操作失败");
        }
+    }
+
+    //导入项目
+    @PostMapping("/readExcel")
+    public ResultVO readExcel(MultipartFile excel){
+
+      int i=  projectsService.readExcel(excel);
+    if (i>0){
+
+        return ResultUtil.ok("导入成功");
+
+    }else {
+
+        return ResultUtil.no("系统繁忙,请稍候在试");
+    }
     }
     //显示所有项目列表
     @PostMapping("selectProjectsList")

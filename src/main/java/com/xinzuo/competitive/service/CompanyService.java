@@ -15,5 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 public interface CompanyService extends IService<Company> {
 
     int readExcel(MultipartFile excel, int companyClassifyId);
+    int companyQuantity(int companyClassifyId);
 
 }

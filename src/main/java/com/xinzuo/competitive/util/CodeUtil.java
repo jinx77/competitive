@@ -1,9 +1,12 @@
 package com.xinzuo.competitive.util;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.xinzuo.competitive.dao.CompanyDao;
 import com.xinzuo.competitive.dao.QualificationDao;
+import com.xinzuo.competitive.pojo.Company;
 import com.xinzuo.competitive.pojo.Qualification;
 import com.xinzuo.competitive.service.CompanyClassifyService;
+import com.xinzuo.competitive.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
@@ -18,7 +21,7 @@ public class CodeUtil {
     @Autowired
     QualificationDao qualificationDao;
     @Autowired
-    CompanyClassifyService companyClassifyService;
+    CompanyDao companyDao;
     public  String getCode(String projectsId){
         String s=null;
         //有竞标资格的时候给一个竞选编号
@@ -59,6 +62,29 @@ public class CodeUtil {
 
         }
         return s;
+    }
+
+    public  Integer getCode0(Integer classifyId){
+        QueryWrapper<Company> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("company_classify_id",classifyId);
+        List<Company> companyList=companyDao.selectList(queryWrapper);
+        List<Integer> codes=new ArrayList<>();
+        companyList.forEach(c -> {
+            if (c.getCompanyNumber()!=null){
+                codes.add(c.getCompanyNumber());
+            }
+        });
+        Collections.sort(codes);
+        codes.forEach(System.out::println);
+        if (codes.size()<1){
+            return 1;
+        }
+        for (int c=0, ic=1;c<codes.size();c++,ic++){
+            if (!codes.get(c).equals(ic)){
+                  return ic;
+            }
+        }
+        return codes.size()+1;
     }
   /*  public static void main(String[] args) {
 

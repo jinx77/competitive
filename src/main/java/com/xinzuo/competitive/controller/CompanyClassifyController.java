@@ -8,14 +8,18 @@ import com.xinzuo.competitive.form.PageForm;
 import com.xinzuo.competitive.pojo.CompanyClassify;
 import com.xinzuo.competitive.pojo.Projects;
 import com.xinzuo.competitive.service.CompanyClassifyService;
+import com.xinzuo.competitive.service.CompanyService;
 import com.xinzuo.competitive.util.ResultUtil;
+import com.xinzuo.competitive.vo.CompanyClassifyVO;
 import com.xinzuo.competitive.vo.PageVO;
 import com.xinzuo.competitive.vo.ResultVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * <p>
@@ -33,6 +37,8 @@ public class CompanyClassifyController {
     CompanyClassifyService companyClassifyService;
     @Autowired
     PageVO pageVO;
+    @Autowired
+    CompanyService companyService;
     //添加类型
     @PostMapping("/addClassify")
     public ResultVO addClassify(@RequestBody CompanyClassify companyClassify) {
@@ -81,7 +87,17 @@ public class CompanyClassifyController {
         PageHelper.startPage(pageForm.getCurrent(), pageForm.getSize());
         List<CompanyClassify> companyClassifyList= companyClassifyService.list(queryWrapper);
         PageInfo<CompanyClassify> pageInfo = new PageInfo<>(companyClassifyList);
+        List<CompanyClassifyVO> companyClassifyVOList=new CopyOnWriteArrayList<>();
+        pageInfo.getList().forEach(companyClassify -> {
+            CompanyClassifyVO companyClassifyVO=new CompanyClassifyVO();
+            BeanUtils.copyProperties(companyClassify,companyClassifyVO);
+            companyClassifyVO.setClassifyQuantity(companyService.companyQuantity(companyClassify.getClassifyId()));
+            companyClassifyVOList.add(companyClassifyVO);
+        });
         PageVO p= pageVO.getPageVO0(pageInfo);
+
+        p.setDataList(companyClassifyVOList);
+
        return ResultUtil.ok("查询成功",p);
 
     }

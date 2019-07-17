@@ -9,6 +9,7 @@ import com.xinzuo.competitive.pojo.Company;
 import com.xinzuo.competitive.dao.CompanyDao;
 import com.xinzuo.competitive.service.CompanyService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xinzuo.competitive.util.CodeUtil;
 import com.xinzuo.competitive.util.KeyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -18,7 +19,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -33,6 +36,8 @@ import java.util.List;
 public class CompanyServiceImpl extends ServiceImpl<CompanyDao, Company> implements CompanyService {
     @Autowired
     CompanyDao companyDao;
+    @Autowired
+    CodeUtil codeUtil;
     @Override
     public int readExcel(MultipartFile excel, int companyClassifyId) {
         log.info(excel.getName()+"-------======================");
@@ -54,6 +59,13 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyDao, Company> impleme
             throw new CompetitiveException("导入失败。。。请导入合法的公司资料表");
         }*/
 
+        QueryWrapper<Company> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("company_classify_id",companyClassifyId);
+        List<Company> companyList= companyDao.selectList(queryWrapper);
+        Map<String,Company> map=new HashMap<>();
+        companyList.forEach(company ->
+            map.put(company.getProposerName(),company)
+        );
         list.forEach(o -> {
             Company company=new Company();
             BeanUtils.copyProperties(o,company);
@@ -62,17 +74,22 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyDao, Company> impleme
                 return;
             }
             if (company.getProposerName()!=null){
-                QueryWrapper<Company> queryWrapper=new QueryWrapper<>();
-                queryWrapper.eq("proposer_name",company.getProposerName());
-                Company c= companyDao.selectOne(queryWrapper);
+
+                Company c= map.get(company.getProposerName());
                 if (c==null){
                     company.setCompanyId(KeyUtil.genUniqueKey());
                     company.setCompanyClassifyId(companyClassifyId);
                     company.setCreateTime(new Date());
+                    company.setCompanyNumber(codeUtil.getCode0(companyClassifyId));
                     companyDao.insert(company);
                 }
             }
         });
         return 1;
+    }
+
+    @Override
+    public int companyQuantity(int companyClassifyId) {
+        return companyDao.companyQuantity(companyClassifyId);
     }
 }

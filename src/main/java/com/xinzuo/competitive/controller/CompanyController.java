@@ -97,12 +97,11 @@ public class CompanyController {
             return  ResultUtil.no("系统出错,操作失败");
         }
     }
-
     //查询
     @PostMapping("/selectCompanyList")
     public ResultVO selectCompanyList(@RequestBody PageForm pageForm) {
         QueryWrapper<Company> queryWrapper=new QueryWrapper<>();
-        queryWrapper.orderByDesc("create_time");
+        queryWrapper.orderByAsc("company_number");
         if (!StringUtils.isEmpty(pageForm.getCondition())){
             queryWrapper.like("proposer_name",pageForm.getCondition());
         }

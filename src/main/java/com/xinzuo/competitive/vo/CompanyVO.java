@@ -52,6 +52,11 @@ import java.util.Date;
             * 电话
             */
     private String phone;
+
+            /**
+            * 编号
+            */
+    private Integer companyNumber;
             /**
             * 创建时间
             */

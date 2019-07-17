@@ -5,6 +5,7 @@ import com.xinzuo.competitive.form.PageForm;
 import com.xinzuo.competitive.form.PullForm;
 import com.xinzuo.competitive.pojo.Qualification;
 import com.xinzuo.competitive.service.QualificationService;
+import com.xinzuo.competitive.util.CodeUtil;
 import com.xinzuo.competitive.util.ResultUtil;
 import com.xinzuo.competitive.vo.PageVO;
 import com.xinzuo.competitive.vo.ResultVO;
@@ -29,6 +30,8 @@ import java.util.List;
 public class QualificationController {
     @Autowired
     QualificationService qualificationService;
+    @Autowired
+    CodeUtil codeUtil;
 
     //查询参与公司
     @PostMapping("/selectQualificationList")
@@ -45,6 +48,18 @@ public class QualificationController {
         return ResultUtil.no("系统繁忙,请稍后再试");
     }
 
+    //批量删除参与公司
+    @PostMapping("/deleteQualificationList")
+    public ResultVO deleteQualificationList(@RequestBody List<String> list){
+
+       Boolean b= qualificationService.removeByIds(list);
+
+        if (b){
+            return ResultUtil.ok("删除成功");
+        }
+        return ResultUtil.no("系统繁忙,请稍后再试");
+    }
+
     //拉取公司类型企业
     @PostMapping("/pullQualification")
     public ResultVO pullQualification(@RequestBody PullForm pullForm){
@@ -57,6 +72,30 @@ public class QualificationController {
 
            return ResultUtil.ok("系统错误");
        }
+    }
+
+    //添加抽选
+    @PostMapping("/addQualification")
+    public ResultVO addQualification(@RequestBody Qualification qualification){
+
+        if (qualification.getQualificationId()==null){
+            return ResultUtil.no("系统繁忙 请稍候再试");
+        }
+       Qualification q= qualificationService.getById(qualification.getQualificationId());
+        if (q==null){
+            return ResultUtil.no("系统繁忙 请稍候再试");
+
+        }
+        q.setDepositStatus(1);
+        q.setInformationStatus(1);
+        q.setQualificationStatus(1);
+        q.setQualificationNumber(codeUtil.getCode(q.getProjectsId()));
+       Boolean b= qualificationService.updateById(q);
+       if (b){
+           return ResultUtil.ok("操作成功");
+
+       }
+        return ResultUtil.no("系统繁忙 请稍候再试");
     }
 
     //抽奖
