@@ -34,10 +34,8 @@ public class JwtUtil {
                     .build();
             //效验TOKEN
             DecodedJWT jwt = verifier.verify(token);
-            System.out.println("效验成功----");
             return true;
         } catch (Exception exception) {
-            System.out.println("效验失败000");
             return false;
         }
     }

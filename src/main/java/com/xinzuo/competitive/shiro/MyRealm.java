@@ -66,7 +66,7 @@ public class MyRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken auth) throws AuthenticationException {
         String token = (String) auth.getCredentials();
-        try {
+        /*try {*/
             String username = JwtUtil.getUsername(token);
             log.info("jwt验证用户名非空" + username);
             if (username == null) {
@@ -84,12 +84,16 @@ public class MyRealm extends AuthorizingRealm {
                 if (!JwtUtil.verify(token, username, userBean.getInitialPassword())) {
                     throw new AuthenticationException("验证失败");
                 }
+            }else {
+                log.info("验证成功");
+                return new SimpleAuthenticationInfo(token, token, "my_realm");
             }
-            log.info("验证成功");
-            return new SimpleAuthenticationInfo(token, token, "my_realm");
-        } catch (Exception e) {
+
+        /*} catch (Exception e) {
             e.printStackTrace();
-        }
+            log.info("-------------------");
+            throw new AuthenticationException(e.getMessage());
+        }*/
         return new SimpleAuthenticationInfo(token, token, "my_realm");
     }
 

@@ -56,5 +56,5 @@ import java.math.BigDecimal;
             * 保证金额度
             */
             @ExcelProperty(index = 6)
-    private BigDecimal depositMoney;
+    private String depositMoney;
 }

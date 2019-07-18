@@ -54,10 +54,9 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyDao, Company> impleme
         Company jc=new Company();
         BeanUtils.copyProperties(list.get(0),jc);
 
-      /*  if (!(jc.getProposerName().equals("公司名称")&&jc.getLegalRepresentative().equals("法定代表人")&&jc.getPhone().equals("联系电话"))){
-
+        if (!(jc.getLegalRepresentative().equals("法定代表人")&&jc.getPhone().equals("联系电话"))){
             throw new CompetitiveException("导入失败。。。请导入合法的公司资料表");
-        }*/
+        }
 
         QueryWrapper<Company> queryWrapper=new QueryWrapper<>();
         queryWrapper.eq("company_classify_id",companyClassifyId);
@@ -82,9 +81,11 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyDao, Company> impleme
                     company.setCreateTime(new Date());
                     company.setCompanyNumber(codeUtil.getCode0(companyClassifyId));
                     companyDao.insert(company);
+                    map.put(company.getProposerName(),company);
                 }
             }
         });
+        map.clear();
         return 1;
     }
 

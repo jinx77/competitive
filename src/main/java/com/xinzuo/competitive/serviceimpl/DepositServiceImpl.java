@@ -60,7 +60,7 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
         List<Object> list = null;
 
         try {
-            list = ExcelUtil.readExcel(excel, new DepositDB(),1,1);
+            list = ExcelUtil.readExcel(excel, new DepositDB(),1,0);
         } catch (Exception e) {
 
             e.printStackTrace();
@@ -70,11 +70,15 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
         BeanUtils.copyProperties(list.get(0),jc);
 
 
-      /*  if (!(jc.getDepositName().equals("来款户名")&&jc.getDepositAccount().equals("来款账号"))){
+        if (jc.getDepositName()==null||jc.getDepositAccount()==null){
+            throw new CompetitiveException("导入失败。。。请导入合法的保证金表");
+
+        }
+        if (!(jc.getDepositName().equals("来款户名")&&jc.getDepositAccount().equals("来款账号"))){
 
             throw new CompetitiveException("导入失败。。。请导入合法的保证金表");
 
-        }*/
+        }
 
         //查出该项目所有的资格表
         Map<String,Qualification> map=new HashMap<>();
@@ -98,6 +102,11 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
                 //throw new CompetitiveException("导入错误,请导入有数据的保证金表");
                 continue;
             }
+            if (deposit.getDepositName().equals("来款户名")){
+                //throw new CompetitiveException("导入错误,请导入有数据的保证金表");
+                continue;
+            }
+
             //资格信息
             Qualification q=new Qualification();
             q.setQualificationId(KeyUtil.genUniqueKey());
