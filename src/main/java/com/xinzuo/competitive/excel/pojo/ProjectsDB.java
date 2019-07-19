@@ -28,15 +28,15 @@ import java.math.BigDecimal;
             */
             @ExcelProperty(index = 2)
     private String developmentOrganization;
-
-            /**
-            * 需中选(家)
-            */
-            @ExcelProperty(index = 3)
-    private Integer biddingQuantity;
             /**
             * 发包价格
             */
-            @ExcelProperty(index = 4)
+            @ExcelProperty(index = 3)
     private BigDecimal outsourcingPrice;
+            /**
+            * 需中选(家)
+            */
+            @ExcelProperty(index = 4)
+    private Integer biddingQuantity;
+
 }
