@@ -27,9 +27,9 @@ public class CompanyClassifyServiceImpl extends ServiceImpl<CompanyClassifyDao, 
     CompanyClassifyDao companyClassifyDao;
     @Override
     @Transactional
+    //删除分类 并重新排序
     public int deleteClassify(int companyClassifyId) {
       int c=  companyClassifyDao.deleteById(companyClassifyId);
-
         List<CompanyClassify> companyClassifyList= list();
         List<Integer> codes=new ArrayList<>();
         companyClassifyList.forEach(companyClassify -> codes.add(companyClassify.getClassifySort()));

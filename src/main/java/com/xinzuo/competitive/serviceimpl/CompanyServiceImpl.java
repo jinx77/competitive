@@ -38,6 +38,7 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyDao, Company> impleme
     CompanyDao companyDao;
     @Autowired
     CodeUtil codeUtil;
+    //导入公司企业
     @Override
     public int readExcel(MultipartFile excel, int companyClassifyId) {
         log.info(excel.getName()+"-------======================");

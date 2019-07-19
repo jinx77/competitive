@@ -51,7 +51,7 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
     @Autowired
     CodeUtil codeUtil;
 
-    //导入Excel表
+    //导入Excel保证金表
     @Transactional
     public int readExcel(MultipartFile excel, String projectsId){
         int i=0;
@@ -115,7 +115,6 @@ public class DepositServiceImpl extends ServiceImpl<DepositDao, Deposit> impleme
             Qualification qualification= map.get(deposit.getDepositName());
             //资格记录不存在时插入保证金表和资格表
             if (qualification==null){
-
                 q.setDepositStatus(1);
                 q.setQualificationStatus(0);
                 q.setInformationStatus(0);
