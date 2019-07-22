@@ -14,6 +14,7 @@ import com.xinzuo.competitive.vo.WinVO0;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -84,7 +85,6 @@ public class QualificationController {
        Qualification q= qualificationService.getById(qualification.getQualificationId());
         if (q==null){
             return ResultUtil.no("系统繁忙 请稍候再试");
-
         }
         q.setDepositStatus(1);
         q.setInformationStatus(1);
@@ -96,6 +96,32 @@ public class QualificationController {
 
        }
         return ResultUtil.no("系统繁忙 请稍候再试");
+    }
+
+    //批量添加抽选资格
+    @PostMapping("/addQualificationList")
+    public ResultVO addQualificationList(@RequestBody List<String> stringList){
+
+        if (stringList.size()<1){
+            return ResultUtil.no("请勾选需要添加的企业");
+        }
+        Qualification q= qualificationService.getById(stringList.get(0));
+        if (q==null){
+            return ResultUtil.no("系统繁忙 请稍候再试");
+
+        }
+
+        stringList.forEach(s -> {
+            Qualification qualification=new Qualification();
+            qualification.setQualificationId(s);
+            qualification.setDepositStatus(1);
+            qualification.setInformationStatus(1);
+            qualification.setQualificationStatus(1);
+            qualification.setQualificationNumber(codeUtil.getCode(q.getProjectsId()));
+            qualificationService.updateById(qualification);
+
+        });
+            return ResultUtil.ok("操作成功");
     }
 
     //抽奖
