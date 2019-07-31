@@ -42,6 +42,10 @@ import java.io.Serializable;
             * 数量
             */
     private Integer classifyQuantity;
+            /**
+            * 0 1选中
+            */
+    private Integer selectIf;
 
 
 }

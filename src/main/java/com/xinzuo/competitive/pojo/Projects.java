@@ -67,6 +67,9 @@ package com.xinzuo.competitive.pojo;
             * 创建时间
             */
     private Date createTime;
-
+            /**
+            * 创建时间
+            */
+    private String companyClassifyList="";
 
 }

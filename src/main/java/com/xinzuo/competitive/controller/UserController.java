@@ -64,7 +64,6 @@ public class UserController {
     @PostMapping("/selectUser")
     public ResultVO selectUser(@RequestBody UserForm userForm) {
        User user= userService.getById(userForm.getUserId());
-
        if (user!=null){
            UserVO userVO=new UserVO();
            BeanUtils.copyProperties(user,userVO);
@@ -73,6 +72,14 @@ public class UserController {
        }else {
            return ResultUtil.no("系统繁忙,请稍后再试");
        }
+    }
+
+    //身份过期验证
+    @PostMapping("/verify")
+    public ResultVO verify() {
+
+            return ResultUtil.ok("ok");
+
     }
 
     //显示logo

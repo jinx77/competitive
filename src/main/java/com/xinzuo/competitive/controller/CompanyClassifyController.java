@@ -9,6 +9,7 @@ import com.xinzuo.competitive.pojo.CompanyClassify;
 import com.xinzuo.competitive.pojo.Projects;
 import com.xinzuo.competitive.service.CompanyClassifyService;
 import com.xinzuo.competitive.service.CompanyService;
+import com.xinzuo.competitive.service.ProjectsService;
 import com.xinzuo.competitive.util.ResultUtil;
 import com.xinzuo.competitive.vo.CompanyClassifyVO;
 import com.xinzuo.competitive.vo.PageVO;
@@ -39,6 +40,8 @@ public class CompanyClassifyController {
     PageVO pageVO;
     @Autowired
     CompanyService companyService;
+    @Autowired
+    ProjectsService projectsService;
     //添加类型
     @PostMapping("/addClassify")
     public ResultVO addClassify(@RequestBody CompanyClassify companyClassify) {
@@ -95,10 +98,45 @@ public class CompanyClassifyController {
             companyClassifyVOList.add(companyClassifyVO);
         });
         PageVO p= pageVO.getPageVO0(pageInfo);
+        if (pageForm.getProjectsId()!=null&&!pageForm.getProjectsId().equals("")){
+            Projects projects=projectsService.getById(pageForm.getProjectsId());
+            String s=projects.getCompanyClassifyList();
 
+            //if (s!=null&&!s.equals("")) {
+                String[] strings = s.split(",");
+            //}
+                for (CompanyClassifyVO companyClassifyVO : companyClassifyVOList) {
+                    for (String s1 : strings) {
+                        if (companyClassifyVO.getClassifyId().toString().equals(s1)) {
+                            companyClassifyVO.setSelectIf(1);
+                            break;
+                        } else {
+                            companyClassifyVO.setSelectIf(0);
+                        }
+                    }
+                }
+
+        }
         p.setDataList(companyClassifyVOList);
 
        return ResultUtil.ok("查询成功",p);
 
     }
+
+
+  /*  //查询
+    @PostMapping("/selectClassifyS")
+    public ResultVO selectClassifyList(@RequestBody PageForm pageForm) {
+
+        Projects projects=projectsService.getById(pageForm.getProjectsId());
+
+        String s=projects.getCompanyClassifyList();
+        QueryWrapper<CompanyClassify> queryWrapper=new QueryWrapper<>();
+        queryWrapper.orderByAsc("classify_sort");
+
+
+
+
+    }*/
+
 }

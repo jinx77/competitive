@@ -23,10 +23,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.awt.image.Kernel;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
 
 /**
  * <p>
@@ -114,10 +112,23 @@ public class QualificationServiceImpl extends ServiceImpl<QualificationDao, Qual
     @Override
     public int pullQualification(PullForm pullForm) {
         if (pullForm.getProjectsId().equals("")||pullForm.getProjectsId()==null){
-
             throw new CompetitiveException("拉入错误,缺少加入项目ID");
-
         }
+          if (pullForm.getList().size()>0){
+              Projects p=new  Projects();
+              p.setProjectsId(pullForm.getProjectsId());
+              StringBuffer s=new StringBuffer();
+              for (Integer integer:pullForm.getList()){
+                  s.append(integer.toString()+",");
+              }
+              p.setCompanyClassifyList(s.toString());
+              projectsDao.updateById(p);
+          }else {
+              Projects p=new  Projects();
+              p.setProjectsId(pullForm.getProjectsId());
+              p.setCompanyClassifyList("");
+              projectsDao.updateById(p);
+          }
         //查出该项目所有的资格表
         QueryWrapper<Qualification> qualificationQueryWrapper=new QueryWrapper<>();
         qualificationQueryWrapper.eq("projects_id",pullForm.getProjectsId());
@@ -134,7 +145,6 @@ public class QualificationServiceImpl extends ServiceImpl<QualificationDao, Qual
                 if (company.getProposerName() != null && company.getProposerName() != "") {
                     company.setProposerName(codeUtil.stringFilter(company.getProposerName()));
                 }
-
                 //资格表
                 Qualification q=new Qualification();
                 q.setQualificationName(company.getProposerName());
@@ -181,8 +191,6 @@ public class QualificationServiceImpl extends ServiceImpl<QualificationDao, Qual
                                return;
                            }
                        }
-
-
                    }
                     q.setQualificationId(qualification.getQualificationId());
                     qualificationDao.updateById(q);

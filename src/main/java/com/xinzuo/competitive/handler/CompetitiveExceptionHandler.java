@@ -34,10 +34,10 @@ public class CompetitiveExceptionHandler {
         return ResultUtil.no(e.getMessage());
     }*/
     //拦截系统异常
-    @ExceptionHandler(value = Exception.class)
+   /* @ExceptionHandler(value = Exception.class)
     @ResponseBody
     public ResultVO handlerException(Exception e) {
         log.error("系统异常-->"+e.getMessage());
         return ResultUtil.no("系统异常");
-    }
+    }*/
 }
