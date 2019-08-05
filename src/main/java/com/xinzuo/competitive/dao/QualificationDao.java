@@ -21,7 +21,7 @@ public interface QualificationDao extends BaseMapper<Qualification> {
     List<Qualification> selectQualificationList(PageForm pageForm);
 
     //统计总参与公司数量
-    @Select("select count(*) from qualification where projects_id=#{projectsId}")
+    @Select("select count(*) from qualification where projects_id=#{projectsId} and deposit_status=1")
     int selectQualificationa(String projectsId);
 
     //统计实际参与公司数量

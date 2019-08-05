@@ -46,7 +46,7 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyDao, Company> impleme
         List<Object> list = null;
 
         try {
-            list = ExcelUtil.readExcel(excel, new CompanyDB(), 1,2);
+            list = ExcelUtil.readExcel(excel, new CompanyDB(), 1,1);
         } catch (Exception e) {
 
             e.printStackTrace();
@@ -55,9 +55,9 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyDao, Company> impleme
         Company jc=new Company();
         BeanUtils.copyProperties(list.get(0),jc);
 
-        if (!jc.getLegalRepresentative().equals("法定代表人")){
+       /* if (!jc.getLegalRepresentative().equals("法定代表人")){
             throw new CompetitiveException("导入失败。。。请导入合法的公司资料表");
-        }
+        }*/
 
         QueryWrapper<Company> queryWrapper=new QueryWrapper<>();
         queryWrapper.eq("company_classify_id",companyClassifyId);
@@ -69,10 +69,19 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyDao, Company> impleme
         list.forEach(o -> {
             Company company=new Company();
             BeanUtils.copyProperties(o,company);
-            if (!StringUtils.isEmpty(company.getProposerName())&&!StringUtils.isEmpty(company.getPhone())){
+            /*if (!StringUtils.isEmpty(company.getProposerName())&&!StringUtils.isEmpty(company.getPhone())){
                // throw new CompetitiveException("导入错误,请导入有数据正确格式的企业信息表");
                 return;
+            }*/
+          /*  if(company.getProposerName()==null||company.getProposerName().equals("")||company.getPhone()==null||company.getPhone().equals("")){
+                // throw new CompetitiveException("导入错误,请导入有数据正确格式的保证金表");
+                return;
+            }*/
+            if(company.getProposerName().equals("申请人名称")){
+                // throw new CompetitiveException("导入错误,请导入有数据正确格式的保证金表");
+                return;
             }
+
             if (company.getProposerName()!=null){
 
                 Company c= map.get(company.getProposerName());

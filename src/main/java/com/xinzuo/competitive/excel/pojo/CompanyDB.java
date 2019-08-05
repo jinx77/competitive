@@ -22,19 +22,19 @@ import java.io.Serializable;
             /**
             * 公司名称
             */
-    @ExcelProperty(index = 1)
+    @ExcelProperty(index = 0)
     private String proposerName;
 
             /**
             * 法定代表人
             */
-    @ExcelProperty(index = 2)
+    @ExcelProperty(index = 1)
     private String legalRepresentative;
 
             /**
             * 电话
             */
-    @ExcelProperty(index = 3)
+    @ExcelProperty(index = 2)
     private String phone;
 
 

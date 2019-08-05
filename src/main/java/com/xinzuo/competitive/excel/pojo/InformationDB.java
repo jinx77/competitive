@@ -17,23 +17,27 @@ import java.io.Serializable;
     public class InformationDB extends BaseRowModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+   /*         *//**
+            * 序号
+            *//*
+    @ExcelProperty(index = 1)
+    private String proposerName;*/
             /**
             * 申请人名称
             */
-            @ExcelProperty(index = 1)
+            @ExcelProperty(index = 0)
     private String proposerName;
 
             /**
             * 法定代表人
             */
-            @ExcelProperty(index = 2)
+            @ExcelProperty(index = 1)
     private String legalRepresentative;
 
             /**
             * 联系电话
             */
-            @ExcelProperty(index = 3)
+            @ExcelProperty(index = 2)
     private String phone;
 
 
