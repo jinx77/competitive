@@ -3,36 +3,42 @@ package com.xinzuo.competitive.excel.pojo;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.metadata.BaseRowModel;
 import lombok.Data;
+
 import java.io.Serializable;
 
 /**
-* <p>
-    * 承包商信息库表
-    * </p>
-*
-* @author jc
-* @since 2019-06-22
-*/
+ * <p>
+ * 企业信息表
+ * </p>
+ *
+ * @author jc
+ * @since 2019-07-09
+ */
     @Data
-    public class InformationDB extends BaseRowModel implements Serializable {
+    public class CompanyDB1 extends BaseRowModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
             /**
-            * 申请人名称
+            * 序号
             */
-            @ExcelProperty(index = 0)
+    @ExcelProperty(index = 0)
+    private String number;
+            /**
+            * 公司名称
+            */
+    @ExcelProperty(index = 1)
     private String proposerName;
 
             /**
             * 法定代表人
             */
-            @ExcelProperty(index = 1)
+    @ExcelProperty(index = 2)
     private String legalRepresentative;
 
             /**
-            * 联系电话
+            * 电话
             */
-            @ExcelProperty(index = 2)
+    @ExcelProperty(index = 3)
     private String phone;
 
 

@@ -3,10 +3,13 @@ package com.xinzuo.competitive.serviceimpl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xinzuo.competitive.excel.ExcelUtil;
 import com.xinzuo.competitive.excel.pojo.CompanyDB;
+import com.xinzuo.competitive.excel.pojo.CompanyDB1;
 import com.xinzuo.competitive.excel.pojo.InformationDB;
+import com.xinzuo.competitive.excel.pojo.InformationDB1;
 import com.xinzuo.competitive.exception.CompetitiveException;
 import com.xinzuo.competitive.pojo.Company;
 import com.xinzuo.competitive.dao.CompanyDao;
+import com.xinzuo.competitive.pojo.Information;
 import com.xinzuo.competitive.service.CompanyService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xinzuo.competitive.util.CodeUtil;
@@ -46,18 +49,27 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyDao, Company> impleme
         List<Object> list = null;
 
         try {
-            list = ExcelUtil.readExcel(excel, new CompanyDB(), 1,1);
+            list = ExcelUtil.readExcel(excel, new CompanyDB(), 1,0);
         } catch (Exception e) {
 
             e.printStackTrace();
             throw new CompetitiveException("导入失败");
         }
-        Company jc=new Company();
-        BeanUtils.copyProperties(list.get(0),jc);
 
-       /* if (!jc.getLegalRepresentative().equals("法定代表人")){
-            throw new CompetitiveException("导入失败。。。请导入合法的公司资料表");
-        }*/
+        Company jc =new Company();
+        BeanUtils.copyProperties(list.get(0),jc);
+        if (jc.getProposerName().equals("序号")){
+            try {
+                list = ExcelUtil.readExcel(excel, new CompanyDB1(), 1,0);
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new CompetitiveException("导入失败");
+            }
+            BeanUtils.copyProperties(list.get(0),jc);
+        }
+        if (!jc.getProposerName().equals("申请人名称")){
+            throw new CompetitiveException("请导入正确的信息表");
+        }
 
         QueryWrapper<Company> queryWrapper=new QueryWrapper<>();
         queryWrapper.eq("company_classify_id",companyClassifyId);
@@ -69,14 +81,6 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyDao, Company> impleme
         list.forEach(o -> {
             Company company=new Company();
             BeanUtils.copyProperties(o,company);
-            /*if (!StringUtils.isEmpty(company.getProposerName())&&!StringUtils.isEmpty(company.getPhone())){
-               // throw new CompetitiveException("导入错误,请导入有数据正确格式的企业信息表");
-                return;
-            }*/
-          /*  if(company.getProposerName()==null||company.getProposerName().equals("")||company.getPhone()==null||company.getPhone().equals("")){
-                // throw new CompetitiveException("导入错误,请导入有数据正确格式的保证金表");
-                return;
-            }*/
             if(company.getProposerName().equals("申请人名称")){
                 // throw new CompetitiveException("导入错误,请导入有数据正确格式的保证金表");
                 return;

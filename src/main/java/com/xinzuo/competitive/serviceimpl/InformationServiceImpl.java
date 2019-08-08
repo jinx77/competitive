@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xinzuo.competitive.dao.*;
 import com.xinzuo.competitive.excel.ExcelUtil;
 import com.xinzuo.competitive.excel.pojo.InformationDB;
+import com.xinzuo.competitive.excel.pojo.InformationDB1;
 import com.xinzuo.competitive.exception.CompetitiveException;
 import com.xinzuo.competitive.pojo.Information;
 import com.xinzuo.competitive.pojo.Qualification;
@@ -57,7 +58,7 @@ public class InformationServiceImpl extends ServiceImpl<InformationDao, Informat
         List<Object> list = null;
 
         try {
-            list = ExcelUtil.readExcel(excel, new InformationDB(), 1,1);
+            list = ExcelUtil.readExcel(excel, new InformationDB(), 1,0);
         } catch (Exception e) {
 
             e.printStackTrace();
@@ -66,11 +67,19 @@ public class InformationServiceImpl extends ServiceImpl<InformationDao, Informat
 
         Information jc =new Information();
         BeanUtils.copyProperties(list.get(0),jc);
+        if (jc.getProposerName().equals("序号")){
+            try {
+                list = ExcelUtil.readExcel(excel, new InformationDB1(), 1,0);
+            } catch (Exception e) {
 
-      /*  if (!jc.getLegalRepresentative().equals("法定代表人")){
-            throw new CompetitiveException("导入失败。。。请导入合法的公司资料表");
-        }*/
-
+                e.printStackTrace();
+                throw new CompetitiveException("导入失败");
+            }
+            BeanUtils.copyProperties(list.get(0),jc);
+        }
+        if (!jc.getProposerName().equals("申请人名称")){
+            throw new CompetitiveException("请导入正确的信息表");
+        }
         //查出该项目所有的资格表
         QueryWrapper<Qualification> qualificationQueryWrapper=new QueryWrapper<>();
         qualificationQueryWrapper.eq("projects_id",projectsId);
