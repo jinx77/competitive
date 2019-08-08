@@ -169,6 +169,7 @@ public class QualificationServiceImpl extends ServiceImpl<QualificationDao, Qual
                    if( qualification.getDepositStatus()==1){
                        //插入抽选编号
                        if (qualification.getQualificationNumber()==null) {
+                           q.setQualificationStatus(1);
                            q.setQualificationNumber(codeUtil.getCode(pullForm.getProjectsId()));
                        }else {
                            //判断有没有变化
