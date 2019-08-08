@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xinzuo.competitive.form.PageForm;
+import com.xinzuo.competitive.pojo.Company;
 import com.xinzuo.competitive.pojo.CompanyClassify;
 import com.xinzuo.competitive.pojo.Projects;
 import com.xinzuo.competitive.service.CompanyClassifyService;
@@ -69,6 +70,9 @@ public class CompanyClassifyController {
     @PostMapping("/deleteClassify")
     public ResultVO deleteClassify(@RequestBody CompanyClassify companyClassify) {
         int  i= companyClassifyService.deleteClassify(companyClassify.getClassifyId());
+        QueryWrapper<Company> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("company_classify_id",companyClassify.getClassifyId());
+        companyService.remove(queryWrapper);
         if (i>0){
             return  ResultUtil.ok("删除成功");
         }else {
@@ -115,7 +119,6 @@ public class CompanyClassifyController {
                         }
                     }
                 }
-
         }
         p.setDataList(companyClassifyVOList);
 
@@ -127,16 +130,10 @@ public class CompanyClassifyController {
   /*  //查询
     @PostMapping("/selectClassifyS")
     public ResultVO selectClassifyList(@RequestBody PageForm pageForm) {
-
         Projects projects=projectsService.getById(pageForm.getProjectsId());
-
         String s=projects.getCompanyClassifyList();
         QueryWrapper<CompanyClassify> queryWrapper=new QueryWrapper<>();
         queryWrapper.orderByAsc("classify_sort");
-
-
-
-
     }*/
 
 }
