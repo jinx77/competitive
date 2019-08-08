@@ -9,6 +9,7 @@ import com.xinzuo.competitive.pojo.Company;
 import com.xinzuo.competitive.pojo.CompanyClassify;
 import com.xinzuo.competitive.service.CompanyClassifyService;
 import com.xinzuo.competitive.service.CompanyService;
+import com.xinzuo.competitive.util.CodeUtil;
 import com.xinzuo.competitive.util.KeyUtil;
 import com.xinzuo.competitive.util.ResultUtil;
 import com.xinzuo.competitive.vo.CompanyVO;
@@ -44,6 +45,8 @@ public class CompanyController {
     CompanyClassifyService companyClassifyService;
     @Autowired
     PageVO pageVO;
+    @Autowired
+    CodeUtil codeUtil;
     //手动添加企业
     @PostMapping("/addCompany")
     public ResultVO addCompany(@RequestBody Company company) {
@@ -51,10 +54,11 @@ public class CompanyController {
        company.setCreateTime(new Date());
         QueryWrapper<Company> queryWrapper=new QueryWrapper<>();
         queryWrapper.eq("proposer_name",company.getProposerName());
+        queryWrapper.eq("company_classify_id",company.getCompanyClassifyId());
         if ( companyService.getOne(queryWrapper)!=null){
             return  ResultUtil.no("该公司已存在");
         }
-
+        company.setCompanyNumber(codeUtil.getCode0(company.getCompanyClassifyId()));
         Boolean b= companyService.save(company);
         if (b){
             return  ResultUtil.ok("添加成功");
