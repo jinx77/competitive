@@ -10,7 +10,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import java.util.Date;
 
 /**
- * @author Mr.Li
+ * @author jc
  * @create 2018-07-12 14:23
  * @desc JWT工具类
  **/
