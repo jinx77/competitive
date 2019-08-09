@@ -1,8 +1,10 @@
 package com.xinzuo.competitive.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xinzuo.competitive.form.PageForm;
 import com.xinzuo.competitive.form.PullForm;
+import com.xinzuo.competitive.pojo.Projects;
 import com.xinzuo.competitive.pojo.Qualification;
 import com.xinzuo.competitive.service.QualificationService;
 import com.xinzuo.competitive.util.CodeUtil;
@@ -61,6 +63,40 @@ public class QualificationController {
         return ResultUtil.no("系统繁忙,请稍后再试");
     }
 
+    //删除全部参与公司
+    @PostMapping("/deleteQualifications")
+    public ResultVO deleteQualifications(@RequestBody Projects projects){
+        QueryWrapper<Qualification> qualificationQueryWrapper=new QueryWrapper<>();
+        qualificationQueryWrapper.eq("projects_id",projects.getProjectsId());
+        Boolean b= qualificationService.remove(qualificationQueryWrapper);
+        if (b){
+            return ResultUtil.ok("删除成功");
+        }
+        return ResultUtil.no("系统繁忙,请稍后再试");
+    }
+
+    //全部添加抽选资格
+    @PostMapping("/addQualifications")
+    public ResultVO addQualifications(@RequestBody Projects projects){
+        QueryWrapper<Qualification> qualificationQueryWrapper=new QueryWrapper<>();
+        qualificationQueryWrapper.eq("projects_id",projects.getProjectsId());
+       List<Qualification> qualificationList= qualificationService.list(qualificationQueryWrapper);
+        qualificationList.forEach(q -> {
+            if (q.getQualificationStatus()!=1){
+                Qualification qualification=new Qualification();
+                qualification.setQualificationId(q.getQualificationId());
+                qualification.setDepositStatus(1);
+                qualification.setInformationStatus(1);
+                qualification.setQualificationStatus(1);
+                qualification.setQualificationNumber(codeUtil.getCode(q.getProjectsId()));
+                qualificationService.updateById(qualification);
+            }
+        });
+        return ResultUtil.ok("操作成功");
+    }
+
+
+
     //拉取公司类型企业
     @PostMapping("/pullQualification")
     public ResultVO pullQualification(@RequestBody PullForm pullForm){
@@ -93,7 +129,6 @@ public class QualificationController {
        Boolean b= qualificationService.updateById(q);
        if (b){
            return ResultUtil.ok("操作成功");
-
        }
         return ResultUtil.no("系统繁忙 请稍候再试");
     }
@@ -101,16 +136,13 @@ public class QualificationController {
     //批量添加抽选资格
     @PostMapping("/addQualificationList")
     public ResultVO addQualificationList(@RequestBody List<String> stringList){
-
         if (stringList.size()<1){
             return ResultUtil.no("请勾选需要添加的企业");
         }
         Qualification q= qualificationService.getById(stringList.get(0));
         if (q==null){
             return ResultUtil.no("系统繁忙 请稍候再试");
-
         }
-
         stringList.forEach(s -> {
             Qualification qualification=new Qualification();
             qualification.setQualificationId(s);
