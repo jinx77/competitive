@@ -122,6 +122,9 @@ public class QualificationController {
         if (q==null){
             return ResultUtil.no("系统繁忙 请稍候再试");
         }
+        if (q.getQualificationStatus()==1){
+            return ResultUtil.ok("操作成功");
+        }
         q.setDepositStatus(1);
         q.setInformationStatus(1);
         q.setQualificationStatus(1);
@@ -139,11 +142,15 @@ public class QualificationController {
         if (stringList.size()<1){
             return ResultUtil.no("请勾选需要添加的企业");
         }
-        Qualification q= qualificationService.getById(stringList.get(0));
+      /*  Qualification q= qualificationService.getById(stringList.get(0));
         if (q==null){
             return ResultUtil.no("系统繁忙 请稍候再试");
-        }
+        }*/
         stringList.forEach(s -> {
+            Qualification q= qualificationService.getById(s);
+            if (q==null||q.getQualificationStatus()==1){
+                return;
+            }
             Qualification qualification=new Qualification();
             qualification.setQualificationId(s);
             qualification.setDepositStatus(1);
