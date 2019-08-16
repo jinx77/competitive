@@ -4,22 +4,16 @@ spring:
 #    username: root
 #    password: root
 #    url: jdbc:mysql://localhost:3306/competitive?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false&allowMultiQueries=true
+
     driver-class-name: com.mysql.jdbc.Driver
-    username: jc
-    password: root
-    url: jdbc:mysql://49.4.4.105:3306/competitive?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false&allowMultiQueries=true
+    username: ENC(MOV4j0ueFiJQnZvtC2Anug==)
+    password: ENC(r8crKpvi9oAx7xS5wpxgz1hSRQH6lU1+)
+    url: ENC(G6Cj2PFA7nY0nHwSBHwnnI/4Wdgpq8/KJk9pF4hagsLrXihBvEuXe9HKYad04N/DY0Vu2Cy0dToPPlciRsr84ZatAgMAcmbGRM632F9SjCjxKnjc9xrugLBxOb/smQByScvThf5z+siX0LpZtPiIsz92VC3v9ZIhvQzPBlEMHADbVb46kKLJ4n4Q7FskaVmQrkiQxdu4Iw0=)
+#    driver-class-name: com.mysql.jdbc.Driver
+#    username: jc
+#    password: root
+#    url: jdbc:mysql://49.4.4.105:3306/competitive?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false&allowMultiQueries=true
 
-logging:
-  level:
-    com.xinzuo.competitive.dao : debug
-
-
-oos:
-  endpoint: oss-cn-beijing.aliyuncs.com
-  keyid:    LTAI0A2P2eeZOVsz # 填写刚刚生成的AccessKey
-  keysecret: M7UQsljzUtMqRJAJoWkkPFEMsZREXA  # 填写刚刚生成的Accesssecret
-  bucketname: xinzuolvyou # bucket名称
-  filehost: images    #bucket下文件夹的路径
 
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml

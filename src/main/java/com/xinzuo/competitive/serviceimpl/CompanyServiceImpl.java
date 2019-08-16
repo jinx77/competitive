@@ -85,7 +85,6 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyDao, Company> impleme
                 // throw new CompetitiveException("导入错误,请导入有数据正确格式的保证金表");
                 return;
             }
-
             if (company.getProposerName()!=null){
 
                 Company c= map.get(company.getProposerName());
