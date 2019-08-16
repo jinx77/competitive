@@ -1,6 +1,5 @@
 // var url = "http://zxq.mynatapp.cc";
-//var url = "http://xinzuo.jiecms.cn:8081";
-var url = "http://localhost:8081";
+var url = "http://xinzuo.jiecms.cn:8081";
 
 var hrefUrl = '';
 
