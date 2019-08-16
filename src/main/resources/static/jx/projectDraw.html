@@ -1,0 +1,557 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">		
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/animate.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+	<link rel="stylesheet" type="text/css" href="css/layui.css" />
+	<link rel="stylesheet" type="text/css" href="css/liMarquee.css">
+
+    <style type="text/css">
+
+    	.wrap_ul::-webkit-scrollbar {
+		 width: 8px;
+		}
+		.wrap_ul::-webkit-scrollbar-track {
+		 background-color:#a0a0a0;
+		 -webkit-border-radius: 2em;
+		 -moz-border-radius: 2em;
+		 border-radius:2em;
+		}
+		.wrap_ul::-webkit-scrollbar-thumb {
+		 background-color: #135CA5;
+		 -webkit-border-radius: 2em;
+		 -moz-border-radius: 2em;
+		 border-radius:2em;
+		}
+
+    	.wrap{
+        	width: 100%;
+			height: 100%;
+			font-family: '微软雅黑';
+			/*background: #fff url(img/yoxi.png) repeat-x bottom center;*/
+			/*background-size: 1919px 225px;*/
+			background: #1471CE;
+			position: relative;
+			z-index: 5;
+		}
+		.wrap_footer{
+			padding-top: 35px;
+			box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+		}
+		.wrap_header{
+			width: calc(100% - 80px);
+			min-height: 46px;
+			background: #135CA5;
+			padding: 20px 40px;
+
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: flex-end;
+			color: #fff;
+			position: relative;
+		}
+		.wrap_header p{
+			width: calc(100% - 200px);
+			font-size: 30px;
+		}
+		.wrap_header a{
+			width: 180px;
+			line-height: 46px;
+			text-align: center;
+			font-size: 18px;
+			background: #fff;
+			color: #135CA5;
+			-webkit-border-radius: 36px;
+			border-radius: 36px;
+			font-weight: bold;
+			position: relative;
+			z-index: 10;
+		}
+
+		.wrap_draw{
+			width: 675px;
+			height: 350px;
+			background: rgba(256,256,256,0.5);
+			margin: 0 auto;
+			padding: 35px 90px;
+
+			-webkit-border-radius: 14px;
+			border-radius: 14px;
+			box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: space-between;
+		}
+		.wrap_draw_li{
+			width: 100%;
+
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+		}
+		.wrap_draw_li p{
+			line-height: 1;
+			font-size: 26px;
+			color: #fff;
+		}
+		.wrap_draw_li p font{
+			color: #D0021B;
+			margin: 0 10px;
+		}
+
+		.numBg{
+			width: 155px;
+			line-height: 233px;
+			background: url(img/beijing.png) no-repeat center;
+			background-size: 100% 100%;
+			font-size: 200px;
+			color: #fff;
+			text-align: center;
+		}
+
+		.playBtn{
+			width: 400px;
+			line-height: 100px;
+			margin: 34px auto;
+			background: #408EEE;
+			color: #fff;
+			font-size: 40px;
+			text-align: center;
+			-webkit-border-radius: 14px;
+			border-radius: 14px;
+			cursor: pointer;
+		}
+		.playBtn.off{
+			background: #808080;
+		}
+
+		.wrap_ul{
+			width: 1000px;
+			max-height: 250px;
+			-webkit-border-radius: 8px;
+			border-radius: 8px;
+			padding: 10px;
+			color: #000;
+			margin: 0 auto;
+			background: rgba(256,256,256,0.5);
+
+			box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+
+			overflow-y: auto;
+			overflow-x: hidden;
+		}
+		.wrap_ul li{
+			width: 100%;
+			text-align: center;
+			font-size: 24px;
+			line-height: 1;
+			padding: 6px 0;
+
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+		}
+		.wrap_ul li span{
+			width: 30%;
+		}
+
+		.wrap_ul li p{
+			width: 70%;
+		}
+
+		.wrap_pop{
+			width: 1000px;
+			background: #1764b1;
+			position: absolute;
+			left: 50%;
+			top: 0;
+			transform: translate(-50%,0);
+			-webkit-transform:translate(-50%,0);
+			z-index: 6;
+
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+
+			display: none;
+		}
+
+		.pop_t1{
+			text-align: center;
+			font-size: 36px;
+			color: #fff;
+			margin-bottom: 60px;
+		}
+		.pop_t2{
+			text-align: center;
+			font-size: 38px;
+			color: #fff;
+			margin: 31px 0;
+		}
+		.popBtn{
+			width: 240px;
+			line-height: 60px;
+			margin: 0 auto;
+			background: #408EEE;
+			color: #fff;
+			font-size: 26px;
+			text-align: center;
+			-webkit-border-radius: 6px;
+			border-radius: 6px;
+			cursor: pointer;
+		}
+
+		.ts{
+			width: 100%;
+			position: absolute;
+			left: 0;
+			bottom: 1%;
+			-webkit-border-radius: 10px;
+			border-radius: 10px;
+			text-align: center;
+			color: #fff;
+		}
+
+		.takeName{
+			text-align: center;
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%,-50%);
+			-webkit-transform:translate(-50%,-50%);
+		}
+		
+    </style>
+
+	</head>
+	<body>
+		<div class="wrap" id="wrap">
+            <div class="wrap_header">
+            	<p class="takeName"></p>
+            	<a href="projectList.html">返回项目列表</a>
+            </div>
+
+            <div class="wrap_footer">
+            	<div class="wrap_draw">
+	            	<div class="wrap_draw_li">
+	            		<p>需要中选<font class="takeNum"></font>家</p>
+	            		<p>已抽取<font class="takeN"></font>家</p>
+	            	</div>
+
+	            	<div class="wrap_draw_li">
+	            		<div class="numBg take1"></div>
+	            		<div class="numBg take2"></div>
+	            		<div class="numBg take3"></div>
+	            	</div>
+	            </div>
+
+	            <div class="playBtn">开始</div>
+
+	            <ul class="wrap_ul" style="color: #fff; margin-bottom: 6px;">
+	            	<li><span>编号</span><p>公司名称</p></li>
+	            </ul>
+	            <ul class="wrap_ul wrap_ul1" style="overflow: hidden;">
+	            	<!-- <li><span>001</span><p>新华国际招标有限公司</p></li> -->
+	            </ul>
+            </div>
+
+            <div class="wrap_pop animated">
+            	<div class="pop_t1">本次抽中结果</div>
+            	<div class="wrap_draw">
+	            	<div class="wrap_draw_li">
+	            		<p>需要中选<font class="takeNum">3</font>家</p>
+	            		<p>已抽取<font class="takeN">3</font>家</p>
+	            	</div>
+	            	<div class="wrap_draw_li">
+	            		<div class="numBg take1">0</div>
+	            		<div class="numBg take2">0</div>
+	            		<div class="numBg take3">2</div>
+	            	</div>
+	            </div>
+            	<div class="pop_t2">抽中招标公司</div>
+            	<div class="popBtn">确定</div>
+            </div>
+           
+            <div class="ts">本系统由【重庆欣作网络科技】提供服务与技术支持</div>
+		</div>
+	</body>
+
+	<script type="text/javascript" src="js/jquery.min.js" ></script>
+	<script type="text/javascript" src="js/index.js" ></script>
+	<script type="text/javascript" src="js/layer.js" ></script>
+	<script type="text/javascript" src="js/html2canvas.min.js" ></script>
+	<script type="text/javascript" src="js/jquery.liMarquee.js" ></script>
+
+    <script type="text/javascript">
+
+    	var PID = GetRequest2("PID");
+    	var listArrLength = 0;
+
+    	var params2 = JSON.stringify({
+            "current": 1,
+		    "size": 1000,
+		    "condition": '',
+		    "projectsId": PID,
+		    "selectType": '4',
+        });
+        $.ajax({
+          	url: url+ '/qualification/selectQualificationList',
+          	type:'POST',
+          	dataType: 'JSON',
+          	data: params2,
+          	contentType :'application/json;charset=utf-8',
+          	headers:
+	        {
+	            Authorization: AuthorizationUrl,
+	        },
+          	success: function(res) {
+            	console.log(res.data.dataList);
+            	var div = '';
+            	for (var i = 0; i < res.data.dataList.length; i++) {
+            		div += '<li><span>'+ res.data.dataList[i].qualificationNumber +'</span><p>'+ res.data.dataList[i].qualificationName +'</p></li>';
+            	}
+            	$(".wrap_ul1").html(div);
+            	listArrLength = res.data.dataList.length;
+            	if(res.data.dataList.length > 5){
+            		$('.wrap_ul1').liMarquee({
+						direction: 'up'
+					});
+            	}
+          	},
+          	error: function(){
+              	console.log('error');
+          	}
+        });
+
+    	$(window).resize(function(){
+    		setHeight();
+		});
+
+		function setHeight() {
+			$('body').height($('body')[0].clientHeight);
+
+    		$('.wrap_footer').height($('body')[0].clientHeight - $('.wrap_header').height() - 40);
+    		$('.wrap_ul').css({"max-height": ($('body')[0].clientHeight - $('.wrap_header').height() - 655)});
+    		$('.wrap_ul1').css({"height": ($('body')[0].clientHeight - $('.wrap_header').height() - 695)});
+    		$('.wrap_pop').css({"top": ($('.wrap_header').height() + 40), "height": ($('body')[0].clientHeight - $('.wrap_header').height() - 40)});
+		}
+    	setHeight();
+
+
+    	var takeNum = 0;  // 总次数
+    	var takeN = 0;	// 抽取次数
+    	var takeName = ''; // 项目名
+    	var take1 = "0";
+    	var take2 = "0";
+    	var take3 = "0";
+
+
+    	//	初始化
+    	function init() {
+    		takeNum = 0;  // 总次数
+    		takeN = 0;	// 抽取次数
+    		takeName = '' // 项目名
+    		take1 = "0";
+	    	take2 = "0";
+	    	take3 = "0";
+
+	    	// setList(arr);
+
+	    	var params = JSON.stringify({
+	            "current": 1,
+			    "size": 10,
+			    "condition": '',
+			    "selectType": "2",
+			    "projectsId": PID,
+	        });
+	        $.ajax({
+	          	url: url+ '/projects/selectProjectsList',
+	          	type:'POST',
+	          	dataType: 'JSON',
+	          	data: params,
+	          	contentType :'application/json;charset=utf-8',
+	          	headers:
+		        {
+		            Authorization: AuthorizationUrl,
+		        },
+	          	success: function(res) {
+	            	console.log(res);
+	            	takeNum = res.data.dataList[0].biddingQuantity;
+	            	takeN = res.data.dataList[0].winQuantity;
+	            	takeName = res.data.dataList[0].projectsName;
+
+	            	if(takeNum == takeN){
+	            		$('.playBtn').addClass('off').html("已抽完");
+	            	}
+
+	            	$(".takeNum").html(takeNum);
+		    		$(".takeN").html(takeN);
+		    		$(".takeName").html(takeName);
+	          	},
+	          	error: function(){
+	              	console.log('error');
+	          	}
+	        });
+
+    		$(".take1").html(take1);
+    		$(".take2").html(take2);
+    		$(".take3").html(take3);
+    	}
+    	init();
+
+    	function setList(arr) {
+    		var div = '';
+    		for (var i = 0; i < arr.length; i++) {
+    			div += '<li><span>001</span><p>新华国际招标有限公司</p></li>';
+    		}
+    		$('.wrap_ul1').html(div);
+    	}
+
+    	// -- 点击
+    	var setI, isBtn = false;
+		$(document).on('click', '.playBtn', function(){
+
+			if($(this).hasClass('off')){
+    			layer.msg("已完成抽选", 1);
+				return false;
+			}
+
+			// 点击暂停
+			if($(this).hasClass('on')){
+
+				var setTT = setTimeout(function(){
+					clearTimeout(setTT);
+					isBtn = false
+				},1500);
+
+				$(this).removeClass('on');
+				clearInterval(setI);
+
+				setVal();
+
+				if(takeN >= takeNum){
+					$(this).addClass('off');
+					$(this).html("已抽完");
+					return false;
+				}else{
+					$(this).html("开始");
+				}
+			}
+			// 点击开始
+			else{
+				if(isBtn){
+					return false;
+				}
+				isBtn = true;
+				$(".takeN").html(++takeN);
+				funPop();
+				$(this).addClass('on')
+				timeNum();
+				$(this).html("暂停");
+			}
+		});   	
+
+		// 
+		function timeNum() {
+			setI = setInterval(function(){
+				if(listArrLength > 99){
+					$(".take1").html(Math.floor(Math.random()*10));
+				}
+	    		$(".take2").html(Math.floor(Math.random()*10));
+	    		$(".take3").html(Math.floor(Math.random()*10));
+			},30);
+		}
+
+		// 
+		var funPopArr = {};
+		function funPop() {
+			var params3 = JSON.stringify({
+			    "projectsId": PID,
+	        });
+	        $.ajax({
+	          	url: url+ '/qualification/win',
+	          	type:'POST',
+	          	dataType: 'JSON',
+	          	data: params3,
+	          	contentType :'application/json;charset=utf-8',
+	          	headers:
+		        {
+		            Authorization: AuthorizationUrl,
+		        },
+	          	success: function(res) {
+	            	console.log(res.data);
+	            	funPopArr = res.data;
+	          	},
+	          	error: function(){
+	              	console.log('error');
+	          	}
+	        });
+		}
+
+		function setVal() {
+			if(!funPopArr){
+    			layer.msg("服务器异常,请稍后再试~", 1);
+				return false;
+			}
+
+			$(".pop_t2").html(funPopArr.qualificationName);
+			$(".take1").html(funPopArr.qualificationNumber.split("")[0]);
+    		$(".take2").html(funPopArr.qualificationNumber.split("")[1]);
+    		$(".take3").html(funPopArr.qualificationNumber.split("")[2]);
+
+    		var setT = setTimeout(function(){
+    			clearTimeout(setT);
+    			$(".wrap_pop").css({"display": "flex", "display": "-webkit-flex"}).addClass('fadeIn');
+    			funPopArr = {};
+    // 			var setT2 = setTimeout(function(){
+	   //  			clearTimeout(setT2);
+	   //  			funHtml2canvas();
+				// },400);
+			},300);
+		}
+
+		$(document).on('click', '.popBtn', function(){
+    		$(".wrap_pop").removeClass('fadeIn').hide();
+		});   	
+
+		function funHtml2canvas() {
+			html2canvas(document.getElementById('wrap')).then(function(canvas) {
+				document.body.appendChild(canvas);
+			    // var image = new Image();
+			    // image.src = canvas.toDataURL("image/png");
+			    // console.log(image);
+			    // $(".wrap").append(image);
+			    var setT = setTimeout(function(){
+    				clearTimeout(setT);
+			    	console.log(image);
+    				layer.msg("成功截图", 1);
+    				上传图片
+				},400);
+			});
+		}
+
+    </script>
+	
+</html>
+
+

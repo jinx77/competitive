@@ -1,0 +1,716 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">		
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+	<link rel="stylesheet" type="text/css" href="css/layui.css" />
+
+    <style type="text/css">
+
+        .wrap{
+        	width: 100%;
+			height: 100%;
+			font-family: '微软雅黑';
+			/*background: #fff url(img/yoxi.png) repeat-x bottom center;*/
+			/*background-size: 1919px 225px;*/
+			background: #F5F5F5;
+		}
+		.wrap_header{
+			width: 100%;
+			height: 80px;
+			background: #1471CE;
+			padding: 0 40px;
+
+			box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+			color: #fff;
+		}
+		.wrap_header p{
+			font-size: 30px;
+		}
+		.wrap_header s{
+			text-decoration: underline;
+			cursor: pointer;
+		}
+
+		.wrap_nav{
+			width: 100%;
+			height: 40px;
+			color: #fff;
+			background: #1471CE;
+			border-top: 1px solid #4da6ff;
+			position: relative;
+
+			padding: 0 40px;
+
+			box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: flex-start;
+		}
+		.wrap_nav a{
+			color: #fff;
+		}
+		.wrap_nav i{
+			font-size: 20px;
+		}
+		.wrap_nav > *{
+			margin-right: 10px;
+		}
+		.wrap_nav_li a{
+			padding: 0 4px;
+		}
+		.wrap_nav_li a:hover{
+			text-decoration: underline;
+		}
+
+		.wrap_ul{
+			width: 100%;
+			height: 50px;
+			background: #fff;
+			padding: 0 40px;
+			margin-top: 10px;
+
+			box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: flex-start;
+		}
+		.wrap_ul li{
+			height: 100%;
+			margin-right: 55px;
+			padding: 0 13px;
+			border-bottom: 4px solid #fff;
+			cursor: pointer;
+
+			box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+		}
+		.wrap_ul li.click{
+			border-bottom: 4px solid #1067BE;
+		}
+
+		.zdy-blue{
+			background: #1067BE;
+		}
+		.zdy-blue2{
+			color: #1067BE;
+		}
+
+		.wrap_div{
+			width: 100%;
+			height: calc(100% - 120px);
+			padding: 10px;
+			overflow-y: auto;
+
+			box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+		}
+
+		.layui-form-label{
+			width: 100px;
+		}
+
+		.layui-input-block{
+			margin: 20px auto 0;
+		}
+
+		.page
+        {
+            width: 21cm;
+            min-height: 29.7cm;
+            padding: 1.9cm 2cm;
+            margin: 1cm auto;
+            border: 1px #D3D3D3 solid;
+            border-radius: 5px;
+            background: white;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+        .subpage
+        {
+            /*padding: 1cm;
+            border: 1px #000 solid;*/
+            height: 256mm;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+        @page
+        {
+            size: A4;
+            margin: 0;
+        }
+        @media print
+        {
+            .page
+            {
+                margin: 0;
+                border: initial;
+                border-radius: initial;
+                width: initial;
+                min-height: initial;
+                box-shadow: initial;
+                background: initial;
+                page-break-after: always;
+            }
+        }
+
+        #paging{
+			width: 100%;
+			text-align: right;
+		}
+		#paging > div{
+			margin: 0;
+			height: 30px;
+		}
+
+        .subpage h1{
+        	text-align: center;
+        	line-height: 1;
+        	margin-bottom: 20px;
+        }
+        .sub_ul{
+        	width: 100%;
+        	height: auto;
+        	font-size: 0;
+        	box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        	border-top: 1px solid #000;
+        	border-left: 1px solid #000;
+        }
+        .sub_ul > *{
+        	font-size: 14px;
+        	height: 50px;
+        	vertical-align: middle;
+        	border-right: 1px solid #000;
+        	box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            /*overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;*/
+
+			display: inline-flex;
+			display: -webkit-inline-flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+
+        }
+        .sub_ul s{
+        	text-decoration: underline;
+        	display: inline-block;
+        	/*width: 30px;*/
+        	margin-right: 10px;
+        }
+        .sub_li_13{
+        	width: 13%;
+        	text-align: center;
+        }
+        .sub_li_25{
+        	width: 25%;
+        	/*padding: 0 10px;*/
+        }
+        .sub_li_26{
+        	width: 26%;
+        	padding: 0 10px;
+        }
+        .sub_li_30{
+        	width: 30%;
+        	padding: 0 10px;
+        }
+        .sub_li_35{
+        	width: 35%;
+        	padding: 0 10px;
+        }
+        .sub_li_37{
+        	width: 37%;
+        	padding: 0 10px;
+        }
+        .sub_li_40{
+        	width: 40%;
+        	padding: 0 10px;
+        }
+        .sub_li_45{
+        	width: 45%;
+        	padding: 0 10px;
+        }
+        .sub_li_48{
+        	width: 48%;
+        	padding: 0 10px;
+        }
+        .sub_li_75{
+        	width: 75%;
+        }
+        .sub_li_87{
+        	width: 87%;
+        	padding: 0 10px;
+        	justify-content: flex-start;
+        }
+        .sub_li_100{
+        	width: 100%;
+        	font-size: 16px;
+        }
+
+        .zdt_tac{
+        	text-align: center;
+        }
+        .zdt_fwb{
+        	font-weight: bold;
+        }
+        .sub_ul span{
+        	width: 99%; 
+        	display: inline-block; 
+        	background: #fff; 
+        	line-height: 1.5; 
+        	position: relative; 
+        	margin-bottom: -35%;
+        	margin-left: 1%;
+        }
+        .pageDiv{
+        	display: none;
+        }
+
+        .ts{
+			width: 100%;
+			position: absolute;
+			left: 0;
+			bottom: 1%;
+			-webkit-border-radius: 10px;
+			border-radius: 10px;
+			text-align: center;
+		}
+
+		.fh{
+			margin: 0;
+			position: absolute;
+			right: 40px;
+			top: 50%;
+			transform: translate(0,-50%);
+			-webkit-transform:translate(0,-50%);
+		}
+
+		table th{width: 10%; padding: 18px 14px;}
+		table{border-top:1px solid #000000;border-left:1px solid #000000;border-collapse:collapse}td{border-bottom:1px solid #000000;border-right:1px solid #000000}
+
+		.tables{
+			width: 100%;
+			height: calc(100% - 65px);
+			overflow-y: auto;
+			overflow-x: hidden;
+		}
+
+    </style>
+
+	</head>
+	<body>
+		<div class="wrap">
+            <div class="wrap_header">
+            	<p class="initTitle"></p>
+            	<s>安全退出</s>
+            </div>
+            <div class="wrap_nav">
+            	<a class="ac" href="index.html"><i class="layui-icon layui-icon-home"></i></a>
+            	<p>位置：</p>
+            	<div class="wrap_nav_li">
+            		<a class="ac" href="index.html">首页</a>&gt;<a class="ac" href="indexListAlready.html">抽选结果</a>&gt;<a class="ac" href="">中选公司</a>
+            	</div>
+            	<a class="fh ac" href="indexListAlready.html">返回</a>
+            </div>
+
+            <div class="wrap_div">
+
+            	<div class="layui-form">
+
+					<button class="layui-btn zdy-blue" data-method="printing">打印名单</button>
+					<button class="layui-btn zdy-blue" data-method="export">导出名单</button>
+
+					<div class="layui-inline" style="float: right;">
+						<div class="layui-input-inline" style="width: 300px;">
+						  <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="输入需要查询的名称" class="layui-input ssInput">
+						</div>
+						<button class="layui-btn zdy-blue" data-method="look">查询</button>
+					</div>
+
+	            </div>
+
+	            <!--  -->
+	            <div class="tables">
+	            <table class="layui-table" id="table1" lay-skin="line">
+	              <colgroup>
+	                <col width="100">
+	                <col width="100">
+	                <col width="100">
+	                <col width="100">
+	                <col width="100">
+	                <col width="100">
+	                <col width="100">
+	              </colgroup>
+	              <thead>
+	                <tr>
+	                  <th>编号</th>
+	                  <th>公司名称</th>
+	                  <th>法定代表人</th>
+	                  <th>电话</th>
+	                  <th>状态</th>
+	                </tr> 
+	              </thead>
+	              <tbody id="table_list">
+	                <!-- <tr>
+	                  <td>男</td>
+	                  <td>男</td>
+	                  <td>男</td>
+	                  <td>12345678912</td>
+	                  <td>500232200109089999</td>
+	                  <td>13678474697</td>
+	                  <td>不能参与抽选</td>
+	                </tr> -->
+	              </tbody>
+	            </table>
+	            </div>
+
+	            <!--  -->
+	            <!-- <div id="paging"></div> -->
+            	<div class="ts">本系统由【重庆欣作网络科技】提供服务与技术支持</div>
+
+	            <!-- <div class="layui-input-inline" style="width: 300px;"><input type="text" placeholder="项目名称" class="layui-input"></div>
+	            <div class="layui-input-inline" style="width: 300px;"><input type="text" placeholder="建设单位" class="layui-input"></div>
+	            <div class="layui-input-inline" style="width: 300px;"><input type="text" placeholder="发包价" class="layui-input"></div>
+	            <div class="layui-input-inline" style="width: 300px;"><input type="text" placeholder="需中选公司(家)" class="layui-input"></div> -->
+
+	            <div class="pageDiv">
+	            <div class="page" id="page">
+		            <div class="subpage">
+		            	<h1 style="text-align: center;">随机抽取结果确认表</h1>
+		            	<!-- <div class="sub_ul">
+		            		<p class="sub_li_13 zdt_fwb">项目名称</p>
+		            		<p class="sub_li_87 sub_li_name1"></p>
+		            	</div>
+		            	<div class="sub_ul">
+		            		<p class="sub_li_13 zdt_fwb">建设单位</p>
+		            		<p class="sub_li_87 sub_li_name2"></p>
+		            	</div>
+		            	<div class="sub_ul">
+		            		<p class="sub_li_13 zdt_fwb">抽取时间</p>
+		            		<p class="sub_li_37 sub_li_name3"></p>
+		            		<p class="sub_li_13 zdt_fwb">发包价</p>
+		            		<p class="sub_li_37 zdt_tac"><s class="sub_li_name4"></s>元</p>
+		            	</div>
+		            	<div class="sub_ul">
+		            		<p class="sub_li_100 zdt_tac zdt_fwb">抽&ensp;取&ensp;结&ensp;果<br>（&ensp;中&ensp;选&ensp;企&ensp;业&ensp;）</p>
+		            	</div>
+
+		            	<div class="sub_ul">
+		            		<p class="sub_li_48 zdt_tac zdt_fwb">企业名称</p>
+		            		<p class="sub_li_26 zdt_tac zdt_fwb">联系人</p>
+		            		<p class="sub_li_26 zdt_tac zdt_fwb">联系电话</p>
+		            	</div> -->
+		            	<!-- <div class="sub_div"> -->
+		            		<!-- <div class="sub_ul">
+			            		<p class="sub_li_48">企业名称企业名称</p>
+			            		<p class="sub_li_26">联系人</p>
+			            		<p class="sub_li_26">163613213213</p>
+			            	</div> -->
+		            	<!-- </div> -->
+
+		            	<!-- <div class="sub_ul">
+		            		<p class="sub_li_25">————</p>
+		            		<p class="sub_li_40 zdt_fwb">单&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;位</p>
+		            		<p class="sub_li_35 zdt_fwb">姓&ensp;&ensp;&ensp;&ensp;名</p>
+		            	</div>
+
+		            	<div class="sub_ul">
+		            		<p class="sub_li_25 zdt_tac zdt_fwb" style="height: 100px;">抽选人员(签字)</p>
+		            		<p class="sub_li_40" style="height: 100px;"></p>
+		            		<p class="sub_li_35" style="height: 100px;"></p>
+		            	</div>
+		            	<div class="sub_ul">
+		            		<p class="sub_li_25 zdt_tac zdt_fwb" style="height: 100px;">监督人员(签字)</p>
+		            		<p class="sub_li_40" style="height: 100px;"></p>
+		            		<p class="sub_li_35" style="height: 100px;"></p>
+		            	</div> -->
+		            	<!-- <div class="sub_ul">
+		            		<p class="sub_li_25 zdt_tac zdt_fwb"><span>监督人员(签字)</span></p>
+		            		<p class="sub_li_45"></p>
+		            		<p class="sub_li_30"></p>
+		            	</div>
+		            	<div class="sub_ul">
+		            		<p class="sub_li_25 zdt_tac zdt_fwb"></p>
+		            		<p class="sub_li_45"></p>
+		            		<p class="sub_li_30"></p>
+		            	</div> -->
+
+<!-- 		            	<div class="sub_ul">
+		            		<p class="sub_li_25 zdt_tac zdt_fwb">公共资源交易中心<br>工作人员(签字)</p>
+		            		<p class="sub_li_45"></p>
+		            		<p class="sub_li_30"></p>
+		            	</div> -->
+		            	<!-- <div class="sub_ul">
+		            		<p class="sub_li_25 zdt_tac zdt_fwb">备注</p>
+		            		<p class="sub_li_40"></p>
+		            		<p class="sub_li_35"></p>
+		            	</div>
+		            	<div class="sub_ul"></div> -->
+
+
+		            	<table border="1" cellspacing="0" cellpadding="0" style="width: 100%;">
+				            <tbody id="sub_div">
+								<tr>
+									<th colspan="2" style="width: 20%;">项目名称</th>
+									<th colspan="8" style="width: 80%;" class="sub_li_name1" style="text-align: left;"></th>
+								</tr>
+								<tr>
+									<th colspan="2">建设单位</th>
+									<th colspan="8" class="sub_li_name2" style="text-align: left;"></th>
+								</tr>
+								<tr>
+									<th colspan="2" style="width: 20%;">抽取时间</th>
+									<th colspan="3" style="width: 30%;" class="sub_li_name3"></th>
+									<th colspan="2" style="width: 20%;">发包价</th>
+									<th colspan="3" style="width: 30%;" class="sub_li_name4"></th>
+								</tr>
+								<tr>
+									<th colspan="10" style="width: 100%;">中选企业</th>
+								</tr>
+								<tr class="sub_div">
+									<th colspan="2" style="width: 20%;">中选编号</th>
+									<th colspan="2" style="width: 20%;">企业名称</th>
+									<th colspan="3" style="width: 30%;">联系人</th>
+									<th colspan="3" style="width: 20%;">联系电话</th>
+								</tr>
+								<tr>
+									<th colspan="3">抽选人员(签字)</th>
+									<th colspan="4"></th>
+									<th colspan="3"></th>
+								</tr>
+								<tr>
+									<th colspan="3">监督人员(签字)</th>
+									<th colspan="4"></th>
+									<th colspan="3"></th>
+								</tr>
+								<tr>
+									<th colspan="3">备注</th>
+									<th colspan="4"></th>
+									<th colspan="3"></th>
+								</tr>
+				            </tbody>
+						</table>
+		            </div>
+		        </div>
+				</div>
+
+            </div>
+		</div>
+	</body>
+
+	<script type="text/javascript" src="js/jquery.min.js" ></script>
+	<script type="text/javascript" src="js/index.js" ></script>
+	<script type="text/javascript" src="js/layer.js" ></script>
+	<script type="text/javascript" src="js/jQuery.print.js" ></script>
+	<script type="text/javascript" src="layui.js" ></script>
+	<script type="text/javascript" src="js/FileSaver.js" ></script>
+	<script type="text/javascript" src="js/jquery.wordexport.js" ></script>
+
+
+	<script type="text/javascript">
+		
+		var PID = GetRequest2('pid');
+		$("#projectsId").val(PID);
+		
+		layui.use(['element','layer','jquery', 'form', 'laypage', 'laydate', 'upload'], function() {
+			var $ = layui.jquery
+			var element = layui.element //Tab的切换功能，切换事件监听等，需要依赖element模块
+			var form = layui.form
+			,layer = layui.layer
+			,layedit = layui.layedit
+			,laydate = layui.laydate
+			,laypage = layui.laypage
+			,upload = layui.upload
+
+			var lodingS = layer.open({type: 3})
+	        // 新建
+
+			var st = 5;
+
+			// 查询-卡总条数
+	        function pagingFun(URLS) {
+	            var params2 = JSON.stringify({
+	                "current": 1,
+				    "size": 10,
+				    "projectsId": PID,
+				    "condition": $(".ssInput").val(),
+				    "selectType": st
+	            });
+	            $.ajax({
+	              	url: url+URLS,
+	              	type:'POST',
+	              	dataType: 'JSON',
+	              	data: params2,
+	              	contentType :'application/json;charset=utf-8',
+	              	headers:
+			        {
+			            Authorization: AuthorizationUrl,
+			        },
+	              	success: function(res) {
+	                  	// console.log(res);
+	                  	if(res.code === "F"){
+		                    var arr = [];
+		                    // $("#table_list").html(blankFun())
+		                    layer.close(lodingS);
+		                    return false;
+	                  	}
+	                  	var cordNums = Number(res.data.total);
+	                  	// 分页
+	                  	laypage.render({
+		                    elem: 'paging', 
+		                    count: cordNums, //数据总数
+		                    limit: 10, //每页显示的条数
+		                    jump: function(obj){
+		                      // console.log(obj);
+		                      // 查询数据
+		                      setData(obj.curr, obj.limit, URLS);
+		                    },
+	                  	});
+	              	},
+	              	error: function(){
+	                	layer.close(lodingS); 
+	                	console.log('error');
+	              	}
+	            });
+	        }
+	        pagingFun('/projects/print');
+
+	        // 展示数据、分页
+	        var dataArr = [];
+	        function setData(index, size, URL) {
+	            var params = JSON.stringify({
+	                "current": index,
+				    "size": size,
+				    "projectsId": PID,
+				    "condition": $(".ssInput").val(),
+				    "selectType": st
+	            });
+	            $.ajax({
+	              	url: url+URL,
+	              	type:'POST',
+	              	dataType: 'JSON',
+	              	data: params,
+	              	contentType :'application/json;charset=utf-8',
+	              	headers:
+			        {
+			            Authorization: AuthorizationUrl,
+			        },
+	              	success: function(res) {
+	                	console.log(res);
+	                  	var div = '';
+	                  	layer.close(lodingS); 
+	                  	if(res.code === "F"){
+		                    var arr = [];
+		                    document.getElementById('table_list').innerHTML = function(){
+		                        div = blankFun();
+		                        arr.push(div);
+		                        return arr.join('');
+		                    }
+		                    return false;
+	                  	}
+	                  	dataArr = res.data.winVOList;
+
+	                  	var subDiv = '';
+	                  	for (var i = 0; i < dataArr.length; i++) {
+			    //     		subDiv +='<div class="sub_ul">'
+							// + '<p class="sub_li_48">'+ dataArr[i].qualificationName +'</p>'
+							// + '<p class="sub_li_26">'+ dataArr[i].legalRepresentative +'</p>'
+							// + '<p class="sub_li_26">'+ dataArr[i].phone +'</p>'
+							// + '</div>'
+							subDiv += '<tr>'
+							+ '<th colspan="2">' + dataArr[i].qualificationNumber +'</th>'
+							+ '<th colspan="2">' + dataArr[i].qualificationName +'</th>'
+							+ '<th colspan="3">'+ dataArr[i].legalRepresentative +'</th>'
+							+ '<th colspan="3">'+ dataArr[i].phone +'</th>'
+							+ '</tr>'
+			        	}
+			        	$(".sub_div").after(subDiv);
+			        	$(".sub_li_name1").html(res.data.projectsName);
+			        	$(".sub_li_name2").html(res.data.developmentOrganization);
+			        	$(".sub_li_name3").html(res.data.winTime);
+			        	$(".sub_li_name4").html(""+res.data.outsourcingPrice+"元");
+
+	                  	// console.log(dataArr);
+	                  	//模拟渲染
+	                  	document.getElementById('table_list').innerHTML = function(){
+		                    var arr = [], thisData = dataArr;
+		                    layui.each(thisData, function(index, item){
+		                        div +='<tr class="tr'+ (index+1) +'">'
+								+ '<td>'+ item.qualificationNumber +'</td>'
+								+ '<td>'+ item.qualificationName +'</td>'
+								+ '<td>'+ item.legalRepresentative +'</td>'
+								+ '<td>'+ item.phone +'</td>'
+								+ '<td><font color="red">已中选</font></td>'
+								+ '</tr>'
+		                    });
+		                    arr.push(div);
+		                    return arr.join('');
+	                  	}();
+	                  	form.render();
+	              	},
+	              	error: function(){
+	                  	console.log('error');
+	              	}
+	            });
+	        }
+
+			var active = {
+	            look : function(othis){
+	        		pagingFun('/qualification/selectQualificationList');
+	            },
+	            printing : function(othis){
+	            	$.print("#page");
+	            },
+	            export : function(othis){
+					$("#page").wordExport("中选结果");
+	            },
+	        }
+
+
+	        // -----------------------------------------------------------
+	        $(document).on('click', '.layui-btn', function(){
+				var othis = $(this), method = othis.data('method');
+				active[method] ? active[method].call(this, othis) : '';
+				return false;
+			});
+
+	        $(document).on('click', '.wrap_ul li', function(){
+	        	$(this).addClass('click').siblings().removeClass('click');
+			});
+	        
+		});
+
+	</script>
+	
+</html>
+
+

@@ -45,15 +45,16 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/v2/**", "anon");
         filterChainDefinitionMap.put("/**/swagger/**", "anon");
         filterChainDefinitionMap.put("/user/image", "anon");
+        filterChainDefinitionMap.put("/jx/**", "anon");
         //暂时放行
         filterChainDefinitionMap.put("/oss/**", "anon");
-        filterChainDefinitionMap.put("/jc/**", "anon");
+        filterChainDefinitionMap.put("/", "anon");
         // 添加自己的过滤器并且取名为jwt
         Map<String, Filter> filterMap = new HashMap<String, Filter>(1);
         filterMap.put("jwt", new JwtFilter());
         shiroFilterFactoryBean.setFilters(filterMap);
         //<!-- 过滤链定义，从上向下顺序执行，一般将/**放在最为下边
-        filterChainDefinitionMap.put("/**", "jwt");
+        //filterChainDefinitionMap.put("/**", "jwt");
 
         //未授权界面;
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");

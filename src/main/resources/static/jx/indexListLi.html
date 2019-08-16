@@ -1,0 +1,1314 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">		
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+	<link rel="stylesheet" type="text/css" href="css/layui.css" />
+
+    <style type="text/css">
+
+        .wrap{
+        	width: 100%;
+			height: 100%;
+			font-family: '微软雅黑';
+			/*background: #fff url(img/yoxi.png) repeat-x bottom center;*/
+			/*background-size: 1919px 225px;*/
+			background: #F5F5F5;
+		}
+		.wrap_header{
+			width: 100%;
+			height: 80px;
+			background: #1471CE;
+			padding: 0 40px;
+
+			box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+			color: #fff;
+		}
+		.wrap_header p{
+			font-size: 30px;
+		}
+		.wrap_header s{
+			text-decoration: underline;
+			cursor: pointer;
+		}
+
+		.wrap_nav{
+			width: 100%;
+			height: 40px;
+			color: #fff;
+			background: #1471CE;
+			border-top: 1px solid #4da6ff;
+			position: relative;
+
+			padding: 0 40px;
+
+			box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: flex-start;
+		}
+		.wrap_nav a{
+			color: #fff;
+		}
+		.wrap_nav i{
+			font-size: 20px;
+		}
+		.wrap_nav > *{
+			margin-right: 10px;
+		}
+		.wrap_nav_li a{
+			padding: 0 4px;
+		}
+		.wrap_nav_li a:hover{
+			text-decoration: underline;
+		}
+
+		.wrap_ul{
+			width: 100%;
+			height: 50px;
+			background: #fff;
+			padding: 0 40px;
+			margin-top: 10px;
+
+			box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: flex-start;
+		}
+		.wrap_ul li{
+			height: 100%;
+			margin-right: 55px;
+			padding: 0 13px;
+			border-bottom: 4px solid #fff;
+			cursor: pointer;
+
+			box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+		}
+		.wrap_ul li.click{
+			border-bottom: 4px solid #1067BE;
+		}
+
+		.zdy-blue{
+			background: #1067BE;
+		}
+		.zdy-blue2{
+			color: #1067BE;
+		}
+
+		.wrap_div{
+			width: 100%;
+			height: calc(100% - 160px);
+			padding: 10px;
+			overflow-y: auto;
+			box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+		}
+
+		.layui-form-label{
+			width: 100px;
+		}
+
+		.layui-input-block{
+			margin: 20px auto 0;
+		}
+
+		#paging{
+			width: 100%;
+			text-align: right;
+		}
+		#paging > div{
+			margin: 0;
+			height: 30px;
+		}
+
+		.fileinput-button {
+			position: relative;
+			display: inline-block;
+			overflow: hidden;
+			vertical-align: middle;
+		}
+		.fileinput-button input{
+			position:absolute;
+			right: 0px;
+			top: 0px;
+			opacity: 0;
+			-ms-filter: 'alpha(opacity=0)';
+			font-size: 200px;
+			cursor: pointer;
+		}
+
+		.ts{
+			width: 100%;
+			position: absolute;
+			left: 0;
+			bottom: 1%;
+			-webkit-border-radius: 10px;
+			border-radius: 10px;
+			text-align: center;
+		}
+
+		.pageDiv{
+        	display: none;
+        }
+
+        .page
+        {
+            width: 21cm;
+            min-height: 29.7cm;
+            padding: 0 2cm;
+            margin: 1cm auto;
+            border: 1px #D3D3D3 solid;
+            border-radius: 5px;
+            background: white;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+        .subpage
+        {
+            /*padding: 1cm;
+            border: 1px #000 solid;*/
+            height: 256mm;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            /*overflow: hidden;*/
+        }
+        @page
+        {
+            size: A4;
+            margin: 0;
+        }
+        @media print
+        {
+            .page
+            {
+                margin: 0;
+                border: initial;
+                border-radius: initial;
+                width: initial;
+                min-height: initial;
+                box-shadow: initial;
+                background: initial;
+                page-break-after: always;
+            }
+        }
+
+        #paging{
+			width: 100%;
+			text-align: right;
+		}
+		#paging > div{
+			margin: 0;
+			height: 30px;
+		}
+
+        .subpage h1{
+        	text-align: center;
+        	line-height: 1;
+        	margin-bottom: 20px;
+        }
+        .sub_ul{
+        	width: 100%;
+        	height: auto;
+        	font-size: 0;
+        	box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        	border-top: 1px solid #000;
+        	border-left: 1px solid #000;
+        }
+        /*.sub_ul:last-child{
+        	border-bottom: 1px solid #000;
+        }*/
+        .sub_ul > *{
+        	font-size: 14px;
+        	height: 50px;
+        	vertical-align: middle;
+        	border-right: 1px solid #000;
+        	box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            /*overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;*/
+
+			display: inline-flex;
+			display: -webkit-inline-flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+
+        }
+        .sub_ul s{
+        	text-decoration: underline;
+        	display: inline-block;
+        	/*width: 30px;*/
+        	margin-right: 10px;
+        }
+        .sub_li_13{
+        	width: 13%;
+        	text-align: center;
+        }
+        .sub_li_25{
+        	width: 25%;
+        	/*padding: 0 10px;*/
+        }
+        .sub_li_26{
+        	width: 26%;
+        	padding: 0 10px;
+        }
+        .sub_li_30{
+        	width: 30%;
+        	padding: 0 10px;
+        }
+        .sub_li_35{
+        	width: 35%;
+        	padding: 0 10px;
+        }
+        .sub_li_37{
+        	width: 37%;
+        	padding: 0 10px;
+        }
+        .sub_li_40{
+        	width: 40%;
+        	padding: 0 10px;
+        }
+        .sub_li_45{
+        	width: 45%;
+        	padding: 0 10px;
+        }
+        .sub_li_48{
+        	width: 48%;
+        	padding: 0 10px;
+        }
+        .sub_li_75{
+        	width: 75%;
+        }
+        .sub_li_87{
+        	width: 87%;
+        	padding: 0 10px;
+        	justify-content: flex-start;
+        }
+        .sub_li_100{
+        	width: 100%;
+        	font-size: 16px;
+        }
+
+        .fh{
+			margin: 0;
+			position: absolute;
+			right: 40px;
+			top: 50%;
+			transform: translate(0,-50%);
+			-webkit-transform:translate(0,-50%);
+		}
+
+		.tables{
+			max-height: calc(100% - 38px - 60px );
+			overflow-y: auto;
+			overflow-x: hidden;
+		}
+
+		table th{width: 10%; padding: 6px 4px; font-size: 8px;} 
+		table{border-top:1px solid #000000;border-left:1px solid #000000;border-collapse:collapse}td{border-bottom:1px solid #000000;border-right:1px solid #000000};
+
+		
+
+    </style>
+
+	</head>
+	<body>
+		<div class="wrap">
+            <div class="wrap_header">
+            	<p class="initTitle"></p>
+            	<s>安全退出</s>
+            </div>
+            <div class="wrap_nav">
+            	<a class="ac" href="index.html"><i class="layui-icon layui-icon-home"></i></a>
+            	<p>位置：</p>
+            	<div class="wrap_nav_li">
+            		<a class="ac" href="index.html">首页</a>&gt;<a class="ac" href="indexList.html">项目列表</a>&gt;<a class="ac" href="">参与项目公司</a>
+            	</div>
+            	<a class="fh ac" href="indexList.html">返回</a>
+            </div>
+
+            <div class="wrap_div">
+
+            	<div class="layui-form">
+
+            		<form class="layui-form" action="#" enctype="multipart/form-data" style="display: inline-block;" id="up_form1">
+			          <div class="btn zdy-blue fileinput-button">
+			            <span class="layui-btn zdy-blue">导入公司资料Excel表</span>
+			            <input type="text" name="projectsId" class="projectsId">
+			            <input type="file" name="excel" id="upfile1">
+			          </div>
+			        </form>
+
+			        <form class="layui-form" action="#" enctype="multipart/form-data" style="display: inline-block;" id="up_form2">
+			          <div class="btn zdy-blue fileinput-button">
+			            <span class="layui-btn zdy-blue">导入保证金Excel表</span>
+			            <input type="text" name="projectsId" class="projectsId">
+			            <input type="file" name="excel" id="upfile2">
+			          </div>
+			        </form>
+
+					<button class="layui-btn zdy-blue" data-method="printing">打印名单</button>
+					<button class="layui-btn zdy-blue" data-method="export">导出名单</button>
+
+					<button class="layui-btn layui-btn-danger" data-method="deleteAll">批量删除</button>
+					<button class="layui-btn layui-btn-warm" data-method="addAll">批量添加</button>
+
+					<!-- <a class="layui-btn zdy-blue">导入入库Excel表</a> -->
+					<!-- <a class="layui-btn zdy-blue">导入保正金Excel表</a> -->
+
+					<div class="layui-inline" style="float: right;">
+						<div class="layui-input-inline" style="width: 300px;">
+						  <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="输入需要查询的名称" class="layui-input ssInput">
+						</div>
+						<button class="layui-btn zdy-blue" data-method="look">查询</button>
+					</div>
+
+	            </div>
+
+	            <ul class="wrap_ul">
+	            	<li data-id="1" class="st1 click">全部<font></font></li>
+	            	<!-- <li data-id="2" class="st2">未上传入库资料的公司<font></font></li> -->
+	            	<li data-id="3" class="st3">库外企业<font></font></li>
+	            	<li data-id="4" class="st4">参与名单<font></font></li>
+	            </ul>
+
+	            <!--  -->
+	            <div class="tables">
+	            <table class="layui-table" id="table1" lay-skin="line">
+	              <colgroup>
+	                <col width="10">
+	                <col width="50">
+	                <col width="150">
+	                <col width="100">
+	                <!-- <col width="100"> -->
+	                <col width="100">
+	                <col width="100">
+	                <col width="100">
+	                <col width="100">
+	              </colgroup>
+	              <thead>
+	                <tr>
+	                  <th><form class="layui-form"><input type="checkbox" lay-filter="number" name="a" title="" value="" lay-skin="primary"></form></th>
+	                  <th>编号</th>
+	                  <th>公司名称</th>
+	                  <th>法定代表人</th>
+	                  <!-- <th>电话</th> -->
+	                  <th>入库表</th>
+	                  <th>保证金</th>
+	                  <th>状态</th>
+	                  <th>操作</th>
+	                </tr> 
+	              </thead>
+	              <tbody id="table_list">
+	                <!-- <tr>
+	                  <td>男</td>
+	                  <td>男</td>
+	                  <td>男</td>
+	                  <td>12345678912</td>
+	                  <td>500232200109089999</td>
+	                  <td>13678474697</td>
+	                  <td>不能参与抽选</td>
+	                </tr> -->
+	              </tbody>
+	            </table>
+	            </div>
+
+	            <!--  -->
+	            <!-- <div id="paging"></div> -->
+
+	            <!-- <div class="layui-input-inline" style="width: 300px;"><input type="text" placeholder="项目名称" class="layui-input"></div>
+	            <div class="layui-input-inline" style="width: 300px;"><input type="text" placeholder="建设单位" class="layui-input"></div>
+	            <div class="layui-input-inline" style="width: 300px;"><input type="text" placeholder="发包价" class="layui-input"></div>
+	            <div class="layui-input-inline" style="width: 300px;"><input type="text" placeholder="需中选公司(家)" class="layui-input"></div> -->
+
+	            <div class="pageDiv">
+	            <div class="page" id="page">
+		            <div class="subpage">
+		            	<!-- <div class="sub_ul">
+		            		<p class="sub_li_40">公司名称</p>
+		            		<p class="sub_li_30">法人代表</p>
+		            		<p class="sub_li_30">电话</p>
+		            	</div>
+		            	<div class="sub_div">
+		            		
+		            	</div>
+
+		            	<div class="sub_ul"></div> -->
+		            	<h1 style="text-align: center;"></h1>
+
+		            	<table border="1" cellspacing="0" cellpadding="0" style="width: 100%;">
+		            		<thead>
+				                <tr>
+									<th style="width: 4%;" class="bh">编号</th>
+									<th style="width: 38%;">公司名称</th>
+									<th style="width: 14%;">联系人</th>
+									<th style="width: 12%;">电话</th>
+									<th style="width: 12%;">是否合格</th>
+									<th style="width: 20%;">备注</th>
+								</tr>
+				            </thead>
+				            <tbody id="sub_div">
+				            </tbody>
+						</table>
+		            	<h3 class="bz" style="margin-top: 12px;">备注：</h3>
+		            	<h3 style="margin-top: 12px; text-align: right;">审核签字：_________</h3>
+		            </div>
+		        </div>
+				</div>
+
+            	<div class="ts">本系统由【重庆欣作网络科技】提供服务与技术支持</div>
+            </div>
+		</div>
+	</body>
+
+	<script type="text/javascript" src="js/jquery.min.js" ></script>
+	<script type="text/javascript" src="js/index.js" ></script>
+	<script type="text/javascript" src="js/layer.js" ></script>
+	<script type="text/javascript" src="layui.js" ></script>
+	<script type="text/javascript" src="js/jQuery.print.js" ></script>
+	<script type="text/javascript" src="js/FileSaver.js" ></script>
+	<script type="text/javascript" src="js/jquery.wordexport.js" ></script>
+
+	<script type="text/javascript">
+
+		var PID = GetRequest2('pid');
+		$(".projectsId").val(PID);
+		$("h1").html(GetRequest2('pname'));
+		
+		layui.use(['element','layer','jquery', 'form', 'laypage', 'laydate', 'upload'], function() {
+			var $ = layui.jquery
+			var element = layui.element //Tab的切换功能，切换事件监听等，需要依赖element模块
+			var table = layui.table;
+			var form = layui.form
+			,layer = layui.layer
+			,layedit = layui.layedit
+			,laydate = layui.laydate
+			,laypage = layui.laypage
+			,upload = layui.upload
+
+			var lodingS = layer.open({type: 3})
+	        // 新建
+
+			var st = 1;
+			var sizeS = 0;
+	       	var checkboxArr = [];
+	       	var checkboxArrLength = 0;
+
+			// 查询-卡总条数
+	        function pagingFun(URLS) {
+	            var params2 = JSON.stringify({
+	                "current": 1,
+				    "size": 10000,
+				    "projectsId": PID,
+				    "condition": $(".ssInput").val(),
+				    "selectType": st
+	            });
+	            $.ajax({
+	              	url: url+URLS,
+	              	type:'POST',
+	              	dataType: 'JSON',
+	              	data: params2,
+	              	contentType :'application/json;charset=utf-8',
+	              	headers:
+			        {
+			            Authorization: AuthorizationUrl,
+			        },
+	              	success: function(res) {
+	                  	// console.log(res);
+	                  	if(res.code === "F"){
+		                    var arr = [];
+		                    // $("#table_list").html(blankFun())
+		                    layer.close(lodingS);
+		                    return false;
+	                  	}
+	                  	sizeS = Number(res.data.pageVO.total);
+	                  	var cordNums = Number(res.data.pageVO.total);
+	                  	// 分页
+	                  	laypage.render({
+		                    elem: 'paging', 
+		                    count: cordNums, //数据总数
+		                    limit: 10, //每页显示的条数
+		                    jump: function(obj){
+		                      // console.log(obj);
+		                      // 查询数据
+		                      setData(obj.curr, obj.limit, URLS);
+		                    },
+	                  	});
+	              	},
+	              	error: function(){
+	                	layer.close(lodingS); 
+	                	console.log('error');
+	              	}
+	            });
+	        }
+	        pagingFun('/qualification/selectQualificationList');
+
+	        // 展示数据、分页
+	        var dataArr = [];
+	        function setData(index, size, URL) {
+	            var params = JSON.stringify({
+	                "current": 1,
+				    "size": 10000,
+				    "projectsId": PID,
+				    "condition": $(".ssInput").val(),
+				    "selectType": st
+	            });
+	            $.ajax({
+	              	url: url+URL,
+	              	type:'POST',
+	              	dataType: 'JSON',
+	              	data: params,
+	              	contentType :'application/json;charset=utf-8',
+	              	headers:
+			        {
+			            Authorization: AuthorizationUrl,
+			        },
+	              	success: function(res) {
+	                	console.log(res);
+	                	// checkboxArr = [];
+	                  	var div = '';
+	                  	layer.close(lodingS); 
+	                  	if(res.code == "F"){
+		                    var arr = [];
+		                    document.getElementById('table_list').innerHTML = function(){
+		                        div = blankFun();
+		                        arr.push(div);
+		                        return arr.join('');
+		                    }
+		                    return false;
+	                  	}
+	                  	dataArr = res.data.dataList;
+	                  	// console.log(dataArr);
+	                  	//模拟渲染
+
+	                  	var groupCheckbox = $("input[name='a']");
+						for (i = 0; i < groupCheckbox.length; i++) {
+						  	groupCheckbox[i].checked=false;
+						}
+						checkboxArrLength = 0
+
+	                  	document.getElementById('table_list').innerHTML = function(){
+		                    var arr = [], thisData = dataArr;
+		                    layui.each(thisData, function(index, item){
+		                    	var informationStatus = '<font color="red">已上传</font>';
+		                    	if(item.informationStatus == 0){
+		                    		informationStatus = '未上传';
+		                    	}
+		                    	var depositStatus = '<font color="red">已上传</font>';
+		                    	if(item.depositStatus == 0){
+		                    		depositStatus = '未上传';
+		                    	}
+		                    	var qualificationStatus = '<font color="red">可以参加</font>';
+		                    	if(item.qualificationStatus == 0){
+		                    		qualificationStatus = '不能参加';
+		                    	}
+		                    	var legalRepresentative = '————';
+		                    	if(item.legalRepresentative){
+		                    		legalRepresentative = item.legalRepresentative;
+		                    	}
+		                    	var phone = '————';
+		                    	if(item.phone){
+		                    		phone = item.phone;
+		                    	}
+
+		                    	var qualificationNumber = '—';
+		                    	if(item.qualificationNumber){
+		                    		qualificationNumber = item.qualificationNumber;
+		                    	}
+
+		                        div +='<tr class="tr'+ (index+1) +'">'
+								+ '<td><form class="layui-form"><input type="checkbox" lay-filter="number" name="unitTypy" title="" value="'+ item.qualificationId +'" lay-skin="primary"></form></td>'
+								+ '<td>'+ qualificationNumber +'</td>'
+								+ '<td>'+ item.qualificationName +'</td>'
+								+ '<td>'+ legalRepresentative +'</td>'
+								// + '<td>'+ phone +'</td>'
+								+ '<td>'+ informationStatus +'</td>'
+								+ '<td>'+ depositStatus +'</td>'
+								+ '<td>'+ qualificationStatus +'</td>'
+								+ '<td>'
+
+								if(st != 4){
+									div += '<button class="layui-btn layui-btn-sm zdy-blue" data-method="addC" data-id="'+ index +'" data-pid="'+ item.qualificationId +'">添加</button>'
+								}
+
+								div += '<button class="layui-btn layui-btn-sm layui-btn-danger" data-method="delete" data-id="'+ index +'" data-pid="'+ item.qualificationId +'">删除</button>'
+
+								div += '</td>'
+								+ '</tr>'
+		                    });
+		                    arr.push(div);
+	                  		form.render();
+		                    return arr.join('');
+	                  	}();
+	                  	form.render();
+	              	},
+	              	error: function(){
+	                  	console.log('error');
+	              	}
+	            });
+	        }
+
+
+			var active = {
+	    //         add : function(othis){
+	    //         	var type = othis.data('type');
+	    //             var div = '';
+
+					// div += '<div class="layui-input-block" style="width: 300px;"><input type="text" placeholder="项目名称" class="layui-input"></div>'
+		   //          + '<div class="layui-input-block" style="width: 300px;"><input type="text" placeholder="建设单位" class="layui-input"></div>'
+		   //          + '<div class="layui-input-block" style="width: 300px;"><input type="text" placeholder="发包价" class="layui-input"></div>'
+		   //          + '<div class="layui-input-block" style="width: 300px;"><input type="text" placeholder="需中选公司(家)" class="layui-input"></div>'
+
+	    //             layer.open({
+					// 	type: 1,
+					// 	offset: type,
+					// 	title: "新建项目",
+					// 	closeBtn: false,
+					// 	area: ['400px', '340px'],
+					// 	shade: 0.8,
+					// 	// id: 'LAY_examine', //设定一个id，防止重复弹出
+					// 	btn: ['添加', '取消'],
+					// 	btnAlign: 'c',
+					// 	// moveType: 1, //拖拽模式，0或者1
+					// 	content: div,
+					// 	success:function () {
+	    //                 	form.render();
+	    //               },
+	    //               yes: function(index, layero){
+	    //                   layer.close(index);
+	    //               },
+	    //               btn2: function(index, layero){
+	    //                   layer.close(index);
+	    //               }
+	    //             });
+
+	    //         },
+	    		delete : function(othis){
+	            	var pid = othis.data('pid');
+	            	var id = othis.data('id');
+		            layer.open({
+	                  type: 1,
+	                  title: false, //不显示标题栏
+	                  closeBtn: false,
+	                  area: '300px;',
+	                  shade: 0.8,
+	                  // id: 'LAY_layuipro', //设定一个id，防止重复弹出
+	                  btn: ['确定', '取消'],
+	                  btnAlign: 'c',
+	                  // moveType: 1, //拖拽模式，0或者1
+	                  content: '<div style="padding: 50px 0 30px; line-height: 22px; text-align: center; font-size: 16px;">确定删除？</div>',
+	                  yes: function(index, layero){
+	                    var params = JSON.stringify({
+	                    	"qualificationId": pid
+	                    });
+	                    $.ajax({
+							url: url+'/qualification/deleteQualification',
+							type:'POST',
+							dataType: 'JSON',
+							data: params,
+							headers:
+					        {
+					            Authorization: AuthorizationUrl,
+					        },
+							contentType :'application/json;charset=utf-8',
+							success: function(res) {
+								console.log(res);
+								layer.msg("删除成功",{"time":1000});
+								$(".tr"+(id+1)).remove();
+		                    	layer.close(index);
+							},
+							error: function(){
+								console.log('error');
+							}
+	                    });
+	                  },
+	                  btn2: function(index, layero){
+	                    layer.close(index);
+	                  }
+	                });
+	            },
+	            deleteAll : function(othis){
+	            	var pid = othis.data('pid');
+	            	var arrList = [];
+	            	arrList = checkboxArr;
+	            	// for (var i = 0; i < checkboxArr.length; i++) {
+	            	// 	arrList.push(dataArr[checkboxArr[i]].qualificationId);
+	            	// }
+
+	            	console.log(arrList);
+		            layer.open({
+	                  type: 1,
+	                  title: false, //不显示标题栏
+	                  closeBtn: false,
+	                  area: '300px;',
+	                  shade: 0.8,
+	                  // id: 'LAY_layuipro', //设定一个id，防止重复弹出
+	                  btn: ['确定', '取消'],
+	                  btnAlign: 'c',
+	                  // moveType: 1, //拖拽模式，0或者1
+	                  content: '<div style="padding: 50px 0 30px; line-height: 22px; text-align: center; font-size: 16px;">确定批量删除？</div>',
+	                  yes: function(index, layero){
+	                    var params = JSON.stringify(arrList);
+	                    $.ajax({
+							url: url+'/qualification/deleteQualificationList',
+							type:'POST',
+							dataType: 'JSON',
+							data: params,
+							headers:
+					        {
+					            Authorization: AuthorizationUrl,
+					        },
+							contentType :'application/json;charset=utf-8',
+							success: function(res) {
+								console.log(res);
+								layer.msg("批量删除成功",{"time":1000});
+								// for (var i = 0; i < checkboxArr.length; i++) {
+								// 	console.log(checkboxArr[i]+1);
+				    //         		$(".tr"+(Number(checkboxArr[i])+1)).remove();
+				    //         	}
+
+				            	checkboxArr = [];
+	        					pagingFun('/qualification/selectQualificationList');
+		                    	layer.close(index);
+		                    	setNum(1);
+								setNum(3);
+								setNum(4);
+							},
+							error: function(){
+								console.log('error');
+							}
+	                    });
+	                  },
+	                  btn2: function(index, layero){
+	                    layer.close(index);
+	                  }
+	                });
+	            },
+	            addAll : function(othis){
+	            	var pid = othis.data('pid');
+	            	var arrList = [];
+	            	arrList = checkboxArr;
+	            	// for (var i = 0; i < checkboxArr.length; i++) {
+	            	// 	arrList.push(dataArr[checkboxArr[i]].qualificationId);
+	            	// }
+
+	     //        	if(st == 1 || st == 4){
+						// layer.msg("该分类不能批量添加",{"time":1000});
+	     //        		return false;
+	     //        	}
+	            	console.log(arrList);
+		            layer.open({
+	                  type: 1,
+	                  title: false, //不显示标题栏
+	                  closeBtn: false,
+	                  area: '300px;',
+	                  shade: 0.8,
+	                  // id: 'LAY_layuipro', //设定一个id，防止重复弹出
+	                  btn: ['确定', '取消'],
+	                  btnAlign: 'c',
+	                  // moveType: 1, //拖拽模式，0或者1
+	                  content: '<div style="padding: 50px 0 30px; line-height: 22px; text-align: center; font-size: 16px;">确定批量添加？</div>',
+	                  yes: function(index, layero){
+	                    var params = JSON.stringify(arrList);
+	                    $.ajax({
+							url: url+'/qualification/addQualificationList',
+							type:'POST',
+							dataType: 'JSON',
+							data: params,
+							headers:
+					        {
+					            Authorization: AuthorizationUrl,
+					        },
+							contentType :'application/json;charset=utf-8',
+							success: function(res) {
+								console.log(res);
+								layer.msg("批量添加成功",{"time":1000});
+								// for (var i = 0; i < checkboxArr.length; i++) {
+								// 	console.log(checkboxArr[i]+1);
+				    //         		$(".tr"+(Number(checkboxArr[i])+1)).remove()
+				    //         	}
+				            	checkboxArr = [];
+	        					pagingFun('/qualification/selectQualificationList');
+		                    	layer.close(index);
+
+		                    	setNum(1);
+								setNum(3);
+								setNum(4);
+							},
+							error: function(){
+								console.log('error');
+							}
+	                    });
+	                  },
+	                  btn2: function(index, layero){
+	                    layer.close(index);
+	                  }
+	                });
+	            },
+	            look : function(othis){
+	            	pagingFun('/qualification/selectQualificationList');
+	            },
+	            printing : function(othis){
+
+		            var params2 = JSON.stringify({
+		                "current": 1,
+					    "size": sizeS,
+					    "projectsId": PID,
+					    "condition": '',
+					    "selectType": st
+		            });
+		            $.ajax({
+		              	url: url+ '/qualification/selectQualificationList',
+		              	type:'POST',
+		              	dataType: 'JSON',
+		              	data: params2,
+		              	contentType :'application/json;charset=utf-8',
+		              	headers:
+				        {
+				            Authorization: AuthorizationUrl,
+				        },
+		              	success: function(res) {
+		                  	console.log(res);
+		                  	var divs = '';
+		                  	for (var i = 0; i < res.data.dataList.length; i++) {
+
+		                  		var legalRepresentative = '——';
+		                  		if(res.data.dataList[i].legalRepresentative){
+		                  			legalRepresentative = res.data.dataList[i].legalRepresentative
+		                  		}
+		                  		var phone = '——';
+		                  		if(res.data.dataList[i].phone){
+		                  			phone = res.data.dataList[i].phone
+		                  		}
+
+		                  		var qualificationStatus = '';
+		                  		if(st == 4){
+			                    	if(res.data.dataList[i].qualificationStatus == 0){
+			                    		qualificationStatus = '不合格';
+			                    	}else{
+			                    		qualificationStatus = '合格';
+			                    	}
+
+			                    	$(".bz").html('备注：');
+			                    	$(".bh").html('抽选编号');
+			                    	
+		                  		}else{
+			                    	$(".bz").html('备注：合格的打√，不合格的打ⅹ。');
+			                    	$(".bh").html('编号');
+		                  		}
+
+								divs += '<tr>'
+								+ '<th>'+ (i+1) +'</th>'
+								+ '<th>'+ res.data.dataList[i].qualificationName +'</th>'
+								+ '<th>'+ legalRepresentative +'</th>'
+								+ '<th>'+ phone +'</th>'
+								+ '<th>'+ qualificationStatus +'</th>'
+								+ '<th></th>'
+								+ '</tr>'
+		                  	}
+		                  	$("#sub_div").html(divs);
+
+	            			$.print("#page");
+		              	},
+		              	error: function(){
+		                	layer.close(lodingS); 
+		                	console.log('error');
+		              	}
+		            });
+
+	            },
+	            export : function(othis){
+	            	var params2 = JSON.stringify({
+		                "current": 1,
+					    "size": sizeS,
+					    "projectsId": PID,
+					    "condition": '',
+					    "selectType": st
+		            });
+		            $.ajax({
+		              	url: url+ '/qualification/selectQualificationList',
+		              	type:'POST',
+		              	dataType: 'JSON',
+		              	data: params2,
+		              	contentType :'application/json;charset=utf-8',
+		              	headers:
+				        {
+				            Authorization: AuthorizationUrl,
+				        },
+		              	success: function(res) {
+		                  	console.log(res);
+		                  	var divs = '';
+		                  	for (var i = 0; i < res.data.dataList.length; i++) {
+
+		                  		var legalRepresentative = '——';
+		                  		if(res.data.dataList[i].legalRepresentative){
+		                  			legalRepresentative = res.data.dataList[i].legalRepresentative
+		                  		}
+		                  		var phone = '——';
+		                  		if(res.data.dataList[i].phone){
+		                  			phone = res.data.dataList[i].phone
+		                  		}
+
+		                  		var qualificationStatus = '';
+		                  		if(st == 4){
+			                    	if(res.data.dataList[i].qualificationStatus == 0){
+			                    		qualificationStatus = '不合格';
+			                    	}else{
+			                    		qualificationStatus = '合格';
+			                    	}
+		                  		}
+
+								divs += '<tr>'
+								+ '<th>'+ (i+1) +'</th>'
+								+ '<th>'+ res.data.dataList[i].qualificationName +'</th>'
+								+ '<th>'+ legalRepresentative +'</th>'
+								+ '<th>'+ phone +'</th>'
+								+ '<th>'+ qualificationStatus +'</th>'
+								+ '<th></th>'
+								+ '</tr>'
+		                  	}
+		                  	$("#sub_div").html(divs);
+
+							$("#page").wordExport("中选结果");
+		              	},
+		              	error: function(){
+		                	layer.close(lodingS); 
+		                	console.log('error');
+		              	}
+		            });
+	            },
+	            addC : function(othis){
+	            	var pid = othis.data('pid');
+	            	var id = othis.data('id');
+	            	layer.open({
+						type: 1,
+						title: false, //不显示标题栏
+						closeBtn: false,
+						area: '300px;',
+						shade: 0.8,
+						// id: 'LAY_layuipro', //设定一个id，防止重复弹出
+						btn: ['确定', '取消'],
+						btnAlign: 'c',
+						// moveType: 1, //拖拽模式，0或者1
+						content: '<div style="padding: 50px 0 30px; line-height: 22px; text-align: center; font-size: 16px;">确定添加至参与名单？</div>',
+						yes: function(index, layero){
+							var params = JSON.stringify({
+		                    	"qualificationId": pid
+		                    });
+		                    $.ajax({
+								url: url+'/qualification/addQualification',
+								type:'POST',
+								dataType: 'JSON',
+								data: params,
+								headers:
+						        {
+						            Authorization: AuthorizationUrl,
+						        },
+								contentType :'application/json;charset=utf-8',
+								success: function(res) {
+									layer.close(index);
+
+									layer.msg("操作成功",{"time":1000});
+									$(".tr"+(id+1)).remove();
+									setNum(1);
+									setNum(3);
+									setNum(4);
+								},
+								error: function(){
+									console.log('error');
+								}
+		                    });
+						},
+						btn2: function(index, layero){
+							layer.close(index);
+						}
+	                });
+	            },
+	    //         deleteAlls : function(othis){
+					// var params = JSON.stringify({
+     //                	"projectsId": PID
+     //                });
+     //                $.ajax({
+					// 	url: url+'/qualification/deleteQualifications',
+					// 	type:'POST',
+					// 	dataType: 'JSON',
+					// 	data: params,
+					// 	headers:
+				 //        {
+				 //            Authorization: AuthorizationUrl,
+				 //        },
+					// 	contentType :'application/json;charset=utf-8',
+					// 	success: function(res) {
+					// 		layer.msg("操作成功",{"time":1000});
+					// 		setNum(1);
+					// 		setNum(3);
+					// 		setNum(4);
+     //    					pagingFun('/qualification/selectQualificationList');
+					// 	},
+					// 	error: function(){
+					// 		console.log('error');
+					// 	}
+     //                });
+	    //         },
+	    //         addAlls : function(othis){
+					// var params = JSON.stringify({
+     //                	"projectsId": PID
+     //                });
+     //                $.ajax({
+					// 	url: url+'/qualification/addQualifications',
+					// 	type:'POST',
+					// 	dataType: 'JSON',
+					// 	data: params,
+					// 	headers:
+				 //        {
+				 //            Authorization: AuthorizationUrl,
+				 //        },
+					// 	contentType :'application/json;charset=utf-8',
+					// 	success: function(res) {
+					// 		layer.msg("操作成功",{"time":1000});
+					// 		setNum(1);
+					// 		setNum(3);
+					// 		setNum(4);
+     //    					pagingFun('/qualification/selectQualificationList');
+					// 	},
+					// 	error: function(){
+					// 		console.log('error');
+					// 	}
+     //                });
+	    //         },
+	        }
+
+
+	        // -----------------------------------------------------------
+	        $(document).on('click', '.layui-btn', function(){
+				var othis = $(this), method = othis.data('method');
+				active[method] ? active[method].call(this, othis) : '';
+				return false;
+			});
+
+	        $(document).on('click', '.wrap_ul li', function(){
+	        	$(this).addClass('click').siblings().removeClass('click');
+	        	st = Number($(this).attr("data-id"));
+	        	if(st == 1){
+	        		$("h1").html(GetRequest2('pname'));
+	        	}else if(st == 3){
+	        		$("h1").html(GetRequest2('pname') + '库外企业资格审查表');
+	        	}else if(st == 4){
+	        		$("h1").html(GetRequest2('pname') + '参选名单');
+	        	}
+	        	lodingS = layer.open({type: 3});
+	        	checkboxArr = [];
+	       		checkboxArrLength = 0;
+	        	pagingFun('/qualification/selectQualificationList');
+			});
+
+
+			//   上传
+			document.getElementById('upfile1').addEventListener('change', function(data) {
+				var formSatellite = document.getElementById("up_form1");
+				var formData = new FormData(formSatellite);
+				console.log(formData); 
+				$.ajax({
+					url: url+'/information/readExcel',
+					type: "POST",
+					data: formData,
+					async : false,
+					contentType: false,   //jax 中 contentType 设置为 false 是为了避免 JQuery 对其操作，从而失去分界符，而使服务器不能正常解析文件
+					processData: false,   //当设置为true的时候,jquery ajax 提交的时候不会序列化 data，而是直接使用data
+					headers:
+			        {
+			            Authorization: AuthorizationUrl,
+			        },
+					error : function(request) {
+						parent.layer.alert("网络超时");
+					},
+					success: function (res) {
+						console.log(res);
+						if(res.code == 200){
+							layer.msg("导入成功",{"time":1000});
+							pagingFun('/qualification/selectQualificationList');
+							setNum(1);
+							setNum(3);
+							setNum(4);
+						}else if(res.code == 500){
+							layer.msg(res.msg,{"time":1000});
+						}
+					}
+              	});
+			});
+
+			//   上传
+			document.getElementById('upfile2').addEventListener('change', function(data) {
+				var formSatellite = document.getElementById("up_form2");
+				var formData = new FormData(formSatellite);
+				console.log(formData); 
+				$.ajax({
+					url: url+'/deposit/readExcel',
+					type: "POST",
+					data: formData,
+					async : false,
+					contentType: false,   //jax 中 contentType 设置为 false 是为了避免 JQuery 对其操作，从而失去分界符，而使服务器不能正常解析文件
+					processData: false,   //当设置为true的时候,jquery ajax 提交的时候不会序列化 data，而是直接使用data
+					headers:
+			        {
+			            Authorization: AuthorizationUrl,
+			        },
+					error : function(request) {
+						parent.layer.alert("网络超时");
+					},
+					success: function (res) {
+						console.log(res);
+						if(res.code == 200){
+							layer.msg("导入成功",{"time":1000});
+							pagingFun('/qualification/selectQualificationList');
+							setNum(1);
+							setNum(3);
+							setNum(4);
+						}else if(res.code == 500){
+							layer.msg(res.msg,{"time":1000});
+						}
+					}
+              	});
+			});
+
+			setNum(1);
+			setNum(3);
+			setNum(4);
+			function setNum(ST) {
+	            var params2 = JSON.stringify({
+	                "current": 1,
+				    "size": 10,
+				    "projectsId": PID,
+				    "condition": '',
+				    "selectType": ST
+	            });
+	            $.ajax({
+	              	url: url+ "/qualification/selectQualificationList",
+	              	type:'POST',
+	              	dataType: 'JSON',
+	              	data: params2,
+	              	contentType :'application/json;charset=utf-8',
+	              	headers:
+			        {
+			            Authorization: AuthorizationUrl,
+			        },
+	              	success: function(res) {
+	                  	var cordNums = Number(res.data.pageVO.total);
+	                  	$(".st"+ST).find('font').html('('+ cordNums +')');
+	              	},
+	              	error: function(){
+	                	layer.close(lodingS); 
+	                	console.log('error');
+	              	}
+				});
+	       	};
+
+	       	form.on('checkbox(number)', function(data){
+			  	// console.log(data.elem.checked); //是否被选中，true或者false
+			  	// console.log(data.value); //复选框value值，也可以通过data.elem.value得到
+			  	var value = data.value;
+
+			  	if(value == ""){
+			  		var groupCheckbox = $("input[name='unitTypy']");
+			  		var groupCheckboxArr = [];
+			  		if (data.elem.checked) {
+						for (i = 0; i < groupCheckbox.length; i++) {
+						  	groupCheckbox[i].checked=true;
+						  	groupCheckboxArr.push(groupCheckbox[i].value);
+						}
+						checkboxArr = distinct(checkboxArr, groupCheckboxArr)
+		            } else {
+						for (i = 0; i < groupCheckbox.length; i++) {
+						  	groupCheckbox[i].checked=false;
+		            		var len = checkboxArr.length;
+						  	for (var x = 0; x < len; x++) {
+						  		if(checkboxArr[x] == groupCheckbox[i].value){
+						  			checkboxArr.splice(x, 1);
+						  			len--;
+                					x--;
+						  			break;
+						  		}
+						  	}
+						}
+		            }
+					form.render("checkbox");
+	            	console.log(checkboxArr);
+		            return false;
+			  	}
+
+				if (data.elem.checked) {
+					checkboxArr.push(value);
+					checkboxArrLength++;
+	            } else {
+	                var arr = [];
+	                for (var i = 0; i < checkboxArr.length; i++) {
+	                    var str = checkboxArr[i];
+	                    if(str != value && str != "" && str != null){
+	                    	arr.push(str);
+	                    }
+	                    // newnumber += (str != value && str != "" && str != null) ? str + "," : "";
+	                }
+	                checkboxArr = arr;
+					checkboxArrLength--;
+	            }
+
+                if(checkboxArrLength < $("input[name='unitTypy']").length){
+                	$("input[name='a']")[0].checked=false;
+                }else{
+                	$("input[name='a']")[0].checked=true;
+                }
+				form.render("checkbox");
+	            console.log(checkboxArr);
+			});     	    
+	        
+		});
+
+		function distinct(a, b) {
+		    let arr = a.concat(b)
+		    let result = []
+		    let obj = {}
+
+		    for (let i of arr) {
+		        if (!obj[i]) {
+		            result.push(i)
+		            obj[i] = 1
+		        }
+		    }
+
+		    return result
+		}
+
+	</script>
+	
+</html>
+
+

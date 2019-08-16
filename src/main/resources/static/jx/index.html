@@ -1,0 +1,299 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">		
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+	<link rel="stylesheet" type="text/css" href="css/layui.css" />
+
+    <style type="text/css">
+
+        .wrap{
+        	width: 100%;
+			height: 100%;
+			font-family: '微软雅黑';
+			background: #fff url(img/yoxi.png) repeat-x bottom center;
+			background-size: 1919px 225px;
+		}
+		.wrap_header{
+			width: 100%;
+			height: 80px;
+			background: #1471CE;
+			padding: 0 40px;
+
+			box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+			color: #fff;
+		}
+		.wrap_header p{
+			font-size: 30px;
+		}
+		.wrap_header > div{
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+		}
+		.wrap_header s{
+			text-decoration: underline;
+		}
+		.wrap_header i{
+			font-size: 24px;
+			margin-right: 15px;
+			cursor: pointer;
+		}
+
+		.wrap_div{
+			width: 100%;
+			position: relative;
+			left: 50%;
+			top: 36%;
+			transform: translate(-50%,-50%);
+			-webkit-transform:translate(-50%,-50%);
+
+			text-align: center;
+		}
+		.wrap_div a{
+			width: 280px;
+			height: 280px;
+			font-size: 20px;
+			color: #fff;
+			background: #1471CE;
+			margin: 0 40px;
+			cursor: pointer;
+
+			display: inline-flex;
+			display: -webkit-inline-flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.ts{
+			width: 100%;
+			position: absolute;
+			left: 0;
+			bottom: 5%;
+			-webkit-border-radius: 10px;
+			border-radius: 10px;
+			text-align: center;
+		}
+
+		.layui-upload{
+			width: auto;
+			display: inline-block;
+		}
+		.layui-upload-list3{
+	    	margin: 0;
+	    	width: 90px;
+	    	height: 90px;
+	    	margin-right: 20px;
+	    	cursor: pointer;
+	    	/*background: #f6f6f6 url(../images/imgBg.png) no-repeat center center;*/
+	    	/*background-size: 60px 60px;*/
+	    }
+	    .layui-upload-list3 img{
+	    	width: 100%;
+	    	height: 100%
+	    }
+
+    </style>
+
+	</head>
+	<body>
+		<div class="wrap">
+            <div class="wrap_header">
+            	<p class="initTitle"></p>
+            	<div>
+            		<i class="layui-icon layui-icon-set-fill" data-method="setUp"></i>
+	            	<s>安全退出</s>
+            	</div>
+            </div>
+
+            <div class="wrap_div">
+            	<a class="ac" href="projectList.html">项目抽选</a>
+            	<a class="ac" href="indexList.html">项目列表</a>
+            	<a class="ac" href="indexListAlready.html">抽选结果</a>
+            	<a class="ac" href="enterpriseList.html">企业列表</a>
+            </div>
+
+            <!-- <div class="ts">本系统由【重庆欣作网络科技】提供服务与技术支持</div> -->
+		</div>
+	</body>
+
+	<script type="text/javascript" src="js/jquery.min.js" ></script>
+	<script type="text/javascript" src="js/index.js" ></script>
+	<script type="text/javascript" src="js/layer.js" ></script>
+	<script type="text/javascript" src="layui.js" ></script>
+
+	<script type="text/javascript">
+
+		layui.use(['element','layer','jquery', 'form', 'laypage', 'laydate', 'upload'], function() {
+			var $ = layui.jquery
+			var element = layui.element //Tab的切换功能，切换事件监听等，需要依赖element模块
+			var form = layui.form
+			,layer = layui.layer
+			,layedit = layui.layedit
+			,laydate = layui.laydate
+			,laypage = layui.laypage
+			,upload = layui.upload
+
+			var active = {
+	            setUp : function(othis){
+	            	var type = othis.data('type');
+	                var div = '';
+
+	                var isImg = false;
+
+					div += '<div class="layui-form-item" style="margin-top: 15px;"><label class="layui-form-label">秘钥</label><div class="layui-input-inline" style="width: 220px;"><input type="text" placeholder="输入秘钥" class="layui-input name1"></div></div>'
+
+					// + '<div class="layui-form-item"><label class="layui-form-label">系统logo</label>'
+					// + '<div class="layui-upload">'
+					// + '<div class="layui-upload-list3" id="test4">'
+					// + '<img class="layui-upload-img" id="demo4">'
+					// + '<p id="demoText"></p>'
+					// + '</div>'
+					// + '</div>'
+					// + '</div>'
+
+					+ '<div class="layui-form-item"><label class="layui-form-label">系统名称</label><div class="layui-input-inline" style="width: 220px;"><input type="text" placeholder="输入系统名称" class="layui-input name2"></div></div>'
+					+ '<div class="layui-form-item"><label class="layui-form-label">密码</label><div class="layui-input-inline" style="width: 220px;"><input type="text" placeholder="不填写则不修改密码" class="layui-input name3"></div></div>'
+
+	                layer.open({
+						type: 1,
+						offset: type,
+						title: "新建项目",
+						closeBtn: false,
+						area: '400px',
+						shade: 0.8,
+						// id: 'LAY_examine', //设定一个id，防止重复弹出
+						btn: ['修改', '取消'],
+						btnAlign: 'c',
+						// moveType: 1, //拖拽模式，0或者1
+						content: div,
+						success:function () {
+							var params = JSON.stringify({
+								"userId": sessionStorage.getItem("userId")
+							});
+							$.ajax({
+								url: url+'/user/selectUser',
+								type:'POST',
+								dataType: 'JSON',
+								data: params,
+								contentType :'application/json;charset=utf-8',
+								headers:
+								{
+									Authorization: AuthorizationUrl,
+								},
+								success: function(res) {
+									console.log(res.data);
+									$('#demo4').attr('src', url + res.data.logoIcon); 
+									$('.name2').val(res.data.titleName); 
+								},
+								error: function(){
+									console.log('error');
+								}
+							});
+
+	                    	form.render();
+
+	                    	//上传logo
+				            var uploadInst = upload.render({
+				                elem: '#test4'
+				                ,url: '/admin/api/upload/'
+				                ,auto: false //选择文件后不自动上传
+				                // ,bindAction: '#btn1' //指向一个按钮触发上传
+				                ,choose: function(obj){
+				                  	var files = obj.pushFile();
+				                  	obj.preview(function(index, file, result){
+				                    	// console.log(result); //得到文件base64编码，比如图片
+				                    	// cordImg = result;
+				                    	isImg = true;
+				                    	$('#demo4').attr('src', result); 
+				                  	});
+				                }
+				            }); 
+
+	                  	},
+	                  	yes: function(index, layero){
+	                      	var name1 = $(".name1").val();
+	                      	var name2 = $(".name2").val();
+	                      	var name3 = $(".name3").val();
+	                      	var demo4 = '';
+	                      	if(isImg){
+	                      		demo4 = $('#demo4').attr('src');
+	                      	}
+
+	                      	if(!name1){
+								layer.msg("请输入秘钥",{"time":1000});
+	                      		return false;
+	                      	}
+	                      	if(!name2){
+								layer.msg("请输入系统名称",{"time":1000});
+	                      		return false;
+	                      	}
+
+	                      	var params = JSON.stringify({
+							    "userId": sessionStorage.getItem("userId"),
+								"initialPassword": name1,
+							    "userPassword": name3,
+							    "titleName": name2,
+							    "logoIcon": demo4
+							});
+							$.ajax({
+								url: url+'/user/change',
+								type:'POST',
+								dataType: 'JSON',
+								data: params,
+								contentType :'application/json;charset=utf-8',
+								headers:
+								{
+									Authorization: AuthorizationUrl,
+								},
+								success: function(res) {
+									console.log(res);
+									if(res.code == 200){
+										layer.close(index);
+										layer.msg("修改成功",{"time":1000});
+									}
+								},
+								error: function(){
+									console.log('error');
+								}
+							});
+
+	                  	},
+	                  	btn2: function(index, layero){
+	                      	layer.close(index);
+	                  	}
+	                });
+
+	            },
+	        }
+
+
+	        // -----------------------------------------------------------
+	        $(document).on('click', '.layui-icon', function(){
+				var othis = $(this), method = othis.data('method');
+				active[method] ? active[method].call(this, othis) : '';
+				return false;
+			});
+
+		});
+
+	</script>
+	
+</html>
+
+

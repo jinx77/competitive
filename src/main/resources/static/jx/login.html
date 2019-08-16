@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>登录页</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">		
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+	<link rel="stylesheet" type="text/css" href="css/layui.css" />
+
+    <style type="text/css">
+
+        .wrap{
+        	width: 100%;
+			height: 100%;
+			font-family: '微软雅黑';
+			background: #1471CE url(img/ednglu.png) repeat-x bottom center;
+			background-size: 1919px 225px;
+		}
+
+		.wrap_login{
+			width: 600px;
+			height: 500px;
+			position: relative;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%,-50%);
+			-webkit-transform:translate(-50%,-50%);
+			background: #fff;
+			-webkit-border-radius: 10px;
+			border-radius: 10px;
+		}
+		.logo{
+			width: 96px;
+			height: auto;
+			display: block;
+			margin: 0 auto;
+			padding-top: 50px;
+		}
+		.wrap_title{
+			width: 100%;
+			text-align: center;
+			line-height: 1;
+			font-size: 30px;
+			padding-top: 86px;
+			padding-bottom: 50px;
+		}
+		.wrap_input{
+			width: 350px;
+			height: 50px;
+			-webkit-border-radius: 10px;
+			border-radius: 10px;
+			background: #eee;
+			margin: 0 auto 25px;
+
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+			font-size: 16px;
+			overflow: hidden;
+			position: relative;
+		}
+		.wrap_input p{
+			width: 13%;
+			color: #717171;
+			text-align: right;
+			margin-right: 3%;
+		}
+		.wrap_input input{
+			width: 80%;
+			height: 50px;
+			color: #717171;
+		}
+		.wrap_input span{
+			color: #717171;
+			position: absolute;
+			right: 3%;
+			top: 50%;
+			transform: translate(0,-50%);
+			-webkit-transform:translate(0,-50%);	
+			font-size: 12px;
+			cursor: pointer;	
+		}
+
+		.wrap_checked{
+			width: 80px;
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: flex-start;
+
+			font-size: 12px;
+			color: #6A6A6A;
+			margin-left: 155px;
+			cursor: pointer;
+		}
+		.wrap_checked span{
+			width: 15px;
+			height: 15px;
+			-webkit-border: 1px solid #8E8E8E;
+			border: 1px solid #8E8E8E;
+			box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+			margin-right: 10px;
+		}
+		.wrap_checked span.checked{
+			background: url(img/icon1.png) no-repeat center center;
+			background-size: 100% 100%;
+		}
+
+		.btn{
+			width: 350px;
+			line-height: 50px;
+			text-align: center;
+			color: #fff;
+			background: #318DE9;
+			-webkit-border-radius: 10px;
+			border-radius: 10px;
+			margin: 0 auto;
+			margin-top: 40px;
+			cursor: pointer;
+		}
+
+		.ts{
+			width: 100%;
+			position: absolute;
+			left: 0;
+			bottom: 5%;
+			-webkit-border-radius: 10px;
+			border-radius: 10px;
+			text-align: center;
+		}
+
+    </style>
+
+	</head>
+	<body>
+		<div class="wrap">
+            <div class="wrap_login">
+            	<!-- <img src="" class="logo"> -->
+            	<div class="wrap_title"></div>
+            	<div class="wrap_input"><p>账号</p><input type="text" class="name"></div>
+            	<div class="wrap_input"><p>密码</p><input type="password" class="password"><span></span></div>
+
+            	<div class="wrap_checked"><span></span>记住密码</div>
+
+            	<div class="btn">登录</div>
+            </div>
+            <div class="ts">本系统由【重庆欣作网络科技】提供服务与技术支持</div>
+		</div>
+	</body>
+
+	<script type="text/javascript" src="js/jquery.min.js" ></script>
+	<script type="text/javascript" src="js/index.js" ></script>
+	<script type="text/javascript" src="js/layer.js" ></script>
+    
+    <script type="text/javascript">
+
+    	if(localStorage.getItem("user_name") && localStorage.getItem("user_password")){
+	    	$(".name").val(localStorage.getItem("user_name"));
+	    	$(".password").val(localStorage.getItem("user_password"));
+    	}
+    	
+    	
+    	var isChecked = false;
+    	$(document).on('click', '.wrap_checked', function(){
+    		if($(this).find('span').hasClass('checked')){
+    			isChecked = false;
+    			$(this).find('span').removeClass('checked');
+    		}else{
+    			isChecked = true;
+    			$(this).find('span').addClass('checked');
+    		}
+		});
+
+
+		$(document).on('click', '.btn', function(){
+			var name = $(".name").val();
+			var password = $(".password").val();
+
+			if(!name){
+                layer.msg("请输入账户",1);
+				return false;
+			}
+			if(!password){
+                layer.msg("请输入密码",1);
+				return false;
+			}
+
+			if(isChecked){
+				localStorage.setItem("user_name",name);
+				localStorage.setItem("user_password",password);
+			}
+
+			var params2 = JSON.stringify({
+                "userName": name,
+    			"userPassword": password
+            });
+            $.ajax({
+              	url: url + '/user/register',
+              	type:'POST',
+              	dataType: 'JSON',
+              	data: params2,
+              	contentType :'application/json;charset=utf-8',
+              	success: function(res) {
+                  	console.log(res);
+                  	if(res.code == 200){
+                  		sessionStorage.setItem("userId",res.data.userId);
+                  		sessionStorage.setItem("AuthorizationUrl",res.data.userPassword);
+	            		window.location.href = "index.html";
+                  	}else{
+                		layer.msg(res.msg,1);
+                  	}
+              	},
+              	error: function(){
+                	console.log('error');
+              	}
+            });
+
+		});
+
+		$.ajax({
+          	url: url+ '/user/selectLogo',
+          	type:'POST',
+          	dataType: 'JSON',
+          	// data: params2,
+          	contentType :'application/json;charset=utf-8',
+          	success: function(res) {
+              	console.log(res);
+              	if(res.code == 200){
+              		console.log(res.data);
+              		$(".logo").attr("src", url + res.data.logoIcon)
+              		$(".wrap_title").html(res.data.titleName);
+                  	sessionStorage.setItem("title",res.data.titleName);
+              	}
+          	},
+          	error: function(){
+            	console.log('error');
+          	}
+        });
+
+
+    </script>
+	
+</html>
+
+

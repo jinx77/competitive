@@ -1,0 +1,731 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">		
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+	<link rel="stylesheet" type="text/css" href="css/layui.css" />
+
+    <style type="text/css">
+
+        .wrap{
+        	width: 100%;
+			height: 100%;
+			font-family: '微软雅黑';
+			/*background: #fff url(img/yoxi.png) repeat-x bottom center;*/
+			/*background-size: 1919px 225px;*/
+			background: #F5F5F5;
+		}
+		.wrap_header{
+			width: 100%;
+			height: 80px;
+			background: #1471CE;
+			padding: 0 40px;
+
+			box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+			color: #fff;
+		}
+		.wrap_header p{
+			font-size: 30px;
+		}
+		.wrap_header s{
+			text-decoration: underline;
+		}
+
+		.wrap_nav{
+			width: 100%;
+			height: 40px;
+			color: #fff;
+			background: #1471CE;
+			border-top: 1px solid #4da6ff;
+			position: relative;
+
+			padding: 0 40px;
+
+			box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: flex-start;
+		}
+		.wrap_nav a{
+			color: #fff;
+		}
+		.wrap_nav i{
+			font-size: 20px;
+		}
+		.wrap_nav > *{
+			margin-right: 10px;
+		}
+		.wrap_nav_li a{
+			padding: 0 4px;
+		}
+		.wrap_nav_li a:hover{
+			text-decoration: underline;
+		}
+
+		.zdy-blue{
+			background: #1067BE;
+		}
+		.zdy-blue2{
+			color: #1067BE;
+		}
+
+		.wrap_div{
+			width: 100%;
+			height: calc(100% - 120px);
+			padding: 10px;
+
+			box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+		}
+
+		.layui-form-label{
+			width: 100px;
+		}
+
+		.layui-input-block{
+			margin: 20px auto 0;
+		}
+
+	    #paging{
+			width: 100%;
+			text-align: right;
+		}
+		#paging > div{
+			margin: 0;
+			height: 30px;
+		}
+
+		.layui-form-select dl dd.layui-this {
+		    background-color: #1067BE;
+		    color: #fff;
+		}
+
+		.fileinput-button {
+			position: relative;
+			display: inline-block;
+			overflow: hidden;
+			vertical-align: middle;
+		}
+		.fileinput-button input{
+			position:absolute;
+			right: 0px;
+			top: 0px;
+			opacity: 0;
+			-ms-filter: 'alpha(opacity=0)';
+			font-size: 200px;
+			cursor: pointer;
+		}
+
+		.ts{
+			width: 100%;
+			position: absolute;
+			left: 0;
+			bottom: 1%;
+			-webkit-border-radius: 10px;
+			border-radius: 10px;
+			text-align: center;
+		}
+
+		.fh{
+			margin: 0;
+			position: absolute;
+			right: 40px;
+			top: 50%;
+			transform: translate(0,-50%);
+			-webkit-transform:translate(0,-50%);
+		}
+
+		.tables{
+			width: 100%;
+			height: calc(100% - 116px);
+			overflow-y: auto;
+			overflow-x: hidden;
+		}
+
+    </style>
+
+	</head>
+	<body>
+		<div class="wrap">
+            <div class="wrap_header">
+            	<p class="initTitle"></p>
+            	<s>安全退出</s>
+            </div>
+            <div class="wrap_nav">
+            	<a class="ac" href="index.html"><i class="layui-icon layui-icon-home"></i></a>
+            	<p>位置：</p>
+            	<div class="wrap_nav_li">
+            		<a class="ac" href="index.html">首页</a>&gt;<a class="ac" href="enterpriseList.html">企业列表</a>
+            	</div>
+            	<a class="fh ac" href="index.html">返回</a>
+            </div>
+
+            <div class="wrap_div">
+
+            	<div class="layui-form">
+
+					<button class="layui-btn zdy-blue" data-method="add">添加企业</button>
+					<button class="layui-btn zdy-blue" data-method="el">设置类型</button>
+					<div class="layui-inline" style="float: right;">
+
+						<label class="layui-form-label">企业类型：</label>
+						<div class="layui-input-inline" style="margin-right: 15px;">
+							<select name="" lay-filter="selectS1" class="selectS1">
+							</select>
+						</div>
+
+						<div class="layui-input-inline" style="width: 300px;">
+						  <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="输入需要查询的名称" class="layui-input ssInput">
+						</div>
+						<button class="layui-btn zdy-blue" data-method="look">查询</button>
+					</div>
+	            </div>
+
+	            <div class="layui-form" style="margin-top: 10px;">
+
+            		<form class="layui-form" action="#" enctype="multipart/form-data" style="display: inline-block;" id="up_form1">
+						<div class="btn zdy-blue fileinput-button">
+							<span class="layui-btn zdy-blue">导入入库表(先选择右边的企业类型)</span>
+							<input type="text" name="companyClassifyId" class="companyClassifyId">
+							<input type="file" name="excel" id="upfile1">
+						</div>
+			        </form>
+
+			        <div class="layui-input-inline">
+						<select name="" lay-filter="selectS2" class="selectS2">
+						</select>
+					</div>
+
+	            </div>
+
+	            <!--  -->
+	            <div class="tables">
+	            <table class="layui-table" id="table1" lay-skin="line">
+	              <colgroup>
+	                <col width="100">
+	                <col width="200">
+	                <col width="100">
+	                <col width="100">
+	                <col width="100">
+	                <col width="100">
+	              </colgroup>
+	              <thead>
+	                <tr>
+	                  <th>编号</th>
+	                  <th>公司名称</th>
+	                  <th>法人代表</th>
+	                  <th>电话</th>
+	                  <th>类型</th>
+	                  <th>操作</th>
+	                </tr> 
+	              </thead>
+	              <tbody id="table_list">
+	                <!-- <tr>
+	                  <td>男</td>
+	                  <td>男</td>
+	                  <td>男</td>
+	                  <td>12345678912</td>
+	                  <td>500232200109089999</td>
+	                  <td>13678474697</td>
+	                  <td>
+	                  	<button class="layui-btn layui-btn-sm layui-btn-warm" data-method="updata">修改</button>
+	                  	<button class="layui-btn layui-btn-sm zdy-blue" data-method="query">查看</button>
+	                  	<button class="layui-btn layui-btn-sm layui-btn-danger" data-method="delete">删除</button>
+	                  </td>
+	                </tr> -->
+	              </tbody>
+	            </table>
+	            </div>
+	            
+	            <!--  -->
+	            <!-- <div id="paging"></div> -->
+
+	            <!-- <div class="layui-input-inline" style="width: 300px;"><input type="text" placeholder="项目名称" class="layui-input"></div>
+	            <div class="layui-input-inline" style="width: 300px;"><input type="text" placeholder="建设单位" class="layui-input"></div>
+	            <div class="layui-input-inline" style="width: 300px;"><input type="text" placeholder="发包价" class="layui-input"></div>
+	            <div class="layui-input-inline" style="width: 300px;"><input type="text" placeholder="需中选公司(家)" class="layui-input"></div> -->
+
+            	<div class="ts">本系统由【重庆欣作网络科技】提供服务与技术支持</div>
+            </div>
+		</div>
+	</body>
+
+	<script type="text/javascript" src="js/jquery.min.js" ></script>
+	<script type="text/javascript" src="js/index.js" ></script>
+	<script type="text/javascript" src="js/layer.js" ></script>
+	<script type="text/javascript" src="layui.js" ></script>
+
+
+	<script type="text/javascript">
+		
+		layui.use(['element','layer','jquery', 'form', 'laypage', 'laydate', 'upload'], function() {
+			var $ = layui.jquery
+			var element = layui.element //Tab的切换功能，切换事件监听等，需要依赖element模块
+			var form = layui.form
+			,layer = layui.layer
+			,layedit = layui.layedit
+			,laydate = layui.laydate
+			,laypage = layui.laypage
+			,upload = layui.upload
+
+			var lodingS = layer.open({type: 3})
+	        // 新建
+	        var selectVal1 = "";
+	        var selectVal2 = "";
+	          
+	        // 查询-卡总条数
+	        function pagingFun(URLS) {
+	            var params2 = JSON.stringify({
+	                "current": 1,
+				    "size": 1000000,
+				    "condition": $(".ssInput").val(),
+				    "companyClassifyId": selectVal1,
+	            });
+	            $.ajax({
+	              	url: url+URLS,
+	              	type:'POST',
+	              	dataType: 'JSON',
+	              	data: params2,
+	              	contentType :'application/json;charset=utf-8',
+	              	headers:
+			        {
+			            Authorization: AuthorizationUrl,
+			        },
+	              	success: function(res) {
+	                  	// console.log(res);
+	                  	if(res.code === "F"){
+		                    var arr = [];
+		                    $("#table_list").html(blankFun())
+		                    layer.close(lodingS);
+		                    return false;
+	                  	}
+	                  	var cordNums = Number(res.data.total);
+	                  	// 分页
+	                  	laypage.render({
+		                    elem: 'paging', 
+		                    count: cordNums, //数据总数
+		                    limit: 10, //每页显示的条数
+		                    jump: function(obj){
+		                      // console.log(obj);
+		                      // 查询数据
+		                      setData(obj.curr, obj.limit, URLS);
+		                    },
+	                  	});
+	              	},
+	              	error: function(){
+	                	layer.close(lodingS); 
+	                	console.log('error');
+	              	}
+	            });
+	        }
+	        pagingFun('/company/selectCompanyList');
+
+	        // 展示数据、分页
+	        var dataArr = [];
+	        function setData(index, size, URL) {
+	            var params = JSON.stringify({
+	                "current": 1,
+				    "size": 1000000,
+				    "condition": $(".ssInput").val(),
+				    "companyClassifyId": selectVal1,
+	            });
+	            $.ajax({
+	              	url: url+URL,
+	              	type:'POST',
+	              	dataType: 'JSON',
+	              	data: params,
+	              	contentType :'application/json;charset=utf-8',
+	              	headers:
+			        {
+			            Authorization: AuthorizationUrl,
+			        },
+	              	success: function(res) {
+	                	console.log(res);
+	                  	var div = '';
+	                  	layer.close(lodingS); 
+	                  	if(res.code === "F"){
+		                    var arr = [];
+		                    document.getElementById('table_list').innerHTML = function(){
+		                        div = blankFun();
+		                        arr.push(div);
+		                        return arr.join('');
+		                    }
+		                    return false;
+	                  	}
+	                  	dataArr = res.data.dataList;
+	                  	// console.log(dataArr);
+	                  	//模拟渲染
+	                  	document.getElementById('table_list').innerHTML = function(){
+		                    var arr = [], thisData = dataArr;
+		                    layui.each(thisData, function(index, item){
+		                        div +='<tr class="tr'+ (index+1) +'">'
+								+ '<td>'+ item.companyNumber +'</td>'
+								+ '<td>'+ item.proposerName +'</td>'
+								+ '<td>'+ item.legalRepresentative +'</td>'
+								+ '<td>'+ item.phone +'</td>'
+								+ '<td>'+ item.companyClassifyName +'</td>'
+								+ '<td>'
+								+ '<button class="layui-btn layui-btn-sm zdy-blue" data-method="update" data-id="'+ index +'">修改</button>'
+								+ '<button class="layui-btn layui-btn-sm layui-btn-danger" data-method="delete" data-pid="'+ item.companyId +'">删除</button>'
+								+ '</td>'
+								+ '</tr>'
+		                    });
+		                    arr.push(div);
+		                    return arr.join('');
+	                  	}();
+	                  	form.render();
+	              	},
+	              	error: function(){
+	                  	console.log('error');
+	              	}
+	            });
+	        }
+
+
+			var active = {
+	            add : function(othis){
+	            	var type = othis.data('type');
+	                var div = '';
+
+					div += '<div class="layui-input-block" style="width: 300px;">'
+					+ '<form class="layui-form" >'
+					+ '<select name="" lay-filter="selectS3" class="selectS3">'
+					+ '</select>'
+					+ '</form>'
+					+ '</div>'
+					+ '<div class="layui-input-block" style="width: 300px;"><input type="text" placeholder="公司名称" class="layui-input name1"></div>'
+		            + '<div class="layui-input-block" style="width: 300px;"><input type="text" placeholder="法人代表人" class="layui-input name2"></div>'
+		            + '<div class="layui-input-block" style="width: 300px;"><input type="text" placeholder="联系电话" class="layui-input name3"></div>'
+
+	                layer.open({
+						type: 1,
+						offset: type,
+						title: "新建公司",
+						closeBtn: false,
+						area: ['400px', '390px'],
+						shade: 0.8,
+						// id: 'LAY_examine', //设定一个id，防止重复弹出
+						btn: ['添加', '取消'],
+						btnAlign: 'c',
+						// moveType: 1, //拖拽模式，0或者1
+						content: div,
+						success:function () {
+							getSCF(function(){
+								var div = '<option value="">请选择公司分类</option>';
+								for (var i = 0; i < scfArr.length; i++) {
+									div += '<option value="'+ scfArr[i].classifyId +'">'+ scfArr[i].classifyName +'</option>';
+								}
+					        	$(".selectS3").html(div);
+					        	form.render();
+					        });
+		                },
+		                yes: function(index, layero){
+		                    var name1 = $(".name1").val();
+		                    var name2 = $(".name2").val();
+		                    var name3 = $(".name3").val();
+		                    var selectS3 = $(".selectS3").val();
+		                    if(!selectS3){
+                      			layer.msg("请选择公司分类",{"time":1000});
+		                    	return false;
+		                    }
+		                    if(!name1){
+                      			layer.msg("请输入公司名称",{"time":1000});
+		                    	return false;
+		                    }
+		                    if(!name2){
+                      			layer.msg("请输入法人代表人",{"time":1000});
+		                    	return false;
+		                    }
+		                    if(!name3){
+                      			layer.msg("请输入联系电话",{"time":1000});
+		                    	return false;
+		                    }
+		                    
+		                    var params = JSON.stringify({
+				                "proposerName": name1,
+							    "legalRepresentative": name2,
+							    "phone": name3,
+							    "companyClassifyId": selectS3
+				            });
+				            $.ajax({
+								url: url + '/company/addCompany',
+								type:'POST',
+								dataType: 'JSON',
+								headers:
+						        {
+						            Authorization: AuthorizationUrl,
+						        },
+								data: params,
+								contentType :'application/json;charset=utf-8',
+								success: function(res) {
+									console.log(res);
+		                    		layer.close(index);
+	            					pagingFun('/company/selectCompanyList');
+								},
+								error: function(){
+									console.log('error');
+								}
+				            });
+		                },
+		                btn2: function(index, layero){
+		                    layer.close(index);
+		                }
+	                });
+	            },
+	            update: function(othis){
+	            	var id = othis.data('id');
+	            	var type = othis.data('type');
+	                var div = '';
+
+					div += '<div class="layui-input-block" style="width: 300px;">'
+					+ '<form class="layui-form" >'
+					+ '<select name="" lay-filter="selectS3" class="selectS3">'
+					+ '</select>'
+					+ '</form>'
+					+ '</div>'
+					+ '<div class="layui-input-block" style="width: 300px;"><input type="text" placeholder="公司名称" class="layui-input name1"></div>'
+		            + '<div class="layui-input-block" style="width: 300px;"><input type="text" placeholder="法人代表人" class="layui-input name2"></div>'
+		            + '<div class="layui-input-block" style="width: 300px;"><input type="text" placeholder="联系电话" class="layui-input name3"></div>'
+
+	                layer.open({
+						type: 1,
+						offset: type,
+						title: "修改公司信息",
+						closeBtn: false,
+						area: ['400px', '390px'],
+						shade: 0.8,
+						// id: 'LAY_examine', //设定一个id，防止重复弹出
+						btn: ['修改', '取消'],
+						btnAlign: 'c',
+						// moveType: 1, //拖拽模式，0或者1
+						content: div,
+						success:function () {
+
+							getSCF(function(){
+								var div = '<option value="">请选择公司分类</option>';
+								for (var i = 0; i < scfArr.length; i++) {
+									div += '<option value="'+ scfArr[i].classifyId +'">'+ scfArr[i].classifyName +'</option>';
+								}
+					        	$(".selectS3").html(div);
+		                    	$(".selectS3").val(dataArr[id].companyClassifyId);
+					        	form.render();
+					        });
+
+	                    	$(".name1").val(dataArr[id].proposerName);
+		                    $(".name2").val(dataArr[id].legalRepresentative);
+		                    $(".name3").val(dataArr[id].phone);
+					        form.render();
+		                },
+		                yes: function(index, layero){
+		                    var name1 = $(".name1").val();
+		                    var name2 = $(".name2").val();
+		                    var name3 = $(".name3").val();
+		                    var selectS3 = $(".selectS3").val();
+		                    if(!selectS3){
+                      			layer.msg("请选择公司分类",{"time":1000});
+		                    	return false;
+		                    }
+		                    if(!name1){
+                      			layer.msg("请输入公司名称",{"time":1000});
+		                    	return false;
+		                    }
+		                    if(!name2){
+                      			layer.msg("请输入法人代表人",{"time":1000});
+		                    	return false;
+		                    }
+		                    if(!name3){
+                      			layer.msg("请输入联系电话",{"time":1000});
+		                    	return false;
+		                    }
+					        console.log(selectS3);
+		                    var params = JSON.stringify({
+		                    	"companyId": dataArr[id].companyId,
+				                "proposerName": name1,
+							    "legalRepresentative": name2,
+							    "phone": name3,
+							    "companyClassifyId": selectS3
+				            });
+				            $.ajax({
+								url: url + '/company/updateCompany',
+								type:'POST',
+								dataType: 'JSON',
+								headers:
+						        {
+						            Authorization: AuthorizationUrl,
+						        },
+								data: params,
+								contentType :'application/json;charset=utf-8',
+								success: function(res) {
+									console.log(res);
+		                    		layer.close(index);
+	            					pagingFun('/company/selectCompanyList');
+								},
+								error: function(){
+									console.log('error');
+								}
+				            });
+		                },
+		                btn2: function(index, layero){
+		                    layer.close(index);
+		                }
+	                });
+	            },
+	            delete : function(othis){
+	            	var pid = othis.data('pid');
+		            layer.open({
+	                  type: 1,
+	                  title: false, //不显示标题栏
+	                  closeBtn: false,
+	                  area: '300px;',
+	                  shade: 0.8,
+	                  // id: 'LAY_layuipro', //设定一个id，防止重复弹出
+	                  btn: ['确定', '取消'],
+	                  btnAlign: 'c',
+	                  // moveType: 1, //拖拽模式，0或者1
+	                  content: '<div style="padding: 50px 0 30px; line-height: 22px; text-align: center; font-size: 16px;">确定删除？</div>',
+	                  yes: function(index, layero){
+	                    var params = JSON.stringify({
+	                    	"companyId": pid
+	                    });
+	                    $.ajax({
+							url: url+'/company/deleteCompany',
+							type:'POST',
+							dataType: 'JSON',
+							data: params,
+							headers:
+					        {
+					            Authorization: AuthorizationUrl,
+					        },
+							contentType :'application/json;charset=utf-8',
+							success: function(res) {
+								layer.msg("删除成功",{"time":1000});
+		            			pagingFun('/company/selectCompanyList');
+		                    	layer.close(index);
+							},
+							error: function(){
+								console.log('error');
+							}
+	                    });
+	                  },
+	                  btn2: function(index, layero){
+	                    layer.close(index);
+	                  }
+	                });
+	            },
+	            look : function(){
+	            	pagingFun('/company/selectCompanyList');
+	            },
+	            el : function(){
+	            	window.location.href = 'enterpriseClassificationList.html';
+	            },
+	        }
+
+			getSCF(function(){
+				var div = '<option value="">全部</option>';
+				for (var i = 0; i < scfArr.length; i++) {
+					div += '<option value="'+ scfArr[i].classifyId +'">'+ scfArr[i].classifyName +'</option>';
+				}
+	        	$(".selectS1").html(div);
+	            form.render();
+	        });
+
+	        getSCF(function(){
+				var div = '<option value="">请先选择类型</option>';
+				for (var i = 0; i < scfArr.length; i++) {
+					div += '<option value="'+ scfArr[i].classifyId +'">'+ scfArr[i].classifyName +"("+ scfArr[i].classifyQuantity +")"+'</option>';
+				}
+	        	$(".selectS2").html(div);
+	            form.render();
+	        });
+
+	        //   上传
+			document.getElementById('upfile1').addEventListener('change', function(data) {
+				if(!selectVal2){
+					layer.msg("请选择类型",{"time":1000});
+					return false;
+				}
+				lodingS = layer.open({type: 3});
+				var formSatellite = document.getElementById("up_form1");
+				var formData = new FormData(formSatellite);
+
+				var setT = setTimeout(function(){
+					clearTimeout(setT);
+					$.ajax({
+						url: url+'/company/readExcel',
+						type: "POST",
+						data: formData,
+						async : false,
+						contentType: false,   //jax 中 contentType 设置为 false 是为了避免 JQuery 对其操作，从而失去分界符，而使服务器不能正常解析文件
+						processData: false,   //当设置为true的时候,jquery ajax 提交的时候不会序列化 data，而是直接使用data
+						headers:
+				        {
+				            Authorization: AuthorizationUrl,
+				        },
+						error : function(request) {
+							layer.close(lodingS);
+							// parent.layer.alert("网络超时");
+						},
+						success: function (res) {
+							console.log(res);
+							layer.close(lodingS);
+							if(res.code == 200){
+								layer.msg("导入成功",{"time":1000});
+								getSCF(function(){
+									var div = '<option value="">请先选择类型</option>';
+									for (var i = 0; i < scfArr.length; i++) {
+										div += '<option value="'+ scfArr[i].classifyId +'">'+ scfArr[i].classifyName +"("+ scfArr[i].classifyQuantity +")"+'</option>';
+									}
+						        	$(".selectS2").html(div);
+						            form.render();
+						        });
+			            		pagingFun('/company/selectCompanyList');
+							}else if(res.code == 500){
+								layer.msg(res.msg,{"time":1000});
+							}
+						}
+	              	});
+				},1000);
+
+			});
+
+
+			// 
+			form.on('select(selectS1)', function(data){
+				// console.log(data.value);
+				selectVal1 = data.value;
+			})
+			form.on('select(selectS2)', function(data){
+				console.log(data.value);
+				selectVal2 = data.value;
+				$(".companyClassifyId").val(data.value);
+			})
+
+	        // -----------------------------------------------------------
+	        $(document).on('click', '.layui-btn', function(){
+				var othis = $(this), method = othis.data('method');
+				active[method] ? active[method].call(this, othis) : '';
+				return false;
+			});
+
+		});
+
+	</script>
+	
+</html>
+
+
