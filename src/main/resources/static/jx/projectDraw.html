@@ -55,7 +55,7 @@
 			display: -webkit-flex;
 			flex-direction: row;
 			align-items: center;
-			justify-content: flex-end;
+			justify-content: space-between;
 			color: #fff;
 			position: relative;
 		}
@@ -75,6 +75,21 @@
 			font-weight: bold;
 			position: relative;
 			z-index: 10;
+		}
+
+		.wrap_header .click{
+			width: 110px;
+			line-height: 46px;
+			text-align: center;
+			font-size: 18px;
+			background: #fff;
+			color: #135CA5;
+			-webkit-border-radius: 36px;
+			border-radius: 36px;
+			font-weight: bold;
+			position: relative;
+			z-index: 10;
+			cursor: pointer;
 		}
 
 		.wrap_draw{
@@ -248,6 +263,7 @@
 		<div class="wrap" id="wrap">
             <div class="wrap_header">
             	<p class="takeName"></p>
+            	<span class="click">切换</span>
             	<a href="projectList.html">返回项目列表</a>
             </div>
 
@@ -549,6 +565,20 @@
 				},400);
 			});
 		}
+
+		var isClick = false;
+		$(document).on('click', '.wrap_header .click', function(){
+			if(isClick){
+				$(".wrap_draw").show();
+				$(".playBtn").show();
+				$('.wrap_ul1').css({"height": ($('body')[0].clientHeight - $('.wrap_header').height() - 695)});
+			}else{
+				$(".wrap_draw").hide();
+				$(".playBtn").hide();
+				$('.wrap_ul1').css({"height": ($('body')[0].clientHeight - $('.wrap_header').height() - 177),"max-height": "1000px"});
+			}
+			isClick = !isClick;
+		}); 
 
     </script>
 	

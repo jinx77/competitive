@@ -24,7 +24,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.image.Kernel;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -117,15 +119,19 @@ public class CompanyController {
         PageInfo<Company> pageInfo = new PageInfo<>(companyClassifyList);
         PageVO p= pageVO.getPageVO0(pageInfo);
         List<CompanyVO> companyVOList=new CopyOnWriteArrayList<>();
+
+        List<CompanyClassify> cc= companyClassifyService.list();
+        Map<Integer,String> map=new HashMap<>();
+        cc.forEach(companyClassify -> {
+            map.put(companyClassify.getClassifyId(),companyClassify.getClassifyName());
+                }
+        );
         pageInfo.getList().forEach(company -> {
-           CompanyClassify companyClassify= companyClassifyService.getById(company.getCompanyClassifyId());
             CompanyVO companyVO=new CompanyVO();
             BeanUtils.copyProperties(company,companyVO);
-            if (companyClassify!=null){
-
-                companyVO.setCompanyClassifyName(companyClassify.getClassifyName());
+            if (map.get(company.getCompanyClassifyId())!=null){
+                companyVO.setCompanyClassifyName(map.get(company.getCompanyClassifyId()));
             }
-
             companyVOList.add(companyVO);
         });
         p.setDataList(companyVOList);
