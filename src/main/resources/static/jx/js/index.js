@@ -1,6 +1,8 @@
 // var url = "http://zxq.mynatapp.cc";
 //var url = "http://xinzuo.jiecms.cn:8081";
+
 var url = "http://localhost:8081";
+
 var hrefUrl = '';
 
 var AuthorizationUrl = sessionStorage.getItem("AuthorizationUrl");
@@ -9,6 +11,13 @@ if(!AuthorizationUrl){
     window.location.href = "login.html";
   }
 }
+
+// ---
+if(sessionStorage.getItem("userName") == 'admin'){
+}else{
+  $(".setUp").hide();
+}
+// ---
 
 $(".wrap_header s").css({"cursor":"pointer"})
 $(".wrap_header").css({"height":"60px"})

@@ -83,6 +83,11 @@ package com.xinzuo.competitive.pojo;
     private Integer winStatus;
 
             /**
+            * 中标时间
+            */
+    private Date winTime;
+
+            /**
             * 创建时间
             */
     private Date createTime;

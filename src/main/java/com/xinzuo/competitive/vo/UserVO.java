@@ -27,4 +27,8 @@ public class UserVO {
      *标题
      */
     private String titleName;
+    /**
+     *角色  0超级管理员 1普通操作员
+     */
+    private int role;
 }

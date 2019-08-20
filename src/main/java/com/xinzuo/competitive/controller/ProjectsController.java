@@ -183,12 +183,12 @@ public class ProjectsController {
 
 
         printVO.setWinVOList(winVOList);
-        SimpleDateFormat sdf1=new SimpleDateFormat("yyyy年MM月dd日");
+       // SimpleDateFormat sdf1=new SimpleDateFormat("yyyy年MM月dd日");
 
         // SimpleDateFormat sdf=new SimpleDateFormat("yyyy年MM月dd日 hh:mm:ss");
-        String s= sdf1.format( p.getWinTime());
-        System.out.println(sdf1.format( p.getWinTime()));
-        printVO.setWinTime(s);
+       // String s= sdf1.format( p.getWinTime());
+       // System.out.println(sdf1.format( p.getWinTime()));
+       // printVO.setWinTime(s);
         return ResultUtil.ok("打印数据返回成功",printVO);
     }
 }

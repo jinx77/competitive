@@ -12,7 +12,7 @@ public class CompetitiveApplication {
         SpringApplication.run(CompetitiveApplication.class, args);
 
         System.out.println("http://localhost:8081/oss/toUploadBlog");
-
+        System.out.println("http://localhost:8081/jx/login.html");
         try {
             Runtime.getRuntime().exec("cmd   /c   start   http://localhost:8081/jx/login.html");
         } catch (Exception ex) {
