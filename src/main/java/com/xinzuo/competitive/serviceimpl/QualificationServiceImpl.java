@@ -114,6 +114,34 @@ public class QualificationServiceImpl extends ServiceImpl<QualificationDao, Qual
         if (pullForm.getProjectsId().equals("")||pullForm.getProjectsId()==null){
             throw new CompetitiveException("拉入错误,缺少加入项目ID");
         }
+       Projects projects= projectsDao.selectById(pullForm.getProjectsId());
+       String[] strings= projects.getCompanyClassifyList().split(",");
+       List<Integer> integerList0=new ArrayList<>();
+        for (String string : strings) {
+            integerList0.add(Integer.valueOf(string));
+        }
+       List<Integer> integerList1=pullForm.getList();
+
+
+
+        List<String> list=new ArrayList<>();
+        for (int i:integerList0){
+            for (int j:integerList1){
+                if (i==j){
+                    integerList0.remove(i);
+                    continue;
+                }
+
+
+            }
+
+
+
+        }
+
+
+
+
           if (pullForm.getList().size()>0){
               Projects p=new  Projects();
               p.setProjectsId(pullForm.getProjectsId());
@@ -129,6 +157,8 @@ public class QualificationServiceImpl extends ServiceImpl<QualificationDao, Qual
               p.setCompanyClassifyList("");
               projectsDao.updateById(p);
           }
+
+
         //查出该项目所有的资格表
         QueryWrapper<Qualification> qualificationQueryWrapper=new QueryWrapper<>();
         qualificationQueryWrapper.eq("projects_id",pullForm.getProjectsId());

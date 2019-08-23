@@ -22,7 +22,7 @@ public class CodeUtil {
     QualificationDao qualificationDao;
     @Autowired
     CompanyDao companyDao;
-    public  String getCode(String projectsId){
+    public synchronized  String getCode(String projectsId){
         String s=null;
         //有竞标资格的时候给一个竞选编号
         QueryWrapper<Qualification> queryWrapper=new QueryWrapper<>();
@@ -64,7 +64,7 @@ public class CodeUtil {
         return s;
     }
 
-    public  Integer getCode0(Integer classifyId){
+    public synchronized Integer getCode0(Integer classifyId){
         QueryWrapper<Company> queryWrapper=new QueryWrapper<>();
         queryWrapper.eq("company_classify_id",classifyId);
         List<Company> companyList=companyDao.selectList(queryWrapper);
