@@ -102,8 +102,7 @@ public class ProjectsController {
                     queryWrapper.gt("win_quantity", 0);
                 }    //查询可以竞标项目
                 if (pageForm.getSelectType() == 2) {
-
-                    //queryWrapper.exists("select *from projects where win_quantity!=bidding_quantity");
+                    //前端已处理
                 }
                 //查询未竞标项目
                 if (pageForm.getSelectType() == 3) {
@@ -111,19 +110,12 @@ public class ProjectsController {
                 }
         }
         queryWrapper.orderByDesc("create_time");
-
-
         PageHelper.startPage(pageForm.getCurrent(), pageForm.getSize());
         List<Projects> qualificationList= projectsService.list(queryWrapper);
         PageInfo<Projects> pageInfo = new PageInfo<Projects>(qualificationList);
-       System.out.println( pageInfo.getTotal()+"----------===========");
-
-        IPage<Projects> iPage = projectsService.page(new Page<Projects>(pageForm.getCurrent(), pageForm.getSize()), queryWrapper);
-        //List<Projects> projectsList=iPage.getRecords();
         List<Projects> projectsList=pageInfo.getList();
         List<ProjectsVO> projectsVOList=new ArrayList<>();
         BeanUtils.copyProperties(projectsList,projectsVOList);
-        System.out.println(iPage.getPages()+"5555555555");
         projectsList.forEach(projects -> {
             ProjectsVO projectsVO=new ProjectsVO();
             BeanUtils.copyProperties(projects,projectsVO);
@@ -191,12 +183,12 @@ public class ProjectsController {
 
 
         printVO.setWinVOList(winVOList);
-        SimpleDateFormat sdf1=new SimpleDateFormat("yyyy年MM月dd日");
+       // SimpleDateFormat sdf1=new SimpleDateFormat("yyyy年MM月dd日");
 
         // SimpleDateFormat sdf=new SimpleDateFormat("yyyy年MM月dd日 hh:mm:ss");
-        String s= sdf1.format( p.getWinTime());
-        System.out.println(sdf1.format( p.getWinTime()));
-        printVO.setWinTime(s);
+       // String s= sdf1.format( p.getWinTime());
+       // System.out.println(sdf1.format( p.getWinTime()));
+       // printVO.setWinTime(s);
         return ResultUtil.ok("打印数据返回成功",printVO);
     }
 }

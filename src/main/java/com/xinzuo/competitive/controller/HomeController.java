@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController {
 
-    @RequestMapping(value = "jxcc")
+    @RequestMapping(value = "jx777")
     public String homePage() {
         return "jx/login";
     }

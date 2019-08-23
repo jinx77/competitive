@@ -210,8 +210,9 @@
               	success: function(res) {
                   	console.log(res);
                   	if(res.code == 200){
-                  		sessionStorage.setItem("userId",res.data.userId);
-                  		sessionStorage.setItem("AuthorizationUrl",res.data.userPassword);
+                  		sessionStorage.setItem("userName", name);
+                  		sessionStorage.setItem("userId", res.data.userId);
+                  		sessionStorage.setItem("AuthorizationUrl", res.data.userPassword);
 	            		window.location.href = "index.html";
                   	}else{
                 		layer.msg(res.msg,1);

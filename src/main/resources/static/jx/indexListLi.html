@@ -333,9 +333,8 @@
 			overflow-x: hidden;
 		}
 
-		table th{width: 10%; padding: 6px 4px; font-size: 8px;} 
-		table{border-top:1px solid #000000;border-left:1px solid #000000;border-collapse:collapse}td{border-bottom:1px solid #000000;border-right:1px solid #000000};
-
+		/*table#tables th{width: 10%; padding: 6px 4px; font-size: 8px;} 
+		table#tables{border-top:1px solid #000000;border-left:1px solid #000000;border-collapse:collapse}td{border-bottom:1px solid #000000;border-right:1px solid #000000};*/
 		
 
     </style>
@@ -405,23 +404,21 @@
 	            <div class="tables">
 	            <table class="layui-table" id="table1" lay-skin="line">
 	              <colgroup>
-	                <col width="10">
 	                <col width="50">
-	                <col width="150">
-	                <col width="100">
-	                <!-- <col width="100"> -->
-	                <col width="100">
-	                <col width="100">
-	                <col width="100">
-	                <col width="100">
+	                <col width="50">
+	                <col width="200">
+	                <col width="75">
+	                <col width="75">
+	                <col width="75">
+	                <col width="75">
+	                <col width="75">
 	              </colgroup>
 	              <thead>
 	                <tr>
 	                  <th><form class="layui-form"><input type="checkbox" lay-filter="number" name="a" title="" value="" lay-skin="primary"></form></th>
 	                  <th>编号</th>
-	                  <th>公司名称</th>
+	                  <th>名称</th>
 	                  <th>法定代表人</th>
-	                  <!-- <th>电话</th> -->
 	                  <th>入库表</th>
 	                  <th>保证金</th>
 	                  <th>状态</th>
@@ -429,15 +426,16 @@
 	                </tr> 
 	              </thead>
 	              <tbody id="table_list">
-	                <!-- <tr>
-	                  <td>男</td>
+	                <tr>
+	                  <!-- <td>男</td>
 	                  <td>男</td>
 	                  <td>男</td>
 	                  <td>12345678912</td>
 	                  <td>500232200109089999</td>
 	                  <td>13678474697</td>
 	                  <td>不能参与抽选</td>
-	                </tr> -->
+	                  <td>不能参与抽选</td> -->
+	                </tr>
 	              </tbody>
 	            </table>
 	            </div>
@@ -465,7 +463,7 @@
 		            	<div class="sub_ul"></div> -->
 		            	<h1 style="text-align: center;"></h1>
 
-		            	<table border="1" cellspacing="0" cellpadding="0" style="width: 100%;">
+		            	<table id="tables" border="1" cellspacing="0" cellpadding="0" style="width: 100%;">
 		            		<thead>
 				                <tr>
 									<th style="width: 4%;" class="bh">编号</th>

@@ -1,5 +1,6 @@
 package com.xinzuo.competitive.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -27,7 +28,8 @@ public class PrintVO {
      * 抽取时间
      */
     //@DateTimeFormat(pattern = "yyyy-MM-dd")
-    private String winTime;
+    @JsonFormat(pattern = "yyyy年MM月dd日HH时mm分ss秒",timezone = "GMT+8")
+    private Date winTime;
 
     /**
      * 发包价格

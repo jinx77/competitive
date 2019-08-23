@@ -179,12 +179,12 @@
 
             	<div class="layui-form">
 
-					<button class="layui-btn zdy-blue" data-method="add">添加企业</button>
-					<button class="layui-btn zdy-blue" data-method="el">设置类型</button>
+					<button class="layui-btn zdy-blue setUp" data-method="add">添加企业</button>
+					<button class="layui-btn zdy-blue setUp" data-method="el">设置类型</button>
 					<div class="layui-inline" style="float: right;">
 
-						<label class="layui-form-label">企业类型：</label>
-						<div class="layui-input-inline" style="margin-right: 15px;">
+						<label class="layui-form-label setUp">企业类型：</label>
+						<div class="layui-input-inline setUp" style="margin-right: 15px;">
 							<select name="" lay-filter="selectS1" class="selectS1">
 							</select>
 						</div>
@@ -196,11 +196,11 @@
 					</div>
 	            </div>
 
-	            <div class="layui-form" style="margin-top: 10px;">
+	            <div class="layui-form setUp" style="margin-top: 10px;">
 
             		<form class="layui-form" action="#" enctype="multipart/form-data" style="display: inline-block;" id="up_form1">
 						<div class="btn zdy-blue fileinput-button">
-							<span class="layui-btn zdy-blue">导入入库表(先选择右边的企业类型)</span>
+							<span class="layui-btn zdy-blue">导入备选库</span>
 							<input type="text" name="companyClassifyId" class="companyClassifyId">
 							<input type="file" name="excel" id="upfile1">
 						</div>
@@ -217,7 +217,7 @@
 	            <div class="tables">
 	            <table class="layui-table" id="table1" lay-skin="line">
 	              <colgroup>
-	                <col width="100">
+	                <col width="50">
 	                <col width="200">
 	                <col width="100">
 	                <col width="100">
@@ -380,9 +380,15 @@
 								+ '<td>'+ item.phone +'</td>'
 								+ '<td>'+ item.companyClassifyName +'</td>'
 								+ '<td>'
-								+ '<button class="layui-btn layui-btn-sm zdy-blue" data-method="update" data-id="'+ index +'">修改</button>'
-								+ '<button class="layui-btn layui-btn-sm layui-btn-danger" data-method="delete" data-pid="'+ item.companyId +'">删除</button>'
-								+ '</td>'
+
+								if(sessionStorage.getItem("userName") == 'admin'){
+									div += '<button class="layui-btn layui-btn-sm zdy-blue" data-method="update" data-id="'+ index +'">修改</button>'
+									+ '<button class="layui-btn layui-btn-sm layui-btn-danger" data-method="delete" data-pid="'+ item.companyId +'">删除</button>'
+								}else{
+									div += '———'
+								}
+
+								div += '</td>'
 								+ '</tr>'
 		                    });
 		                    arr.push(div);

@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-
 /**
  * <p>
  * 承包商信息库表 前端控制器
