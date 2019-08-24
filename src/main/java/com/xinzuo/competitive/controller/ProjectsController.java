@@ -138,6 +138,7 @@ public class ProjectsController {
         if (projects.getProjectsId()==null||projects.getProjectsId()==""){
             return ResultUtil.no("projectsId--不能为空");
         }
+        projects.setCompanyClassifyList(null);
       Boolean b= projectsService.updateById(projects);
       if (b){
          return ResultUtil.ok("修改成功");

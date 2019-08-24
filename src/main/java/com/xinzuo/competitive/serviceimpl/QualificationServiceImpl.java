@@ -11,6 +11,7 @@ import com.xinzuo.competitive.form.PageForm;
 import com.xinzuo.competitive.form.PullForm;
 import com.xinzuo.competitive.pojo.*;
 import com.xinzuo.competitive.dao.QualificationDao;
+import com.xinzuo.competitive.service.CompanyClassifyService;
 import com.xinzuo.competitive.service.CompanyService;
 import com.xinzuo.competitive.service.QualificationService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -49,6 +50,8 @@ public class QualificationServiceImpl extends ServiceImpl<QualificationDao, Qual
     InformationDao informationDao;
     @Autowired
     CompanyService companyService;
+    @Autowired
+    CompanyClassifyService companyClassifyService;
     @Autowired
     CodeUtil codeUtil;
 
@@ -115,33 +118,45 @@ public class QualificationServiceImpl extends ServiceImpl<QualificationDao, Qual
             throw new CompetitiveException("拉入错误,缺少加入项目ID");
         }
        Projects projects= projectsDao.selectById(pullForm.getProjectsId());
-       String[] strings= projects.getCompanyClassifyList().split(",");
-       List<Integer> integerList0=new ArrayList<>();
-        for (String string : strings) {
-            integerList0.add(Integer.valueOf(string));
-        }
-       List<Integer> integerList1=pullForm.getList();
-
-
-
-        List<String> list=new ArrayList<>();
-        for (int i:integerList0){
-            for (int j:integerList1){
-                if (i==j){
-                    integerList0.remove(i);
-                    continue;
-                }
-
-
+        if (!projects.getCompanyClassifyList().equals("")) {
+            String[] strings = projects.getCompanyClassifyList().split(",");
+            List<Integer> integerList0 = new ArrayList<>();
+            for (String string : strings) {
+                integerList0.add(Integer.valueOf(string));
             }
+            List<Integer> integerList1 = pullForm.getList();
+            List<Integer> list = new ArrayList<>();
 
+            if (integerList1.size()==0){
 
+                list=integerList0;
 
+            }else {
+                for (int i : integerList0) {
+                    Boolean b = false;
+                    for (int j : integerList1) {
+                        if (i == j) {
+                            b = true;
+                            break;
+                        }
+                    }
+                    if (!b) {
+                        list.add(i);
+                    }
+                }
+            }
+            list.forEach(integer -> {
+                QueryWrapper<Company> queryWrapper = new QueryWrapper<>();
+                queryWrapper.eq("company_classify_id", integer);
+                List<Company> companyList = companyService.list(queryWrapper);
+                companyList.forEach(company -> {
+                    QueryWrapper<Qualification> qualificationQueryWrapper = new QueryWrapper<>();
+                    qualificationQueryWrapper.eq("qualification_name", company.getProposerName());
+                    qualificationQueryWrapper.eq("projects_id", pullForm.getProjectsId());
+                    qualificationDao.delete(qualificationQueryWrapper);
+                });
+            });
         }
-
-
-
-
           if (pullForm.getList().size()>0){
               Projects p=new  Projects();
               p.setProjectsId(pullForm.getProjectsId());
@@ -156,6 +171,7 @@ public class QualificationServiceImpl extends ServiceImpl<QualificationDao, Qual
               p.setProjectsId(pullForm.getProjectsId());
               p.setCompanyClassifyList("");
               projectsDao.updateById(p);
+              return 1;
           }
 
 

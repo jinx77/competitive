@@ -39,8 +39,61 @@ public class CodeUtil {
         if (codes.size()<1){
             return "001";
         }
+       for (int i=1;i<codes.size()+2;i++){
+           int c=0;
+          for (int j:codes){
+               if (i==j){
+                  c=c+1;
+               }
+           }
+            if (c==0){
+                s=String.valueOf(i);
+                if (s.length()==1){
+                    s="00"+s;
+                    return s;
+                }else if (s.length()==2){
+                    s="0"+s;
+                    return s;
+                }
+            }
+            if (c>1){
+              int x=  Collections.max(codes)+1;
+               String ss=String.valueOf(x);
 
-        for (int c=0, ic=1;c<codes.size();c++,ic++){
+                String ii=String.valueOf(i);
+                if (ii.length()==1){
+                    ii="00"+ii;
+                }else if (ii.length()==2){
+                    ii="0"+ii;
+                }
+                QueryWrapper<Qualification> qualificationQueryWrapper=new QueryWrapper<>();
+                qualificationQueryWrapper.eq("projects_id",projectsId);
+                qualificationQueryWrapper.eq("qualification_number",ii);
+                List<Qualification> qualifications=qualificationDao.selectList(qualificationQueryWrapper);
+               for (Qualification qualification:qualifications){
+                   if (ss.length()==1){
+                       ss="00"+ss;
+                   }else if (ss.length()==2){
+                       ss="0"+ss;
+                   }
+                    Qualification q=new Qualification();
+                    q.setQualificationId(qualification.getQualificationId());
+                    q.setQualificationNumber(ss);
+                    qualificationDao.updateById(q);
+                   codes.add(x);
+                   x=x+1;
+                   ss=String.valueOf(x);
+                }
+            }
+       }
+        s=String.valueOf(Collections.max(codes)+1);
+        if (s.length()==1){
+            s="00"+s;
+        }else if (s.length()==2){
+            s="0"+s;
+        }
+
+       /* for (int c=0, ic=1;c<codes.size();c++,ic++){
             if (!codes.get(c).equals(ic)){
                 s=String.valueOf(ic);
                 if (s.length()==1){
@@ -60,7 +113,7 @@ public class CodeUtil {
                 }
             }
 
-        }
+        }*/
         return s;
     }
 
@@ -86,11 +139,6 @@ public class CodeUtil {
         }
         return codes.size()+1;
     }
-  /*  public static void main(String[] args) {
-
-       System.out.println(stringFilter("(大 家...")+"0000000");
-
-    }*/
 
     /**
      * 过滤特殊字符
