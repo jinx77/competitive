@@ -153,6 +153,22 @@ public class QualificationServiceImpl extends ServiceImpl<QualificationDao, Qual
                     QueryWrapper<Qualification> qualificationQueryWrapper = new QueryWrapper<>();
                     qualificationQueryWrapper.eq("qualification_name", company.getProposerName());
                     qualificationQueryWrapper.eq("projects_id", pullForm.getProjectsId());
+/*                    List<Qualification> qualifications= qualificationDao.selectList(qualificationQueryWrapper);
+                    if (qualifications.size()>1){
+                        qualifications.forEach(qualification -> {
+
+                            if (qualification.getDepositStatus()==1){
+                                Qualification q=new Qualification();
+                                q.setQualificationId(qualification.getQualificationId());
+                                q.setInformationStatus(0);
+                                q.setQualificationNumber("");
+                                q.setQualificationStatus(0);
+                                qualificationDao.updateById(q);
+                            }else {
+                               qualificationDao.deleteById(qualification.getQualificationId());
+                            }
+                        });
+                    }*/
                     qualificationDao.delete(qualificationQueryWrapper);
                 });
             });
