@@ -25,7 +25,7 @@ public class DepositController {
     DepositService depositService;
     //导入Excel表
     @PostMapping("/readExcel")
-    public ResultVO readExcel(MultipartFile excel, @RequestParam String projectsId) {
+    public synchronized ResultVO readExcel(MultipartFile excel, @RequestParam String projectsId) {
         depositService.readExcel(excel,projectsId);
 
         return ResultUtil.ok("导入成功.");

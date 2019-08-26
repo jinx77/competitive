@@ -113,7 +113,7 @@ public class QualificationController {
 
     //添加抽选
     @PostMapping("/addQualification")
-    public ResultVO addQualification(@RequestBody Qualification qualification){
+    public synchronized ResultVO addQualification(@RequestBody Qualification qualification){
 
         if (qualification.getQualificationId()==null){
             return ResultUtil.no("系统繁忙 请稍候再试");
@@ -138,7 +138,7 @@ public class QualificationController {
 
     //批量添加抽选资格
     @PostMapping("/addQualificationList")
-    public ResultVO addQualificationList(@RequestBody List<String> stringList){
+    public synchronized ResultVO addQualificationList(@RequestBody List<String> stringList){
         if (stringList.size()<1){
             return ResultUtil.no("请勾选需要添加的企业");
         }
@@ -165,7 +165,7 @@ public class QualificationController {
 
     //抽奖
     @PostMapping("/win")
-    public ResultVO win(@RequestBody PageForm pageForm){
+    public synchronized ResultVO win(@RequestBody PageForm pageForm){
 
         Qualification qualification=qualificationService.win(pageForm.getProjectsId());
 

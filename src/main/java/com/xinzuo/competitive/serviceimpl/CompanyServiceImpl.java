@@ -73,11 +73,13 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyDao, Company> impleme
 
         QueryWrapper<Company> queryWrapper=new QueryWrapper<>();
         queryWrapper.eq("company_classify_id",companyClassifyId);
-        List<Company> companyList= companyDao.selectList(queryWrapper);
+       /* List<Company> companyList= companyDao.selectList(queryWrapper);
         Map<String,Company> map=new HashMap<>();
         companyList.forEach(company ->
-            map.put(company.getProposerName(),company)
-        );
+                map.put(company.getProposerName(), company)
+        );*/
+
+        companyDao.delete(queryWrapper);
         list.forEach(o -> {
             Company company=new Company();
             BeanUtils.copyProperties(o,company);
@@ -85,20 +87,20 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyDao, Company> impleme
                 // throw new CompetitiveException("导入错误,请导入有数据正确格式的保证金表");
                 return;
             }
-            if (company.getProposerName()!=null){
+/*            if (company.getProposerName()!=null){
 
                 Company c= map.get(company.getProposerName());
-                if (c==null){
+                if (c==null){*/
                     company.setCompanyId(KeyUtil.genUniqueKey());
                     company.setCompanyClassifyId(companyClassifyId);
                     company.setCreateTime(new Date());
                     company.setCompanyNumber(codeUtil.getCode0(companyClassifyId));
                     companyDao.insert(company);
-                    map.put(company.getProposerName(),company);
+        /*            map.put(company.getProposerName(),company);
                 }
-            }
+            }*/
         });
-        map.clear();
+       // map.clear();
         return 1;
     }
 

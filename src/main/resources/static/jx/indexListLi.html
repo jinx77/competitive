@@ -775,6 +775,8 @@
 	                  // moveType: 1, //拖拽模式，0或者1
 	                  content: '<div style="padding: 50px 0 30px; line-height: 22px; text-align: center; font-size: 16px;">确定批量删除？</div>',
 	                  yes: function(index, layero){
+		                layer.close(index);
+	            		lodingS = layer.open({type: 3})
 	                    var params = JSON.stringify(arrList);
 	                    $.ajax({
 							url: url+'/qualification/deleteQualificationList',
@@ -796,10 +798,10 @@
 
 				            	checkboxArr = [];
 	        					pagingFun('/qualification/selectQualificationList');
-		                    	layer.close(index);
 		                    	setNum(1);
 								setNum(3);
 								setNum(4);
+		                    	layer.close(lodingS);
 							},
 							error: function(){
 								console.log('error');
@@ -837,6 +839,9 @@
 	                  content: '<div style="padding: 50px 0 30px; line-height: 22px; text-align: center; font-size: 16px;">确定批量添加？</div>',
 	                  yes: function(index, layero){
 	                    var params = JSON.stringify(arrList);
+		                layer.close(index);
+	            		lodingS = layer.open({type: 3})
+
 	                    $.ajax({
 							url: url+'/qualification/addQualificationList',
 							type:'POST',
@@ -848,7 +853,6 @@
 					        },
 							contentType :'application/json;charset=utf-8',
 							success: function(res) {
-								console.log(res);
 								layer.msg("批量添加成功",{"time":1000});
 								// for (var i = 0; i < checkboxArr.length; i++) {
 								// 	console.log(checkboxArr[i]+1);
@@ -856,11 +860,10 @@
 				    //         	}
 				            	checkboxArr = [];
 	        					pagingFun('/qualification/selectQualificationList');
-		                    	layer.close(index);
-
 		                    	setNum(1);
 								setNum(3);
 								setNum(4);
+		                    	layer.close(lodingS);
 							},
 							error: function(){
 								console.log('error');

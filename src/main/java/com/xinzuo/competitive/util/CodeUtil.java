@@ -128,7 +128,7 @@ public class CodeUtil {
             }
         });
         Collections.sort(codes);
-        codes.forEach(System.out::println);
+       // codes.forEach(System.out::println);
         if (codes.size()<1){
             return 1;
         }
