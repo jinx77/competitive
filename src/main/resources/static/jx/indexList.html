@@ -586,11 +586,11 @@
 								success: function(res) {
 									console.log(res);
 		                    		layer.close(index);
-		                    		if(arr.length == 0){
+		                    		// if(arr.length == 0){
 		                    			pagingFun('/projects/selectProjectsList');
-		                    		}else{
+		                    		// }else{
 		                    			setPull(arr, dataArr[id].projectsId);
-		                    		}
+		                    		// }
 								},
 								error: function(){
 									console.log('error');
