@@ -174,6 +174,7 @@ public class ProjectsController {
         BeanUtils.copyProperties(p,printVO);
         QueryWrapper<Qualification> qualificationQueryWrapper=new QueryWrapper<>();
         qualificationQueryWrapper.eq("Projects_id",projects.getProjectsId()).eq("win_status",1);
+        qualificationQueryWrapper.orderByAsc("win_time");
         List<Qualification> qualificationList=qualificationService.list(qualificationQueryWrapper);
         List<WinVO> winVOList=new ArrayList<>();
         qualificationList.forEach(qualification -> {

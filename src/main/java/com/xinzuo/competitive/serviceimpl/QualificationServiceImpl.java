@@ -84,6 +84,7 @@ public class QualificationServiceImpl extends ServiceImpl<QualificationDao, Qual
         Qualification q=new Qualification();
         q.setQualificationId(qualification.getQualificationId());
         q.setWinStatus(1);
+        q.setWinTime(new Date());
         qualificationDao.updateById(q);
        Projects projects= projectsDao.selectById(projectsId);
        if (projects==null){
