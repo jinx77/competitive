@@ -181,6 +181,7 @@
 
 					<button class="layui-btn zdy-blue setUp" data-method="add">添加企业</button>
 					<button class="layui-btn zdy-blue setUp" data-method="el">设置类型</button>
+					<button class="layui-btn layui-btn-warm" id="xz">模板下载</button>
 					<div class="layui-inline" style="float: right;">
 
 						<label class="layui-form-label setUp">企业类型：</label>
@@ -282,6 +283,11 @@
 			,laydate = layui.laydate
 			,laypage = layui.laypage
 			,upload = layui.upload
+
+			$(document).on('click','#xz',function () {
+				window.location.href=url+"/information/zbdl";
+			})
+
 
 			var lodingS = layer.open({type: 3})
 	        // 新建

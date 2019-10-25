@@ -2,11 +2,8 @@ package com.xinzuo.competitive.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.xinzuo.competitive.dao.InformationDao;
 import com.xinzuo.competitive.form.PageForm;
 import com.xinzuo.competitive.pojo.Projects;
 import com.xinzuo.competitive.pojo.Qualification;
@@ -20,10 +17,15 @@ import com.xinzuo.competitive.vo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.text.SimpleDateFormat;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -67,10 +69,9 @@ public class ProjectsController {
     }
 
     //导入项目
-    @PostMapping("/readExcel")
-    public ResultVO readExcel(MultipartFile excel){
-
-      int i=  projectsService.readExcel(excel);
+    @RequestMapping("readExcel")
+    public ResultVO readExcel(MultipartFile file){
+      int i=  projectsService.readExcel(file);
     if (i>0){
 
         return ResultUtil.ok("导入成功");
@@ -80,6 +81,24 @@ public class ProjectsController {
         return ResultUtil.no("系统繁忙,请稍候在试");
     }
     }
+    //下载模板
+    @RequestMapping("download")
+    public void download(HttpServletResponse response) throws Exception{
+        String fileName = "项目数据导入模板.xls";
+        File path=new File(ResourceUtils.getURL("classpath:").getPath());
+        File upload = new File(path.getAbsolutePath(),"static/excelmb/项目数据导入模板.xls");
+        response.setHeader("Content-Disposition", "attachment;fileName=" + new String(fileName.getBytes(), "ISO-8859-1"));
+        InputStream is=new FileInputStream(upload);
+        OutputStream os= response.getOutputStream();
+        byte[] b=new byte[1024];
+        int len;
+        while ((len=is.read(b))!=-1){
+            os.write(b, 0, len);
+        }
+        is.close();
+        os.close();
+    }
+
     //显示所有项目列表
     @PostMapping("selectProjectsList")
     public ResultVO selectProjectsList(@RequestBody PageForm pageForm) {
@@ -193,4 +212,5 @@ public class ProjectsController {
        // printVO.setWinTime(s);
         return ResultUtil.ok("打印数据返回成功",printVO);
     }
+
 }

@@ -361,17 +361,18 @@
 
             		<form class="layui-form" action="#" enctype="multipart/form-data" style="display: inline-block;" id="up_form1">
 			          <div class="btn zdy-blue fileinput-button">
-			            <span class="layui-btn zdy-blue">导入公司资料Excel表</span>
-			            <input type="text" name="projectsId" class="projectsId">
-			            <input type="file" name="excel" id="upfile1">
+			           <!-- <span class="layui-btn zdy-blue">导入公司资料Excel表</span>
+			            <input type="text" name="projectsId" class="projectsId">-->
+			            <input type="hidden" name="excel" id="upfile1">
 			          </div>
 			        </form>
-
+					<button class="layui-btn zdy-blue jc0" id="jc0">导入公司资料Excel表</button>
+					<button class="layui-btn zdy-blue jc0" id="jc1">导入保证金Excel表</button>
 			        <form class="layui-form" action="#" enctype="multipart/form-data" style="display: inline-block;" id="up_form2">
 			          <div class="btn zdy-blue fileinput-button">
-			            <span class="layui-btn zdy-blue">导入保证金Excel表</span>
-			            <input type="text" name="projectsId" class="projectsId">
-			            <input type="file" name="excel" id="upfile2">
+			           <!-- <span class="layui-btn zdy-blue">导入保证金Excel表</span>
+			            <input type="text" name="projectsId" class="projectsId">-->
+			            <input type="hidden" name="excel" id="upfile2">
 			          </div>
 			        </form>
 
@@ -512,6 +513,81 @@
 			,laydate = layui.laydate
 			,laypage = layui.laypage
 			,upload = layui.upload
+
+
+			//导入表弹窗
+			var jc0="<div class='layui-card'>" +
+					" <div class='layui-card-body'>" +
+					"请用规定格式的项目excel表导入<br>" +
+					"如果没有excel模板请先下载" +
+					"<hr class='layui-bg-red'>"+
+					"<div style='margin:0 auto'>"+
+					"<div class='btn zdy-blue fileinput-button'>"+
+					"<button class='layui-btn text'>导入excel表</button>" +
+					"</div>&nbsp;&nbsp"+
+					"<div class='btn zdy-blue fileinput-button'>" +
+					"<a class='layui-btn layui-btn-normal download'>excel模板下载</a>" +
+					"</div>"+
+					"</div>"+
+					"</div>" +
+					"</div>";
+			var index=null;
+			var load=null;
+			var downloadUrl=null;
+			$(".jc0").click(function () {
+				var v= this.id;
+				var jcUrl=null;
+				if (v=='jc0'){
+					jcUrl=url+'/information/readExcel';
+					downloadUrl=url+'/information/download';
+				}else {
+					jcUrl=url+'/deposit/readExcel';
+					downloadUrl=url+'/deposit/download';
+				}
+				index=layer.open({
+					type: 1,
+					title:"项目导入",
+					area: ['18%', '30%'],
+					offset: '25%',
+					content: jc0 //这里content是一个普通的String
+				});
+					upload.render({
+					elem: '.text',
+					accept: 'file',
+					url: jcUrl, //必填项
+					data: {projectsId:GetRequest2('pid')},
+					before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+					load=layer.load(); //上传loading
+				},
+					done: function(res, index, upload){
+						if(res.code == 200){
+							pagingFun('/qualification/selectQualificationList');
+							f();
+							layer.close(load);
+							layer.msg("导入成功",{"time":1000});
+
+						}else if(res.code == 500){
+							layer.close(load);
+							layer.msg(res.msg,{"time":1000});
+						}
+
+						//获取当前触发上传的元素，一般用于 elem 绑定 class 的情况，注意：此乃 layui 2.1.0 新增
+						var item = this.item;
+					}
+
+				})
+
+			})
+			$(document).on('click','.download',function () {
+				window.location.href=downloadUrl;
+				f();
+			})
+
+			function f() {
+				layer.close(index);
+			}
+
+
 
 			var lodingS = layer.open({type: 3})
 	        // 新建

@@ -194,12 +194,11 @@
             	<div class="layui-form">
 					<button class="layui-btn zdy-blue" data-method="add">新建项目</button>
 					<form class="layui-form" action="#" enctype="multipart/form-data" style="display: inline-block;" id="up_form1">
-			          <div class="btn zdy-blue fileinput-button">
-			            <span class="layui-btn zdy-blue">项目导入</span>
-			            <input type="file" name="excel" id="upfile1">
-			          </div>
-			        </form>
-
+						<div class="btn zdy-blue fileinput-button">
+							 <input type="hidden" name="excel" id="upfile1">
+						</div>
+					</form>
+                    <button class="layui-btn zdy-blue" id="jc0">项目导入</button>
 					<div class="layui-inline" style="float: right;">
 						<div class="layui-input-inline" style="width: 300px;">
 						  <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="输入需要查询的名称" class="layui-input ssInput">
@@ -273,19 +272,77 @@
 	<script type="text/javascript">
 
 		layui.use(['element','layer','jquery', 'form', 'laypage', 'laydate', 'upload'], function() {
-			var $ = layui.jquery
-			var element = layui.element //Tab的切换功能，切换事件监听等，需要依赖element模块
+			var $ = layui.jquery;
+			var element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
 			var form = layui.form
 			,layer = layui.layer
 			,layedit = layui.layedit
 			,laydate = layui.laydate
 			,laypage = layui.laypage
-			,upload = layui.upload
+			,upload = layui.upload;
 
 			var lodingS = layer.open({type: 3})
 	        // 新建
 	        var listArr = [];
-	          
+
+			//导入表弹窗
+			var jc0="<div class='layui-card'>" +
+					" <div class='layui-card-body'>" +
+					"请用规定格式的项目excel表导入<br>" +
+					"如果没有excel模板请先下载" +
+					"<hr class='layui-bg-red'>"+
+					"<div style='margin:0 auto'>"+
+					"<div class='btn zdy-blue fileinput-button'>"+
+					"<button class='layui-btn text' id='projects_dr'>导入excel表</button>" +
+					"</div>&nbsp;&nbsp"+
+					"<div class='btn zdy-blue fileinput-button'>" +
+					"<a class='layui-btn layui-btn-normal' id='download'>excel模板下载</a>" +
+					"</div>"+
+					"</div>"+
+					"</div>" +
+					"</div>";
+			var index=null;
+			var load=null;
+			$("#jc0").click(function () {
+				index=layer.open({
+					type: 1,
+					title:"项目导入",
+					area: ['18%', '30%'],
+					offset: '25%',
+					content: jc0 //这里content是一个普通的String
+				});
+                upload.render({
+                    elem: '.text',
+                    accept: 'file',
+                    url: url+'/projects/readExcel', //必填项
+					before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+						load=layer.load(); //上传loading
+					},
+                    done: function(res, index, upload){
+                        if(res.code == 200){
+							pagingFun('/projects/selectProjectsList');
+							f();
+							layer.close(load);
+                            layer.msg("导入成功",{"time":1000});
+
+                        }else if(res.code == 500){
+							layer.close(load);
+                            layer.msg(res.msg,{"time":1000});
+                        }
+                        //获取当前触发上传的元素，一般用于 elem 绑定 class 的情况，注意：此乃 layui 2.1.0 新增
+                        var item = this.item;
+                    }
+
+                })
+			})
+			$(document).on('click','#download',function () {
+				window.location.href=url+"/projects/download";
+				f();
+			})
+
+			function f() {
+				layer.close(index);
+			}
 	        // 查询-卡总条数
 	        function pagingFun(URLS) {
 	            var params2 = JSON.stringify({

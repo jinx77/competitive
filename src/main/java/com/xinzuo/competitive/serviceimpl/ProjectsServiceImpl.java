@@ -61,7 +61,8 @@ public class ProjectsServiceImpl extends ServiceImpl<ProjectsDao, Projects> impl
     @Override
     public int readExcel(MultipartFile excel) {
 
-        log.info(excel.getName());
+       // log.info(excel.getName());
+        System.out.println("===="+excel.getName());
         List<Object> list0 = null;
         try {
             list0 = ExcelUtil.readExcel(excel, new ProjectsDB0(), 1, 0);
