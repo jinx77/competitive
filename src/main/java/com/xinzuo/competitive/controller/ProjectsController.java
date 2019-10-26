@@ -17,6 +17,7 @@ import com.xinzuo.competitive.vo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ClassUtils;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -85,10 +86,12 @@ public class ProjectsController {
     @RequestMapping("download")
     public void download(HttpServletResponse response) throws Exception{
         String fileName = "项目数据导入模板.xls";
-        File path=new File(ResourceUtils.getURL("classpath:").getPath());
+ /*       File path=new File(ResourceUtils.getURL("classpath:").getPath());
+        if(!path.exists()) path = new File("");
         File upload = new File(path.getAbsolutePath(),"static/excelmb/项目数据导入模板.xls");
+        InputStream is=new FileInputStream(upload);*/
+        InputStream is = ClassUtils.class.getResourceAsStream("/static/excelmb/项目数据导入模板.xls");
         response.setHeader("Content-Disposition", "attachment;fileName=" + new String(fileName.getBytes(), "ISO-8859-1"));
-        InputStream is=new FileInputStream(upload);
         OutputStream os= response.getOutputStream();
         byte[] b=new byte[1024];
         int len;

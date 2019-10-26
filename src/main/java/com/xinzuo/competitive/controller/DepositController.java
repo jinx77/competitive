@@ -5,6 +5,7 @@ import com.xinzuo.competitive.service.DepositService;
 import com.xinzuo.competitive.util.ResultUtil;
 import com.xinzuo.competitive.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ClassUtils;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,10 +43,8 @@ public class DepositController {
     @RequestMapping("download")
     public void download(HttpServletResponse response) throws Exception{
         String fileName = "保证金缴纳名单导入模板.xls";
-        File path=new File(ResourceUtils.getURL("classpath:").getPath());
-        File upload = new File(path.getAbsolutePath(),"static/excelmb/保证金缴纳名单导入模板.xls");
+        InputStream is = ClassUtils.class.getResourceAsStream("/static/excelmb/保证金缴纳名单导入模板.xls");
         response.setHeader("Content-Disposition", "attachment;fileName=" + new String(fileName.getBytes(), "ISO-8859-1"));
-        InputStream is=new FileInputStream(upload);
         OutputStream os= response.getOutputStream();
         byte[] b=new byte[1024];
         int len;
