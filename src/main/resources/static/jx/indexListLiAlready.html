@@ -189,11 +189,25 @@
 			height: 30px;
 		}
 
-        .subpage h1{
-        	text-align: center;
-        	line-height: 1;
-        	margin-bottom: 20px;
-        }
+        /*.subpage h1{*/
+        /*	text-align: center;*/
+        /*	line-height: 1;*/
+        /*	margin-bottom: 20px;*/
+        /*}*/
+		.h1_1{
+			text-align: center;
+			line-height: 1;
+			margin-bottom: 20px;
+		}
+		.h1_2{
+			text-align: center;
+			margin-bottom: 7px;
+		}
+		.subpage h3{
+			text-align: center;
+			line-height: 1;
+			margin-bottom: 20px;
+		}
         .sub_ul{
         	width: 100%;
         	height: auto;
@@ -345,8 +359,8 @@
             <div class="wrap_div">
 
             	<div class="layui-form">
-
-					<button class="layui-btn zdy-blue" data-method="printing">打印名单</button>
+                    <button class="layui-btn zdy-blue" id="dymd">打印名单</button>
+<!--					<button class="layui-btn zdy-blue" data-method="printing">打印名单</button>-->
 					<button class="layui-btn zdy-blue" data-method="export">导出名单</button>
 
 					<div class="layui-inline" style="float: right;">
@@ -405,7 +419,7 @@
 	            <div class="pageDiv">
 	            <div class="page" id="page">
 		            <div class="subpage">
-		            	<h1 style="text-align: center;">随机抽取结果确认表</h1>
+		            	<h1 class="h1_1" style="text-align: center;">随机抽取结果确认表</h1>
 		            	<!-- <div class="sub_ul">
 		            		<p class="sub_li_13 zdt_fwb">项目名称</p>
 		            		<p class="sub_li_87 sub_li_name1"></p>
@@ -524,6 +538,82 @@
 		        </div>
 				</div>
 
+
+                <div class="pageDiv">
+                    <div class="page" id="page2">
+                        <div class="subpage">
+                            <h1 class="h1_2" style="text-align: center;">垫江县教育系统
+                                <br>
+                                工程建设项目随机抽取结果确认表
+                            </h1>
+                            <h3>(公示期：20&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;日
+                                —20&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;日)</h3>
+                            <table border="1" cellspacing="0" cellpadding="0" style="width: 100%;">
+                                <tbody id="sub_div3">
+                                <tr>
+                                    <th colspan="2" style="width: 20%;">项目名称</th>
+                                    <th colspan="8" style="width: 80%;" class="sub_li_name1" style="text-align: left;"></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="2" style="width: 20%;">建设单位(盖章)</th>
+                                    <th colspan="4.5" class="sub_li_name2" style="width: 45%;"></th>
+                                    <th colspan="1.5" style="width: 15%;">联系电话</th>
+                                    <th colspan="2" style="width: 20%;"></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="2" style="width: 20%;">抽取时间</th>
+                                    <th colspan="4.5" style="width: 45%;" class="sub_li_name3"></th>
+                                    <th colspan="1.5" style="width: 15%;">发包价(元)</th>
+                                    <th colspan="2" style="width: 20%;" class="sub_li_name4"></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="10" style="width: 100%;">中选企业</th>
+                                </tr>
+                                <tr class="sub_div2">
+                                    <th colspan="1" style="width: 10%;">中选编号</th>
+                                    <th colspan="5.5" style="width: 55%;">企业名称</th>
+                                    <th colspan="1.5" style="width: 15%;">联系人</th>
+                                    <th colspan="2" style="width: 20%;">联系电话</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="2">学校抽取人员签字</th>
+                                    <th colspan="8"></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="2">学校后勤负责人签字</th>
+                                    <th colspan="8"></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="2">学校校长签字</th>
+                                    <th colspan="8"></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="2">监督人员签字</th>
+                                    <th colspan="8"></th>
+                                </tr>
+<!--                                <tr>-->
+<!--                                    <th colspan="2" style="width: 20%;">投诉受理部门</th>-->
+<!--                                    <th colspan="4" style="width: 40%;">垫江县纪律检查委员会<br>驻县教委纪监组</th>-->
+<!--                                    <th colspan="1.5" style="width: 15%;">联系电话</th>-->
+<!--                                    <th colspan="2.5" style="width: 25%;">023-74529839</th>-->
+<!--                                </tr>-->
+                                <tr>
+                                    <th colspan="2" style="width: 20%;">投诉受理部门</th>
+                                    <th colspan="4.5" style="width: 45%;">垫江县纪律检查委员会<br>驻县教委纪监组</th>
+                                    <th colspan="1.5" style="width: 15%;">联系电话</th>
+                                    <th colspan="2" style="width: 20%;">023-74529839</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="2">备注</th>
+                                    <th colspan="8"></th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
 		</div>
 	</body>
@@ -641,6 +731,7 @@
 	                  	dataArr = res.data.winVOList;
 
 	                  	var subDiv = '';
+						var subDiv2 = '';
 	                  	for (var i = 0; i < dataArr.length; i++) {
 			    //     		subDiv +='<div class="sub_ul">'
 							// + '<p class="sub_li_48">'+ dataArr[i].qualificationName +'</p>'
@@ -652,13 +743,20 @@
 							+ '<th colspan="4">' + dataArr[i].qualificationName +'</th>'
 							+ '<th colspan="2">'+ dataArr[i].legalRepresentative +'</th>'
 							+ '<th colspan="3">'+ dataArr[i].phone +'</th>'
-							+ '</tr>'
+							+ '</tr>';
+							subDiv2 += '<tr>'
+									+ '<th colspan="1">' + dataArr[i].qualificationNumber +'</th>'
+									+ '<th colspan="5.5">' + dataArr[i].qualificationName +'</th>'
+									+ '<th colspan="1.5">'+ dataArr[i].legalRepresentative +'</th>'
+									+ '<th colspan="2">'+ dataArr[i].phone +'</th>'
+									+ '</tr>'
 			        	}
 			        	$(".sub_div").after(subDiv);
+						$(".sub_div2").after(subDiv2);
 			        	$(".sub_li_name1").html(res.data.projectsName);
 			        	$(".sub_li_name2").html(res.data.developmentOrganization);
 			        	$(".sub_li_name3").html(res.data.winTime);
-			        	$(".sub_li_name4").html(""+res.data.outsourcingPrice+"元");
+			        	$(".sub_li_name4").html(""+res.data.outsourcingPrice);
 
 	                  	// console.log(dataArr);
 	                  	//模拟渲染
@@ -684,6 +782,34 @@
 	            });
 	        }
 
+            var jc0="<div class='layui-card'>" +
+                " <div class='layui-card-body'>" +
+                "选择打印表单模板：<br>" +
+                "<hr class='layui-bg-red'>"+
+                "<button class='layui-btn gb' data-method='printing' style='width: 100%'>交易中心</button> <br><br>" +
+                "<button class='layui-btn layui-btn-normal gb' data-method='printing2' style='width: 100%'>垫江教委</button>" +
+                "</div>" +
+                "</div>";
+	        var gb=null;
+            $("#dymd").click(function () {
+               gb= layer.open({
+                    type: 1,
+                    title:"打印名单",
+                    area: ['18%', '30%'],
+                    offset: '25%',
+                    content: jc0 //这里content是一个普通的String
+                });
+
+                $(".gb").click(function () {
+                    layer.close(gb);
+
+                })
+
+            })
+
+
+
+
 			var active = {
 	            look : function(othis){
 	        		pagingFun('/qualification/selectQualificationList');
@@ -691,6 +817,9 @@
 	            printing : function(othis){
 	            	$.print("#page");
 	            },
+				printing2 : function(othis){
+					$.print("#page2");
+				},
 	            export : function(othis){
 					$("#page").wordExport("中选结果");
 	            },

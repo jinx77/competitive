@@ -1,6 +1,7 @@
 package com.xinzuo.competitive.pojo;
 
     import java.io.Serializable;
+    import java.util.Date;
 
     import com.baomidou.mybatisplus.annotation.TableId;
     import lombok.Data;
@@ -53,6 +54,10 @@ package com.xinzuo.competitive.pojo;
             *角色  0超级管理员 1普通操作员
             */
     private int role;
+            /**
+            *用户过期时间
+            */
+    private Date expireTime;
 
 
 }

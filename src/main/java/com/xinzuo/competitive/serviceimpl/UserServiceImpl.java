@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +57,9 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
         }
         if (user0==null){
             throw new CompetitiveException("用户名或者密码错误!");
+        }
+        if (user0.getExpireTime().getTime()-new Date().getTime()<0){
+            throw new CompetitiveException("该系统已超过使用期限,请联系管理员处理");
         }
         User u = user0;
         //使用加密后的密码生成token
