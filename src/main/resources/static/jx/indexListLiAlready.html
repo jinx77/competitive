@@ -1,5 +1,4 @@
-﻿<!DOCTYPE html>
-<html>
+﻿<html>
 	<head>
 		<meta charset="utf-8" />
 		<title></title>
@@ -616,12 +615,15 @@
 
 					<div class="page" id="page3">
 						<div class="subpage">
-							<h1 class="h1_2" style="text-align: center;">垫江县教育系统
+							<h6 class="t3" style="font-size:10px;text-align: right;font-weight: normal;">
+								垫江县公共资源交易中心抽选系统 <span id="show"></span>
+							</h6>
+							<h2 style="text-align: center;margin-bottom: 0px">垫江县教育系统
 								<br>
 								工程建设项目随机抽取结果确认表
-							</h1>
-							<h3 style="text-align: center;">(公示期：20  年  月  日—20  年  月  日)</h3>
-							<table border="1" cellspacing="0" cellpadding="0" style="width: 100%;">
+							</h2>
+							<h4 style="text-align: center;margin-bottom: 2px">(公示期：20  年  月  日—20  年  月  日)</h4>
+							<table border="1" cellspacing="0" cellpadding="-5" style="width: 100%;font-size:12px;">
 								<tbody id="sub_div4">
 								<tr>
 									<th colspan="2" style="width: 20%;">项目名称</th>
@@ -898,7 +900,29 @@
 					layer.close(gb2);
 
 				})
+				function checkTime(i) {
+					if (i < 10) {
+						i = '0' + i;
+					}
+					return i;
+				}
 
+				var show = document.getElementById('show');
+				var myDate = new Date();
+				var year = myDate.getFullYear();
+				var month = myDate.getMonth() + 1;
+				var date = myDate.getDate();
+				var h = myDate.getHours();
+				var m = myDate.getMinutes();
+				// var s = myDate.getSeconds();
+				m = checkTime(m);
+				// s = checkTime(s);
+				h = checkTime(h);
+				// var d = myDate.getDay();
+				// var weekday = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+				//show.innerHTML = year + '-' + month + '-' + date + '-' + weekday[d] + h + ':' + m + ':' + s;
+				show.innerHTML = year + '-' + month + '-' + date + '-'+ h + ':' + m;
+				// setTimeout(showTime, 1000);
 			})
 
 
