@@ -542,6 +542,9 @@
                 <div class="pageDiv">
                     <div class="page" id="page2">
                         <div class="subpage">
+							<h6 class="t3" style="font-size:10px;text-align: right;font-weight: normal;">
+								垫江县公共资源交易中心抽选系统 <span id="show"></span>
+							</h6>
                             <h1 class="h1_2" style="text-align: center;">垫江县教育系统
                                 <br>
                                 工程建设项目随机抽取结果确认表
@@ -615,9 +618,6 @@
 
 					<div class="page" id="page3">
 						<div class="subpage">
-							<h6 class="t3" style="font-size:10px;text-align: right;font-weight: normal;">
-								垫江县公共资源交易中心抽选系统 <span id="show"></span>
-							</h6>
 							<h2 style="text-align: center;margin-bottom: 0px">垫江县教育系统
 								<br>
 								工程建设项目随机抽取结果确认表
@@ -875,6 +875,28 @@
 
                 })
 
+				function checkTime(i) {
+					if (i < 10) {
+						i = '0' + i;
+					}
+					return i;
+				}
+				var show = document.getElementById('show');
+				var myDate = new Date();
+				var year = myDate.getFullYear();
+				var month = myDate.getMonth() + 1;
+				var date = myDate.getDate();
+				var h = myDate.getHours();
+				var m = myDate.getMinutes();
+				// var s = myDate.getSeconds();
+				m = checkTime(m);
+				// s = checkTime(s);
+				h = checkTime(h);
+				// var d = myDate.getDay();
+				// var weekday = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+				//show.innerHTML = year + '-' + month + '-' + date + '-' + weekday[d] + h + ':' + m + ':' + s;
+				show.innerHTML = year + '-' + month + '-' + date + '-'+ h + ':' + m;
+				// setTimeout(showTime, 1000);
             })
 
 
@@ -900,29 +922,6 @@
 					layer.close(gb2);
 
 				})
-				function checkTime(i) {
-					if (i < 10) {
-						i = '0' + i;
-					}
-					return i;
-				}
-
-				var show = document.getElementById('show');
-				var myDate = new Date();
-				var year = myDate.getFullYear();
-				var month = myDate.getMonth() + 1;
-				var date = myDate.getDate();
-				var h = myDate.getHours();
-				var m = myDate.getMinutes();
-				// var s = myDate.getSeconds();
-				m = checkTime(m);
-				// s = checkTime(s);
-				h = checkTime(h);
-				// var d = myDate.getDay();
-				// var weekday = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
-				//show.innerHTML = year + '-' + month + '-' + date + '-' + weekday[d] + h + ':' + m + ':' + s;
-				show.innerHTML = year + '-' + month + '-' + date + '-'+ h + ':' + m;
-				// setTimeout(showTime, 1000);
 			})
 
 
